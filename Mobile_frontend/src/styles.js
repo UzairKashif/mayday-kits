@@ -27,6 +27,14 @@ input: {
   paddingVertical: 5,
   
 },
+button: {
+  backgroundColor: '#370617',
+  color: 'white',
+  borderRadius: 10, 
+  paddingHorizontal: 10,
+  paddingVertical: 5,
+  
+},
 inputContainer: {
   borderBottomWidth: 0, // This is for iOS and for the container in react-native-elements
   borderBottomColor: 'transparent', // Also set the color to transparent

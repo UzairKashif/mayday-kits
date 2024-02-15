@@ -23,7 +23,7 @@ const LoginScreen = ({ navigation }) => (
         inputContainerStyle={styles.inputContainer}
         underlineColorAndroid="transparent" 
       />
-      <Button title="Login" onPress={() => navigation.navigate('Map')} />
+      <Button style={styles.button} title="Login" onPress={() => navigation.navigate('Map')} />
       <Button
         title="Don't have an account? Sign Up"
         type="clear"
