@@ -1,0 +1,31 @@
+body, html, #root {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  /* Apply styles to the map container if you have one, or directly to the ReactMapGL component */
+  .mapboxgl-map {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Optionally style the Mapbox attribution to ensure it doesn't overlap with your content */
+  .mapboxgl-ctrl-bottom-left,
+  .mapboxgl-ctrl-bottom-right {
+    position: absolute;
+    bottom: 10px; /* Adjust the value as needed */
+    background: rgba(255, 255, 255, 0.8); /* Optional: to increase visibility */
+    border-radius: 3px; /* Optional: for rounded corners */
+    z-index: 10; /* Ensure it's above other content */
+  }
+  
+  .mapboxgl-ctrl-logo,
+  .mapboxgl-ctrl-attrib {
+    margin: 0;
+    padding: 5px; /* Adjust the padding as needed */
+  }
+  

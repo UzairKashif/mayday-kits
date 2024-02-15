@@ -1,0 +1,17 @@
+body {
+  margin: 0;
+  background: linear-gradient(to bottom right,rgb(192, 17, 17),rgb(202, 23, 77));
+  background-repeat: no-repeat;
+  height: 600px;
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:focus {
+    transition: background-color 0s 600000s, color 0s 600000s;
+  }
+
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}

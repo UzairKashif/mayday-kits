@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>Mapbox Map</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
+  <style>
+    body { margin:0; padding:0; }
+    #map { position:absolute; top:0; bottom:0; width:100%; }
+  </style>
+</head>
+<body>
+<div id='map'></div>
+<script>
+  mapboxgl.accessToken = 'pk.eyJ1IjoibWF5ZGF5MjAyNCIsImEiOiJjbHNhYzJ1aDcwMjN6MnFvN3BsaXJ1cmxqIn0.oV41UjANbJWPSgHXko8ShQ';
+  var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11',
+    center: [-74.5, 40],
+    zoom: 9
+  });
+</script>
+
+<script>
+  // Example function to update markers on the map
+  window.updateMapWithMarkers = function(markers) {
+    markers.forEach(marker => {
+      // Assuming you have a Mapbox GL JS map instance called 'map'
+      new mapboxgl.Marker()
+        .setLngLat([marker.longitude, marker.latitude])
+        .addTo(map);
+    });
+  };
+</script>
+
+</body>
+</html>
