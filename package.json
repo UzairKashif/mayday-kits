@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "expo-splash-screen": "^0.26.4",
     "express": "^4.18.2"
   }
 }
