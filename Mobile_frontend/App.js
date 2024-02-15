@@ -16,8 +16,8 @@ export default function App() {
     async function loadResourcesAndDataAsync() {
       try {
         await Font.loadAsync({
-          'Poppins-Regular': require('C:/Users/Uzair/Documents/mayday-kits/Mobile_frontend/src/assets/fonts/Poppins-Regular.ttf'),
-          'Poppins-Bold': require('C:/Users/Uzair/Documents/mayday-kits/Mobile_frontend/src/assets/fonts/Poppins-Bold.ttf'),
+          'Poppins-Regular': require('./src/assets/fonts/Poppins-Regular.ttf'),
+          'Poppins-Bold': require('./src/assets/fonts/Poppins-Bold.ttf'),
           // Include other font weights and styles as needed
         });
       } catch (e) {

@@ -13,28 +13,52 @@ export const styles = StyleSheet.create({
   },
   title: {
     fontFamily: 'Poppins-Bold',
-    color: 'white',
-    fontSize: 24,
+    color: '#FFECD1',
+    fontSize: 40,
     fontWeight: 'bold', 
     marginBottom: 20,
+    marginTop: -100,
     textAlign: 'center',
 },
 input: {
-  backgroundColor: '#370617',
-  color: 'white',
-  borderRadius: 10, 
+  fontFamily: 'Poppins-Regular',
+  fontSize:14,
+  backgroundColor: '#FFECD1',
+  color: '#370617',
+  borderRadius: 5, 
   paddingHorizontal: 10,
   paddingVertical: 5,
   
 },
-button: {
+loginbutton: {
   backgroundColor: '#370617',
-  color: 'white',
-  borderRadius: 10, 
-  paddingHorizontal: 10,
-  paddingVertical: 5,
-  
+  borderRadius: 5,
+  marginLeft: 30,
+  marginRight: 30,
+  paddingVertical: 10,
+  justifyContent: 'center', // Center the text inside the button
+  alignItems: 'center', // Center the text horizontally
 },
+buttonText: {
+  color: 'white',
+  fontFamily: 'Poppins-Bold',
+  // Add font styling here
+},
+signupbutton: {
+  //borderRadius: 10,
+  marginLeft: 30,
+  marginRight: 30,
+  paddingVertical: 10,
+  justifyContent: 'center', // Center the text inside the button
+  alignItems: 'center', // Center the text horizontally
+},
+signupbuttontext: {
+  fontSize:14,
+  color: 'white',
+  fontFamily: 'Poppins-Regular',
+  // Add font styling here
+},
+
 inputContainer: {
   borderBottomWidth: 0, // This is for iOS and for the container in react-native-elements
   borderBottomColor: 'transparent', // Also set the color to transparent

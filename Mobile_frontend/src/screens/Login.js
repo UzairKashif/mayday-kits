@@ -3,6 +3,8 @@ import React from 'react';
 import { Button, Input } from 'react-native-elements';
 import { ImageBackground, StyleSheet, Text, View } from 'react-native';
 import { styles } from '../styles';
+import { TouchableOpacity } from 'react-native';
+
 
 const LoginScreen = ({ navigation }) => (
   <ImageBackground source={require('../assets/images/loginbackground.png')} style={styles.backgroundImage}>
@@ -10,25 +12,24 @@ const LoginScreen = ({ navigation }) => (
       <Text style={styles.title}>Welcome to Mayday.ai</Text>
       <Input 
         placeholder="Email" 
-        placeholderTextColor="#ffffff" 
+        placeholderTextColor="#370617" 
         inputStyle={styles.input}
         inputContainerStyle={styles.inputContainer}
         underlineColorAndroid="transparent" // This is for Android's native TextInput component
-
       />
       <Input 
         placeholder="Password" 
-        placeholderTextColor="#ffffff" 
+        placeholderTextColor="#370617" 
         secureTextEntry style={styles.input}
         inputContainerStyle={styles.inputContainer}
         underlineColorAndroid="transparent" 
       />
-      <Button style={styles.button} title="Login" onPress={() => navigation.navigate('Map')} />
-      <Button
-        title="Don't have an account? Sign Up"
-        type="clear"
-        onPress={() => navigation.navigate('Signup')}
-      />
+      <TouchableOpacity style={styles.loginbutton} onPress={() => navigation.navigate('Map')}>
+        <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.signupbutton} onPress={() => navigation.navigate('Signup')}>
+        <Text style={styles.signupbuttontext}>Don't have an account? Sign Up</Text>
+      </TouchableOpacity>
     </View>
   </ImageBackground>
 );
