@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import ReactMapGL, { Marker } from 'react-map-gl';
-import "./NextPage.css"
+import ReactMapGL, { Marker, Popup } from 'react-map-gl';
+import "./NextPage.css";
 import 'mapbox-gl/dist/mapbox-gl.css';
+// Import your custom marker icon
+import customMarkerIcon from '../assets/fire.png';
 
 function NextPage() {
   const [viewport, setViewport] = useState({
@@ -12,25 +14,23 @@ function NextPage() {
     zoom: 2.5
   });
 
-  // State to hold marker data
   const [markersData, setMarkersData] = useState([]);
+  const [selectedMarker, setSelectedMarker] = useState(null);
+  
 
-  // Fetch marker data from the API
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch('http://localhost:3000/api/fire-events');
         const data = await response.json();
-        setMarkersData(data); // Store the fetched data in state
-        console.log(data); // Add this line in the fetchData function after setting the markersData
-
+        setMarkersData(data);
       } catch (error) {
         console.error('Error fetching marker data:', error);
       }
     };
 
     fetchData();
-  }, []); // The empty array means this effect runs once when the component mounts
+  }, []);
 
   return (
     <ReactMapGL
@@ -42,14 +42,35 @@ function NextPage() {
       {markersData.map((marker, index) => (
         <Marker
           key={index}
-          latitude={parseFloat(marker.lat)} // Ensure these values are numbers
+          latitude={parseFloat(marker.lat)}
           longitude={parseFloat(marker.lon)}
           offsetLeft={-20}
           offsetTop={-10}
         >
-          <div style={{ color: "#fff" }}>{marker.event_id}</div> {/* Adjust as needed */}
+          {/* Replace div with image for custom marker */}
+          <div 
+            className="simple-marker" 
+            onClick={() => setSelectedMarker(marker)}
+          ></div>
         </Marker>
       ))}
+
+      {/* Display Popup on Marker Click */}
+      {selectedMarker && (
+        <Popup
+          latitude={parseFloat(selectedMarker.lat)}
+          longitude={parseFloat(selectedMarker.lon)}
+          onClose={() => setSelectedMarker(null)}
+          closeOnClick={true}
+        >
+          <div>
+            <h3>Event ID: {selectedMarker.event_id}</h3>
+            <p>Latitude: {selectedMarker.lat}</p>
+            <p>Longitude: {selectedMarker.lon}</p>
+            {/* Add more information here as needed */}
+          </div>
+        </Popup>
+      )}
     </ReactMapGL>
   );
 }

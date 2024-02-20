@@ -28,4 +28,16 @@ body, html, #root {
     margin: 0;
     padding: 5px; /* Adjust the padding as needed */
   }
+  /* // Add the CSS for the simple marker in your NextPage.css */
+.simple-marker {
+  width: 30px;  
+  height: 30px; 
+  background-color: red; 
+  border-radius: 50%; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white; 
+  cursor: pointer;
+}
   
