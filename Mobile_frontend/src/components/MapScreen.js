@@ -20,7 +20,7 @@ const MapScreen = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch('http://10.7.92.119:3000/api/fire-events');
+        const response = await fetch('http://192.168.43.139/api/fire-events');
         const data = await response.json();
         setEvents(data);
       } catch (error) {
