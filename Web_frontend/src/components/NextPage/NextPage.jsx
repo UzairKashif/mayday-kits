@@ -41,18 +41,20 @@ function NextPage() {
     >
       {markersData.map((marker, index) => (
         <Marker
-          key={index}
-          latitude={parseFloat(marker.lat)}
-          longitude={parseFloat(marker.lon)}
-          offsetLeft={-20}
-          offsetTop={-10}
-        >
-          {/* Replace div with image for custom marker */}
-          <div 
-            className="simple-marker" 
-            onClick={() => setSelectedMarker(marker)}
-          ></div>
-        </Marker>
+        key={index}
+        latitude={parseFloat(marker.lat)}
+        longitude={parseFloat(marker.lon)}
+        offsetLeft={-15}
+        offsetTop={-15}
+      >
+        <div 
+          className="simple-marker" 
+          onClick={() => {
+            console.log(`Marker ${marker.event_id} clicked`); // For debugging
+            setSelectedMarker(marker);
+          }}
+        ></div>
+      </Marker>
       ))}
 
       {/* Display Popup on Marker Click */}
