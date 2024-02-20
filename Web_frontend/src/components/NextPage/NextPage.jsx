@@ -19,9 +19,11 @@ function NextPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/fire-events');
+        const response = await fetch('http://localhost:3000/api/fire-events');
         const data = await response.json();
         setMarkersData(data); // Store the fetched data in state
+        console.log(data); // Add this line in the fetchData function after setting the markersData
+
       } catch (error) {
         console.error('Error fetching marker data:', error);
       }
