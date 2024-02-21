@@ -37,7 +37,7 @@ function NextPage() {
       {...viewport}
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
       onMove={evt => setViewport(evt.viewport)}
-      mapStyle="mapbox://styles/mapbox/dark-v10"
+      mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
     >
       {markersData.map((marker, index) => (
         <Marker
