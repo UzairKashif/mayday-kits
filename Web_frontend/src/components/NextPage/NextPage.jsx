@@ -40,21 +40,20 @@ function NextPage() {
       mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
     >
       {markersData.map((marker, index) => (
-        <Marker
-        key={index}
-        latitude={parseFloat(marker.lat)}
-        longitude={parseFloat(marker.lon)}
-        offsetLeft={-15}
-        offsetTop={-15}
-      >
-        <div 
-          className="simple-marker" 
-          onClick={() => {
-            console.log(`Marker ${marker.event_id} clicked`); // For debugging
-            setSelectedMarker(prevState => ({ ...prevState, ...marker }));
-          }}
-        ></div>
-      </Marker>
+ <Marker
+ key={index}
+ latitude={parseFloat(marker.lat)}
+ longitude={parseFloat(marker.lon)} // Half of the initial height for centering
+>
+ <div className="marker-container">
+   <div className="simple-marker"></div>
+   <div className="clickable-center" onClick={() => {
+     console.log(`Marker ${marker.event_id} clicked`);
+     setSelectedMarker(marker); // Assuming marker is the data you want to use
+   }}></div>
+ </div>
+</Marker>
+
       ))}
 
       {/* Display Popup on Marker Click */}

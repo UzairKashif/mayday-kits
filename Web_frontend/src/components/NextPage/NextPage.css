@@ -29,15 +29,49 @@ body, html, #root {
     padding: 5px; /* Adjust the padding as needed */
   }
   /* // Add the CSS for the simple marker in your NextPage.css */
-.simple-marker {
-  width: 30px;  
-  height: 30px; 
-  background-color: red; 
-  border-radius: 50%; 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white; 
-  cursor: pointer;
-}
+  @keyframes growFade {
+    0% {
+      transform: scale(0.5); /* Start smaller */
+      opacity: 0;
+    }
+    50% {
+      opacity: 1; /* Reach full visibility */
+    }
+    100% {
+      transform: scale(2); /* End larger but limit growth */
+      opacity: 0; /* Fade out completely */
+    }
+  }
+  
+  .marker-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 20px; /* Initial size */
+    height: 20px; /* Match initial size */
+    transform: translate(-50%, -50%); /* Centering the container */
+  }
+  
+  .simple-marker {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(0, 76, 153, 0.7);
+    width: 100%; /* Adapt to container size */
+    height: 100%; /* Adapt to container size */
+    animation: growFade 6s infinite;
+    transform-origin: center;
+  }
+  
+  .clickable-center {
+    position: absolute;
+    width: 10px; /* Static center size */
+    height: 10px; /* Static center size */
+    background-color: #FFF;
+    border-radius: 50%;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+  }
   
