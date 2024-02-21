@@ -51,7 +51,7 @@ function NextPage() {
           className="simple-marker" 
           onClick={() => {
             console.log(`Marker ${marker.event_id} clicked`); // For debugging
-            setSelectedMarker(marker);
+            setSelectedMarker(prevState => ({ ...prevState, ...marker }));
           }}
         ></div>
       </Marker>
@@ -59,20 +59,22 @@ function NextPage() {
 
       {/* Display Popup on Marker Click */}
       {selectedMarker && (
-        <Popup
-          latitude={parseFloat(selectedMarker.lat)}
-          longitude={parseFloat(selectedMarker.lon)}
-          onClose={() => setSelectedMarker(null)}
-          closeOnClick={true}
-        >
-          <div>
-            <h3>Event ID: {selectedMarker.event_id}</h3>
-            <p>Latitude: {selectedMarker.lat}</p>
-            <p>Longitude: {selectedMarker.lon}</p>
-            {/* Add more information here as needed */}
-          </div>
-        </Popup>
-      )}
+  <Popup
+    latitude={Number(selectedMarker.lat)}
+    longitude={Number(selectedMarker.lon)}
+    onClose={() => setSelectedMarker(null)}
+    closeOnClick={true}
+    anchor="top"
+  >
+    <div>
+      <h3>Event ID: {selectedMarker.event_id}</h3>
+      <p>Latitude: {selectedMarker.lat}</p>
+      <p>Longitude: {selectedMarker.lon}</p>
+      {/* Add more information here as needed */}
+    </div>
+  </Popup>
+)}
+      
     </ReactMapGL>
   );
 }
