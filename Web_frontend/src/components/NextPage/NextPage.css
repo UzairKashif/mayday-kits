@@ -56,7 +56,7 @@ body, html, #root {
   .simple-marker {
     position: absolute;
     border-radius: 50%;
-    background-color: rgba(0, 76, 153, 0.7);
+    background-color: rgba(168, 25, 6, 0.7);
     width: 100%; /* Adapt to container size */
     height: 100%; /* Adapt to container size */
     animation: growFade 6s infinite;
@@ -67,7 +67,7 @@ body, html, #root {
     position: absolute;
     width: 10px; /* Static center size */
     height: 10px; /* Static center size */
-    background-color: #FFF;
+    background-color: #ffffff;
     border-radius: 50%;
     cursor: pointer;
     transform: translate(-50%, -50%);

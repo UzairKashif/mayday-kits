@@ -46,38 +46,23 @@ function NextPage() {
       mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
     >
       {markersData.map((marker, index) => (
-<<<<<<< HEAD
- <Marker
- key={index}
- latitude={parseFloat(marker.lat)}
- longitude={parseFloat(marker.lon)} // Half of the initial height for centering
->
- <div className="marker-container">
-   <div className="simple-marker"></div>
-   <div className="clickable-center" onClick={() => {
-     console.log(`Marker ${marker.event_id} clicked`);
-     setSelectedMarker(marker); // Assuming marker is the data you want to use
-   }}></div>
- </div>
-</Marker>
-
-      ))}
-=======
-        <Marker
-          key={index}
-          latitude={parseFloat(marker.lat)}
-          longitude={parseFloat(marker.lon)}
-          offsetLeft={-20}
-          offsetTop={-10}
-        >
-          <button
-            className="marker-btn"
-            onClick={(event) => handleMarkerClick(marker, event)}
-            style={{ background: "none", border: "none", cursor: "pointer" }}
-          >
-            <img src={customMarkerIcon} alt="Custom Marker" style={{ width: '30px', height: '30px' }} />
-          </button>
-        </Marker>
+       <Marker
+       key={index}
+       latitude={parseFloat(marker.lat)}
+       longitude={parseFloat(marker.lon)}
+     >
+       <div className="marker-container">
+         <div className="simple-marker"></div>
+         <div 
+           className="clickable-center" 
+           onClick={(event) => {
+             handleMarkerClick(marker, event); // Pass the marker and event to your handler function
+             setSelectedMarker(marker); // Set the current marker as selected
+           }}
+         ></div>
+       </div>
+     </Marker>
+     
      
 
       ))}
@@ -98,7 +83,6 @@ function NextPage() {
     </Popup>
   )}
 </ReactMapGL>
->>>>>>> 6b8f15e1d88310fbdd00f39e5af0e36af92979b2
 
   );
 }
