@@ -8,7 +8,10 @@ import MapScreen from '../screens/Map';
 const Stack = createStackNavigator();
 
 const AppNavigator = () => (
-  <Stack.Navigator>
+  <Stack.Navigator
+   screenOptions={{
+        headerShown: false, // This hides the header globally
+      }}>
     <Stack.Screen name="Login" component={LoginScreen} />
     <Stack.Screen name="Signup" component={SignupScreen} />
     <Stack.Screen name="Map" component={MapScreen} />
