@@ -21,7 +21,7 @@ function NextPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3000/data.json');
+        const response = await fetch('http://localhost:3000/csvjson.json');
         const data = await response.json();
         setMarkersData(data);
       } catch (error) {
