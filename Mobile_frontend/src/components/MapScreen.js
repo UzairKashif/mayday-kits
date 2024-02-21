@@ -1,53 +1,61 @@
-import React, { useEffect, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
-import MapboxGL from '@react-native-mapbox-gl/maps';
+import React, { useState, useEffect, useRef } from 'react';
+import { View } from 'react-native';
+import { WebView } from 'react-native-webview';
+import { styles } from '../styles';
+import { fetchMarkers } from '../api/api';
 
-// Set your Mapbox access token
-MapboxGL.setAccessToken('pk.eyJ1IjoibWF5ZGF5MjAyNCIsImEiOiJjbHNhYzJ1aDcwMjN6MnFvN3BsaXJ1cmxqIn0.oV41UjANbJWPSgHXko8ShQ');
-
-const styles = StyleSheet.create({
-  mapContainer: {
-    flex: 1,
-  },
-  map: {
-    flex: 1,
-  },
-});
 
 const MapScreen = () => {
-  const [events, setEvents] = useState([]);
+  const [markers, setMarkers] = useState([]);
+  const webViewRef = useRef(null);
 
   useEffect(() => {
-    const fetchEvents = async () => {
+    const loadMarkers = async () => {
       try {
-        const response = await fetch('http://10.7.92.119:3000/api/fire-events');
-        const data = await response.json();
-        setEvents(data);
+        const fetchedMarkers = await fetchMarkers();
+        console.log('Fetched markers:', fetchedMarkers);
+        setMarkers(fetchedMarkers);
       } catch (error) {
-        console.error('Error fetching fire events:', error);
+        console.error('Error fetching markers:', error);
       }
     };
 
-    fetchEvents();
+    loadMarkers();
   }, []);
 
+  const injectedJavaScript = `
+    (function() {
+      window.addMarkers(${JSON.stringify(markers)});
+    })();
+  `;
+
+
+  
   return (
-    <View style={styles.mapContainer}>
-      <MapboxGL.MapView style={styles.map}>
-        <MapboxGL.Camera
-          zoomLevel={5}
-          centerCoordinate={[-74.5, 40]} // Adjust as needed
-        />
-        {events.map((event, index) => (
-          <MapboxGL.PointAnnotation
-            key={index}
-            id={String(event.event_id)}
-            coordinate={[parseFloat(event.lon), parseFloat(event.lat)]}
-          />
-        ))}
-      </MapboxGL.MapView>
-    </View>
+   // In MapScreen component
+<View style={styles.container}>
+  <WebView
+    key={markers.length} // Add this line. It forces WebView to re-render when markers change.
+    originWhitelist={['*']}
+    source={require('../assets/html/mapbox.html')}
+    style={styles.mapView}
+    injectedJavaScript={injectedJavaScript}
+    javaScriptEnabled={true}
+    startInLoadingState={true}
+    onLoadEnd={() => {
+      webViewRef.current?.injectJavaScript(injectedJavaScript);
+    }}
+    ref={webViewRef}
+    onError={(syntheticEvent) => {
+      const { nativeEvent } = syntheticEvent;
+      console.warn('WebView error: ', nativeEvent);
+    }}
+  />
+</View>
+
   );
 };
+
+
 
 export default MapScreen;
