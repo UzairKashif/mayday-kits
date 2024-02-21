@@ -21,7 +21,7 @@ function NextPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/fire-events');
+        const response = await fetch('http://localhost:3000/data.json');
         const data = await response.json();
         setMarkersData(data);
       } catch (error) {
