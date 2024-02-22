@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import mapboxgl from 'mapbox-gl';
+import React, { useState, useEffect, useRef } from 'react';
 import ReactMapGL, {
   Marker,
   Popup,
@@ -7,11 +8,10 @@ import ReactMapGL, {
   GeolocateControl,
   ScaleControl
 } from 'react-map-gl';
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import "./NextPage.css";
 import 'mapbox-gl/dist/mapbox-gl.css';
-
-// Import your custom marker icon
-import customMarkerIcon from '../assets/fire.png'; // Ensure this path is correct
 
 function NextPage() {
   const [viewport, setViewport] = useState({
@@ -24,6 +24,13 @@ function NextPage() {
 
   const [markersData, setMarkersData] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
+  const mapRef = useRef();
+  const handleMarkerClick = (marker, event) => {
+    event.stopPropagation(); // Prevent map click event from firing
+    setSelectedMarker(marker);
+    // Adjust viewport to the clicked marker (optional)
+    setViewport(prev => ({ ...prev, latitude: parseFloat(marker.lat), longitude: parseFloat(marker.lon) }));
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,20 +45,37 @@ function NextPage() {
     fetchData();
   }, []);
 
-  const handleMarkerClick = (marker, event) => {
-    event.stopPropagation(); // Prevent map click event from firing
-    setSelectedMarker(marker);
-    // Optionally adjust viewport to the clicked marker
-    setViewport(prev => ({ ...prev, latitude: parseFloat(marker.lat), longitude: parseFloat(marker.lon) }));
+  const handleLoad = () => {
+    const map = mapRef.current.getMap();
+
+    const geocoder = new MapboxGeocoder({
+      accessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN,
+      mapboxgl: mapboxgl,
+    });
+
+    geocoder.on('result', function(e) {
+      setViewport(prevViewport => ({
+        ...prevViewport,
+        longitude: e.result.center[0],
+        latitude: e.result.center[1],
+        zoom: 10,
+      }));
+    });
+
+    document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
   };
 
   return (
-    <ReactMapGL
-      {...viewport}
-      mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
-      onMove={evt => setViewport(evt.viewport)}
-      mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
-    >
+    <>
+      <div id="geocoder" style={{ position: 'absolute', zIndex: 1, top: 10, left: 10 }}></div>
+      <ReactMapGL
+        ref={mapRef}
+        {...viewport}
+        mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+        onMove={evt => setViewport(evt.viewport)}
+        mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
+        onLoad={handleLoad}
+      >
       {markersData.map((marker, index) => (
         <Marker
           key={index}
@@ -104,8 +128,12 @@ function NextPage() {
       <div style={{ position: 'absolute', bottom: 10, left: 10 }}>
         <ScaleControl />
       </div>
-    </ReactMapGL>
+      </ReactMapGL>
+    </>
   );
 }
 
 export default NextPage;
+
+
+
