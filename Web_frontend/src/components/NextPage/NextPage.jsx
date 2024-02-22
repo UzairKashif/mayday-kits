@@ -1,5 +1,5 @@
 import mapboxgl from 'mapbox-gl';
-
+import '@radix-ui/themes/styles.css';
 import React, { useState, useEffect, useRef } from 'react';
 import ReactMapGL, {
   Marker,
@@ -13,6 +13,8 @@ import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import "./NextPage.css";
 import 'mapbox-gl/dist/mapbox-gl.css';
+import Tabs from '../Tabs/Tabs';
+
 
 function NextPage() {
   const [viewport, setViewport] = useState({
@@ -22,13 +24,11 @@ function NextPage() {
     longitude: -122.4376,
     zoom: 2.5
   });
-
   const [initialCamera, setInitialCamera] = useState(null);
 
   const [markersData, setMarkersData] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const mapRef = useRef();
-
 
   const handleMarkerClick = (marker, event) => {
     event.stopPropagation(); // Prevent map click event from firing
@@ -108,7 +108,9 @@ function NextPage() {
   };
 
   return (
-    <>
+    <> 
+
+    
       <div id="geocoder" style={{ position: 'absolute', zIndex: 1, top: 10, left: 10 }}></div>
       <ReactMapGL
         ref={mapRef}
@@ -118,6 +120,7 @@ function NextPage() {
         mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
         onLoad={handleLoad}
       >
+       
       {markersData.map((marker, index) => (
         <Marker
           key={index}
@@ -150,6 +153,7 @@ function NextPage() {
           </div>
         </Popup>
       )}
+      
 
       {/* Control Containers */}
       <div style={{ position: 'absolute', top: 10, right: 10 }}>
@@ -171,10 +175,12 @@ function NextPage() {
         <ScaleControl />
       </div>
       </ReactMapGL>
+      <div style={{ position: 'absolute', top: 80, left: 10 }}> 
+       <Tabs/>
+       </div>
     </>
   );
 }
-
 export default NextPage;
 
 

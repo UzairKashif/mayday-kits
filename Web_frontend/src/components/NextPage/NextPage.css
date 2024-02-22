@@ -12,7 +12,9 @@ body, html, #root {
     width: 100%;
     height: 100%;
   }
-  
+  .Dropdown {
+    z-index: -10;
+  }
   /* Optionally style the Mapbox attribution to ensure it doesn't overlap with your content */
   .mapboxgl-ctrl-bottom-left,
   .mapboxgl-ctrl-bottom-right {
