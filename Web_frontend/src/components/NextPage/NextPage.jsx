@@ -15,6 +15,7 @@ import "./NextPage.css";
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Tabs from '../Tabs/Tabs';
 import TabsDemo from '../Tabs/Tabs';
+import globeIcon from '../assets/earthico.png';
 
 function NextPage() {
   const [viewport, setViewport] = useState({
@@ -106,17 +107,88 @@ function NextPage() {
 
     document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
   };
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const handleGlobeButtonClick = () => {
+    setIsPopupVisible(!isPopupVisible);
+  };
+  const popupStyle = {
+    position: 'fixed',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '80%',
+    height: '80%',
+    /* Change the fill color to red */
+    backgroundColor: '#c7c7c7',
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
+    borderRadius: '30px',
+    padding: '20px',
+    zIndex: 9999,
+  };
+  
+  const closeButtonStyle = {
+    position: 'absolute',
+    top: '10px',
+    right: '10px',
+    fontSize: '16px',
+    backgroundColor: '#ffffff',
+    border: 'none',
+    borderRadius: '50px',
+    width: '30px',
+    height: '30px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    cursor: 'pointer',
+    boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
+  };
+  
+  const videoPlayerStyle = {
+    width: '100%',
+    height: '100%',
+  };
+  
+  // ...
+  
+  const CloseButton = () => (
+    <button style={closeButtonStyle} onClick={handleGlobeButtonClick}>
+      X
+    </button>
+  );
+  const globeButtonStyle = {
+    position: 'absolute',
+    top: '20px',
+    left: '290px',
+    backgroundColor: 'transparent',
+    border: 'none',
+    cursor: 'pointer',
+    outline: 'none',
+    zIndex:10,
+  };
 
+  const globeIconStyle = {
+    width: '54px',
+    height: '52px',
+    fill: '#ffffff', // Replace with desired color
+  };
   return (
     <> 
+ <div style={{ position: 'relative' }}>
+        <div id="geocoder" className="custom-geocoder" style={{ position: 'absolute', zIndex: 1, top: 10, left: 10 }}>
+          {/* Your geocoder content */}
+        </div>
+        <button style={globeButtonStyle} onClick={handleGlobeButtonClick}>
+  <img style={globeIconStyle} src={globeIcon} alt="Globe Icon" />
+</button>
 
-    
-<div style={{ position: 'relative' }}>
-  <div id="geocoder" className="custom-geocoder" style={{ position: 'absolute', zIndex: 1, top: 10, left: 10 }}>
-    {/* Your geocoder content */}
-  </div>
-  
-</div>
+{isPopupVisible && (
+      <div style={popupStyle}>
+        <CloseButton />
+        {/* Include your video player component or embed the video here */}
+        {/* Add your video player code or embed code here */}
+      </div>
+    )}
+      </div>
 
       <ReactMapGL
         ref={mapRef}

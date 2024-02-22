@@ -217,22 +217,9 @@ body, html, #root {
     margin-right: 8px;
     /* Add your custom styles for the search icon */
     /* For example: */
-    fill: #ff0000; /* Change the fill color to red */
+    fill: #c7c7c7; /* Change the fill color to red */
     width: 20px; /* Increase the width */
     height: 20px; /* Increase the height */
   }
 
 
-
-  .custom-button {
-    background-color: blue;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .custom-button:hover {
-    background-color: darkblue;
-  }
