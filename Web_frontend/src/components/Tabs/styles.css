@@ -1,15 +1,17 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-
 
 @import '@radix-ui/colors/black-alpha.css';
 @import '@radix-ui/colors/green.css';
 @import '@radix-ui/colors/mauve.css';
 @import '@radix-ui/colors/violet.css';
+
 body {
   font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
 }
-/* reset */
+
+/* Reset */
 button,
 fieldset,
 input {
@@ -19,8 +21,15 @@ input {
 .TabsRoot {
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: 100%;
+  min-width: 420px;
+  max-width: 450px;
+  min-height: 700px;
+  margin: 0 auto;
+  height: auto;
+  border-radius: 20px;
   box-shadow: 0 2px 10px var(--black-a4);
+  overflow: hidden;
 }
 
 .TabsList {
@@ -42,35 +51,45 @@ input {
   line-height: 1;
   color: var(--mauve-11);
   user-select: none;
+  transition: color 0.3s ease;
+  cursor: pointer;
 }
+
 .TabsTrigger:first-child {
-  border-top-left-radius: 6px;
+  border-top-left-radius: 26px;
 }
+
 .TabsTrigger:last-child {
-  border-top-right-radius: 6px;
+  border-top-right-radius: 26px;
 }
+
 .TabsTrigger:hover {
-  color: var(--violet-11);
+  background-color: rgb(216, 238, 255);
 }
+
 .TabsTrigger[data-state='active'] {
-  color: var(--violet-11);
-  box-shadow: inset 0 -1px 0 0 currentColor, 0 1px 0 0 currentColor;
+  color: rgb(0, 0, 0);
+  font-weight: bolder;
+  border: none;  
 }
+
 .TabsTrigger:focus {
   position: relative;
-  box-shadow: 0 0 0 2px black;
+}
+
+.TabIcon {
+  margin-right: 5px;
+  vertical-align: middle;
 }
 
 .TabsContent {
   flex-grow: 1;
   padding: 20px;
   background-color: white;
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 46px;
+  border-bottom-right-radius: 46px;
   outline: none;
-}
-.TabsContent:focus {
-  box-shadow: 0 0 0 2px black;
+  overflow: hidden;
 }
 
 .Text {
@@ -106,7 +125,9 @@ input {
   color: var(--violet-11);
   box-shadow: 0 0 0 1px var(--violet-7);
   height: 35px;
+  transition: box-shadow 0.3s ease;
 }
+
 .Input:focus {
   box-shadow: 0 0 0 2px var(--violet-8);
 }
@@ -121,14 +142,33 @@ input {
   line-height: 1;
   font-weight: 500;
   height: 35px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
+
 .Button.green {
   background-color: var(--green-4);
   color: var(--green-11);
 }
+
 .Button.green:hover {
   background-color: var(--green-5);
 }
+
 .Button.green:focus {
   box-shadow: 0 0 0 2px var(--green-7);
+}
+
+/* Responsive Styles */
+
+@media screen and (max-width: 480px) {
+  .TabsRoot {
+    width: 100%;
+    max-width: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .TabsContent {
+    border-radius: 0;
+  }
 }

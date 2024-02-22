@@ -14,13 +14,13 @@ import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import "./NextPage.css";
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Tabs from '../Tabs/Tabs';
-
+import TabsDemo from '../Tabs/Tabs';
 
 function NextPage() {
   const [viewport, setViewport] = useState({
     width: '100%',
     height: '100vh',
-    latitude: -14.2350, // Update latitude to a value over Brazil
+   latitude: -14.2350, // Update latitude to a value over Brazil
     longitude: -51.9253, // Update longitude to a value over Brazil
     zoom: 2.5
   });
@@ -145,12 +145,7 @@ function NextPage() {
           closeOnClick={true}
           anchor="top"
         >
-          <div>
-            <h3>Event ID: {selectedMarker.event_id}</h3>
-            <p>Latitude: {selectedMarker.lat}</p>
-            <p>Longitude: {selectedMarker.lon}</p>
-            {/* Add more information or interactive elements here as needed */}
-          </div>
+         
         </Popup>
       )}
       
@@ -175,9 +170,11 @@ function NextPage() {
         <ScaleControl />
       </div>
       </ReactMapGL>
-      <div style={{ position: 'absolute', top: 70, left: 10 }}> 
-       <Tabs/>
-       </div>
+      <div style={{ position: 'absolute', top: 70, left: 10, }}>
+        {/* Pass the selectedMarker state to the TabsDemo component */}
+        <TabsDemo selectedMarker={selectedMarker} />
+      </div>
+
     </>
   );
 }
