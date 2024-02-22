@@ -1,0 +1,85 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body, html {
+    height: 100%;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Main content styles, assuming NextPage is full screen */
+  .next-page {
+    position: fixed; /* or absolute, depending on your needs */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Ensure it's behind other elements */
+  }
+  
+  /* Sidebar styles */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 250px;
+    background: #2c3e50;
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(-100%);
+    z-index: 1000; /* High z-index to overlay on top of NextPage */
+  }
+  
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  
+  /* Toggle button styles */
+  .toggle-button {
+    position: absolute;
+    top: 50%;
+    right: -50px; /* Adjust this to place the toggle button correctly */
+    transform: translateY(-50%);
+    background: #000000;
+    border: none;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1001; /* Above the sidebar */
+  }
+  
+  /* Topbar styles */
+  .topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    background: #313232;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 1000; /* Same z-index as sidebar to overlay on top of NextPage */
+  }
+  
+  .logo {
+    margin-right: 20px;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .sidebar {
+      width: 200px; /* Narrower sidebar for smaller screens */
+    }
+  
+    .toggle-button {
+      right: -40px; /* Adjust toggle button position for smaller screens */
+    }
+  
+    .topbar {
+      height: 40px; /* Shorter topbar for smaller screens */
+    }
+  }
