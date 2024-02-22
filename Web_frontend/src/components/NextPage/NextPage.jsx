@@ -20,8 +20,8 @@ function NextPage() {
   const [viewport, setViewport] = useState({
     width: '100%',
     height: '100vh',
-    latitude: 37.7577,
-    longitude: -122.4376,
+    latitude: -14.2350, // Update latitude to a value over Brazil
+    longitude: -51.9253, // Update longitude to a value over Brazil
     zoom: 2.5
   });
   const [initialCamera, setInitialCamera] = useState(null);
