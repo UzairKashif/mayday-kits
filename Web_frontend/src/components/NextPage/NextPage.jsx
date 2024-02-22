@@ -111,7 +111,13 @@ function NextPage() {
     <> 
 
     
-      <div id="geocoder" style={{ position: 'absolute', zIndex: 1, top: 10, left: 10 }}></div>
+<div style={{ position: 'relative' }}>
+  <div id="geocoder" className="custom-geocoder" style={{ position: 'absolute', zIndex: 1, top: 10, left: 10 }}>
+    {/* Your geocoder content */}
+  </div>
+  
+</div>
+
       <ReactMapGL
         ref={mapRef}
         {...viewport}
@@ -137,18 +143,25 @@ function NextPage() {
         </Marker>
       ))}
 
-      {selectedMarker && (
-        <Popup
-          latitude={parseFloat(selectedMarker.lat)}
-          longitude={parseFloat(selectedMarker.lon)}
-          onClose={handleClosePopup}
-          closeOnClick={true}
-          anchor="top"
-        >
-         
-        </Popup>
-      )}
+{selectedMarker && (
+  <Popup
+  latitude={parseFloat(selectedMarker.lat)}
+  longitude={parseFloat(selectedMarker.lon)}
+  onClose={handleClosePopup}
+  closeOnClick={true}
+  anchor="bottom"
+  className="custom-popup"
+  closeButton={false} // Hide the default close button
+>
+  <div className="popup-content">
+    <h4>Fire Hazard</h4>
+    <p>Beware of the Hazard. In Case of Emergency Call 911.</p>
+    <button className="custom-close-button" onClick={handleClosePopup}>
       
+    </button>
+  </div>
+</Popup>
+)}
 
       {/* Control Containers */}
       <div style={{ position: 'absolute', top: 10, right: 10 }}>
@@ -170,7 +183,7 @@ function NextPage() {
         <ScaleControl />
       </div>
       </ReactMapGL>
-      <div style={{ position: 'absolute', top: 70, left: 10, }}>
+      <div style={{ position: 'absolute', top: 80, left: 10, }}>
         {/* Pass the selectedMarker state to the TabsDemo component */}
         <TabsDemo selectedMarker={selectedMarker} />
       </div>

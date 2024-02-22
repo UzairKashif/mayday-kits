@@ -23,6 +23,8 @@ const TabsDemo = ({ selectedMarker }) => {
       setDefaultText('Select a marker to view details.');
     }
   };
+
+  
 // Generate video URLs based on marker data
 const visUrl = selectedMarker ? `https://geos-stat1.s3.us-east-2.amazonaws.com/G16/thumb/${selectedMarker.event_id}/ABI/F16/VIS/${getGroupsPkPart(selectedMarker.groups_pk)}.mp4` : '';
 const irUrl = selectedMarker ? `https://geos-stat1.s3.us-east-2.amazonaws.com/G16/thumb/${selectedMarker.event_id}/ABI/F16/IR/${getGroupsPkPart(selectedMarker.groups_pk)}.mp4`:'';
@@ -40,16 +42,42 @@ const irUrl = selectedMarker ? `https://geos-stat1.s3.us-east-2.amazonaws.com/G1
       </Tabs.List>
       <TabPanelContent value="tab1">
         {selectedMarker ? (
-          <div>
-          <h3>Event ID: {selectedMarker.event_id}</h3>
-           <p> <b>Latitude:</b> {selectedMarker.lat}</p> 
-           <p><b>Longitude:</b> {selectedMarker.lon}</p> 
-           <p> <b>Height:</b> {selectedMarker.height}</p>
-            <p><b>Status:</b> {selectedMarker.status}</p> 
-            <p><b>Update flag:</b> {selectedMarker.update_flag}</p>
-             <p><b>Event start since:</b> {selectedMarker.event_start_since}</p> 
-             <p><b>Event last seen:</b> {selectedMarker.event_last_seen}</p>
-          </div>
+       <div class="marker-details">
+       <div class="marker-info">
+         <div class="detail-box">
+           <h4>Event ID</h4>
+           <p>{selectedMarker.event_id}</p>
+         </div>
+         <div class="detail-box">
+           <h4>Latitude</h4>
+           <p>{selectedMarker.lat}</p>
+         </div>
+         <div class="detail-box">
+           <h4>Longitude</h4>
+           <p>{selectedMarker.lon}</p>
+         </div>
+         <div class="detail-box">
+           <h4>Height</h4>
+           <p>{selectedMarker.height}</p>
+         </div>
+         <div class="detail-box">
+           <h4>Status</h4>
+           <p>{selectedMarker.status}</p>
+         </div>
+         <div class="detail-box">
+           <h4>Update Flag</h4>
+           <p>{selectedMarker.update_flag}</p>
+         </div>
+         <div class="detail-box">
+           <h4>Event Start Since</h4>
+           <p>{selectedMarker.event_start_since}</p>
+         </div>
+         <div class="detail-box">
+           <h4>Event Last Seen</h4>
+           <p>{selectedMarker.event_last_seen}</p>
+         </div>
+       </div>
+     </div>
         ) : (
           <p>{defaultText}</p>
         )}
@@ -58,13 +86,13 @@ const irUrl = selectedMarker ? `https://geos-stat1.s3.us-east-2.amazonaws.com/G1
       {selectedMarker && (
           <div>
             <h3>VIS Video</h3>
-            <video width="220" height="140" controls>
+            <video width="100%" height="340" controls>
               <source src={visUrl} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
 
             <h3>IR Video</h3>
-            <video width="220" height="140" controls>
+            <video width="100%" height="340" controls>
               <source src={irUrl} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
