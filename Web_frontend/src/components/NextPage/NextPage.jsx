@@ -22,14 +22,56 @@ function NextPage() {
     zoom: 2.5
   });
 
+  const [initialCamera, setInitialCamera] = useState(null);
+
   const [markersData, setMarkersData] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const mapRef = useRef();
+
+
   const handleMarkerClick = (marker, event) => {
     event.stopPropagation(); // Prevent map click event from firing
     setSelectedMarker(marker);
-    // Adjust viewport to the clicked marker (optional)
-    setViewport(prev => ({ ...prev, latitude: parseFloat(marker.lat), longitude: parseFloat(marker.lon) }));
+    
+    // Access the Mapbox map instance
+    const mapInstance = mapRef.current.getMap();
+
+    // If initialCamera is not set, save the current camera position
+    if (!initialCamera) {
+      setInitialCamera({
+        longitude: mapInstance.getCenter().lng,
+        latitude: mapInstance.getCenter().lat,
+        zoom: mapInstance.getZoom(),
+        pitch: mapInstance.getPitch(),
+        bearing: mapInstance.getBearing(),
+      });
+    }
+
+    // Fly to the clicked marker
+    mapInstance.flyTo({
+      center: [parseFloat(marker.lon), parseFloat(marker.lat)],
+      zoom: 14,
+      pitch: 60,
+      bearing: 30,
+      speed: 1.2, // make the flying speed appear smooth
+    });
+  };
+
+  const handleClosePopup = () => {
+    setSelectedMarker(null);
+    
+    // Access the Mapbox map instance
+    const mapInstance = mapRef.current.getMap();
+
+    // Fly back to the initial camera position
+    if (initialCamera) {
+      mapInstance.flyTo({
+        ...initialCamera,
+        speed: 1.2, // make the flying speed appear smooth
+      });
+      // Reset initialCamera for the next interaction
+      setInitialCamera(null);
+    }
   };
 
   useEffect(() => {
@@ -96,7 +138,7 @@ function NextPage() {
         <Popup
           latitude={parseFloat(selectedMarker.lat)}
           longitude={parseFloat(selectedMarker.lon)}
-          onClose={() => setSelectedMarker(null)}
+          onClose={handleClosePopup}
           closeOnClick={true}
           anchor="top"
         >
