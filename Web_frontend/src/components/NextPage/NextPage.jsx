@@ -175,7 +175,7 @@ function NextPage() {
         <ScaleControl />
       </div>
       </ReactMapGL>
-      <div style={{ position: 'absolute', top: 80, left: 10 }}> 
+      <div style={{ position: 'absolute', top: 70, left: 10 }}> 
        <Tabs/>
        </div>
     </>
