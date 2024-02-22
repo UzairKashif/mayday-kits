@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import * as Tabs from '@radix-ui/react-tabs';
 import { FiInfo, FiCamera } from 'react-icons/fi';
 import './styles.css';
