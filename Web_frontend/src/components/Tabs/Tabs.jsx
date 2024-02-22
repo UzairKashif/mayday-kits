@@ -25,8 +25,14 @@ const TabsDemo = ({ selectedMarker }) => (
       {selectedMarker && (
         <div>
           <h3>Event ID: {selectedMarker.event_id}</h3>
-          <p>Latitude: {selectedMarker.lat}</p>
-          <p>Longitude: {selectedMarker.lon}</p>
+          <p> <b>Latitude:</b> {selectedMarker.lat}</p>
+          <p><b>Longitude:</b> {selectedMarker.lon}</p>
+          <p> <b>Height:</b> {selectedMarker.height}</p>
+          <p><b>Status:</b> {selectedMarker.status}</p>
+          <p><b>Update flag:</b> {selectedMarker.update_flag}</p>
+          <p><b>Event start since:</b> {selectedMarker.event_start_since}</p>
+          <p><b>Event last seen:</b> {selectedMarker.event_last_seen}</p>
+          
           {/* Add more information or interactive elements here as needed */}
         </div>
       )}
