@@ -16,7 +16,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import Tabs from '../Tabs/Tabs';
 import TabsDemo from '../Tabs/Tabs';
 import globeIcon from '../assets/earthico.png';
-
+import { FaSearch } from 'react-icons/fa';
 function NextPage() {
   const [viewport, setViewport] = useState({
     width: '100%',
@@ -157,7 +157,7 @@ function NextPage() {
   );
   const globeButtonStyle = {
     position: 'absolute',
-    top: '20px',
+    top: '18px',
     left: '290px',
     backgroundColor: 'transparent',
     border: 'none',
@@ -168,13 +168,13 @@ function NextPage() {
 
   const globeIconStyle = {
     width: '54px',
-    height: '52px',
+    height: '50px',
     fill: '#ffffff', // Replace with desired color
   };
   return (
     <> 
  <div style={{ position: 'relative' }}>
-        <div id="geocoder" className="custom-geocoder" style={{ position: 'absolute', zIndex: 1, top: 10, left: 10 }}>
+        <div id="geocoder" className="custom-geocoder" style={{ position: 'absolute', zIndex: 1, top: 8, left: 0 }}>
           {/* Your geocoder content */}
         </div>
         <button style={globeButtonStyle} onClick={handleGlobeButtonClick}>
@@ -227,7 +227,7 @@ function NextPage() {
 >
   <div className="popup-content">
     <h4>Fire Hazard</h4>
-    <p>Beware of the Hazard. In Case of Emergency Call 911.</p>
+    
     <button className="custom-close-button" onClick={handleClosePopup}>
       
     </button>
@@ -251,11 +251,11 @@ function NextPage() {
         />
       </div>
 
-      <div style={{ position: 'absolute', bottom: 10, left: 10 }}>
+      <div style={{  bottom: 10, left: 10 }}>
         <ScaleControl />
       </div>
       </ReactMapGL>
-      <div style={{ position: 'absolute', top: 80, left: 10, }}>
+      <div style={{ position: 'absolute', top: 80, left: 10, zIndex:100,}}>
         {/* Pass the selectedMarker state to the TabsDemo component */}
         <TabsDemo selectedMarker={selectedMarker} />
       </div>

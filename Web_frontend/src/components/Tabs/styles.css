@@ -20,15 +20,16 @@ input {
 .TabsRoot {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 89%;
   min-width: 420px;
-  max-width: 100%;
-  min-height: 90vh;
+  
+  min-height: 86vh;
   margin: 0;
   margin-bottom: 60px;
   border-radius: 20px;
   box-shadow: 0 2px 10px var(--black-a4);
-  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-y: auto; 
+  /* Enable vertical scrolling */
 }
 
 /* Rest of your CSS code... */
@@ -84,7 +85,7 @@ input {
 }
 .TabsContent {
   flex-grow: 1;
-  padding: 20px;
+  padding: 12px;
   background-color: white;
   border-bottom-left-radius: 46px;
   border-bottom-right-radius: 46px;
@@ -142,11 +143,12 @@ input {
 .detail-box h4 {
  
   
-  margin-right: 10px;
+  margin-right: 30px;
   margin-top: -34px;
- 
-  padding: 4px 8px;
-  white-space: nowrap;
+ background-color: rgb(255, 255, 255);
+ white-space: nowrap; 
+ width: 27%;
+  
 }
 
 .detail-box p {
