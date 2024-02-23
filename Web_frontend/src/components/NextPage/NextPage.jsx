@@ -119,7 +119,7 @@ function NextPage() {
     width: '80%',
     height: '80%',
     /* Change the fill color to red */
-    backgroundColor: '#c7c7c7',
+    backgroundColor: '#010001',
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
     borderRadius: '30px',
     padding: '20px',
@@ -183,10 +183,12 @@ function NextPage() {
 
 {isPopupVisible && (
       <div style={popupStyle}>
-        <CloseButton />
-        {/* Include your video player component or embed the video here */}
-        {/* Add your video player code or embed code here */}
-      </div>
+      <CloseButton />
+      <video style={{ width: '100%', height: '100%' }} controls>
+        <source src=" https://geos-stat1.s3.us-east-2.amazonaws.com/G16/FULL/terra/Last24hrs.mp4 " type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
     )}
       </div>
 
