@@ -173,6 +173,7 @@ function NextPage() {
   };
   return (
     <> 
+    
  <div style={{ position: 'relative' }}>
         <div id="geocoder" className="custom-geocoder" style={{ position: 'absolute', zIndex: 1, top: 8, left: 0 }}>
           {/* Your geocoder content */}
@@ -200,7 +201,7 @@ function NextPage() {
         mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
         onLoad={handleLoad}
       >
-       
+   
       {markersData.map((marker, index) => (
         <Marker
           key={index}
@@ -246,18 +247,19 @@ function NextPage() {
         <FullscreenControl />
       </div>
 
-      <div style={{ position: 'absolute', bottom: 10, right: 10 }}>
+      <div style={{ position: 'absolute', bottom: 10, right: 10 , zIndex: 10}}>
         <GeolocateControl
           positionOptions={{ enableHighAccuracy: true }}
           trackUserLocation={true}
         />
       </div>
-
       <div style={{  bottom: 10, left: 10 }}>
         <ScaleControl />
-      </div>
+      </div> 
+
+      
       </ReactMapGL>
-      <div style={{ position: 'absolute', top: 80, left: 10, zIndex:100,}}>
+      <div style={{ position: 'absolute', top: 80, left: 10, }}>
         {/* Pass the selectedMarker state to the TabsDemo component */}
         <TabsDemo selectedMarker={selectedMarker} />
       </div>
