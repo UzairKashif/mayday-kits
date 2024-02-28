@@ -54,7 +54,15 @@ body, html, #root {
     height: 20px; /* Match initial size */
     transform: translate(-50%, -50%); /* Centering the container */
   }
-  
+  .marker-container1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 10px; /* Initial size */
+    height: 10px; /* Match initial size */
+    transform: translate(-50%, -50%); /* Centering the container */
+  }
   .simple-marker {
     position: absolute;
     border-radius: 50%;
@@ -65,7 +73,33 @@ body, html, #root {
     transform-origin: center;
   }
   
+
+
+  .simple-marker1 {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(255, 145, 0, 0.872);
+    width: 100%; /* Adapt to container size */
+    height: 100%; /* Adapt to container size */
+    animation: growFade 4s infinite;
+    transform-origin: center;
+  }
+
+
   .clickable-center {
+    position: absolute;
+    width: 10px; /* Static center size */
+    height: 10px; /* Static center size */
+    background-color: #ffffff;
+    border-radius: 50%;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+  }
+
+  
+  .clickable-center1 {
     position: absolute;
     width: 10px; /* Static center size */
     height: 10px; /* Static center size */

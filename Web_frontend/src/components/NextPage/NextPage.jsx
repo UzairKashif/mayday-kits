@@ -26,7 +26,8 @@ function NextPage() {
     zoom: 2.5
   });
   const [initialCamera, setInitialCamera] = useState(null);
-
+  const [earthquakeData, setEarthquakeData] = useState([]);
+  const [weatherData, setWeatherData] = useState([]);
   const [markersData, setMarkersData] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const mapRef = useRef();
@@ -83,6 +84,48 @@ function NextPage() {
         setMarkersData(data);
       } catch (error) {
         console.error('Error fetching marker data:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+
+  useEffect(() => {
+    const fetchEarthquakeData = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/earthquake-events');
+        const data = await response.json();
+        setEarthquakeData(data);
+      } catch (error) {
+        console.error('Error fetching earthquake data:', error);
+      }
+    };
+    fetchEarthquakeData();
+  }, []);
+
+  // New useEffect for weather data
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://api.weather.gov/alerts/active');
+        const data = await response.json();
+        const processedData = data.features.map(feature => {
+          if (feature.geometry && feature.geometry.coordinates[0]) {
+            // Assuming a polygon - calculating the centroid might be more complex
+            const firstCoordinate = feature.geometry.coordinates[0][0];
+            return {
+              id: feature.id,
+              longitude: firstCoordinate[0],
+              latitude: firstCoordinate[1],
+              title: feature.properties.event,
+              description: feature.properties.headline
+            };
+          }
+          return null;
+        }).filter(item => item !== null);
+        setWeatherData(processedData);
+      } catch (error) {
+        console.error('Error fetching weather data:', error);
       }
     };
     fetchData();
@@ -218,6 +261,34 @@ function NextPage() {
         </Marker>
       ))}
 
+      {/* Render earthquake markers */}
+      {earthquakeData.map((earthquake, index) => (
+  <Marker
+    key={index}
+    longitude={earthquake.coordinates[0]}
+    latitude={earthquake.coordinates[1]}
+  >
+ 
+
+    <div
+      onClick={(event) => handleMarkerClick(earthquake,event)}
+      style={{ fontSize: '16px', cursor: 'pointer' }}
+    >
+      ☢️
+    </div>
+  </Marker>
+))}
+
+        {/* Render weather markers */}
+        {weatherData.map((event) => (
+  <Marker key={event.id} longitude={event.longitude} latitude={event.latitude}>
+  <div onClick={(event) => {handleMarkerClick(event);
+  }} style={{ fontSize: '18px', cursor: 'pointer' }}>⛅</div>
+</Marker>
+
+))}
+
+
 {selectedMarker && (
   <Popup
   latitude={parseFloat(selectedMarker.lat)}
@@ -236,7 +307,15 @@ function NextPage() {
     </button>
   </div>
 </Popup>
+
+
+
+
 )}
+
+
+
+
 
       {/* Control Containers */}
       <div style={{ position: 'absolute', top: 10, right: 10 }}>

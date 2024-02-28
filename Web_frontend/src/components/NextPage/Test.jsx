@@ -81,3 +81,10 @@ function NextPage() {
 }
 
 export default NextPage;
+{/* <div className="marker-container1">
+            <div className="simple-marker1" />
+            <div 
+              className="clickable-center1" 
+              onClick={(event) => handleMarkerClick(earthquake, event)}
+            />
+          </div> */}
