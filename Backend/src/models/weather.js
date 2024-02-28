@@ -1,18 +1,21 @@
 const axios = require('axios');
 
-const getWeatherData = async () => {
-  const url = 'https://api.weather.gov/alerts/active?area=KS'; // Replace 'your-endpoint' with the specific NWS API endpoint you want to use
-
+const fetchWeatherData = async () => {
+  const url = 'https://api.weather.gov/alerts/active';
   try {
-    const response = await axios.get(url);
-    const weatherData = response.data; // Modify this as per the structure of the NWS API response
-    return weatherData;
+    const response = await axios.get(url, {
+      headers: { 'User-Agent': 'frontend/1.0' }
+    });
+    const features = response.data.features;
+    return features.map(feature => ({
+      id: feature.id,
+      geometry: feature.geometry,
+      properties: feature.properties
+    }));
   } catch (error) {
     console.error('Error fetching weather data:', error);
-    throw error;
+    return [];
   }
 };
 
-module.exports = {
-  getWeatherData,
-};
+module.exports = { fetchWeatherData };
