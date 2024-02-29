@@ -36,8 +36,12 @@ function NextPage() {
   const [selectedMarker, setSelectedMarker] = useState(null);
   const mapRef = useRef();
 
-  const handleMarkerClick = (marker, event) => {
-    event.stopPropagation(); // Prevent map click event from firing
+  const handleMarkerClick = (marker, event = {}) => {
+    // Only call stopPropagation if it's a function
+    if (typeof event.stopPropagation === 'function') {
+      event.stopPropagation();
+    }
+  
     setSelectedMarker(marker);
     // Access the Mapbox map instance
     const mapInstance = mapRef.current.getMap();
@@ -274,9 +278,14 @@ function NextPage() {
       </ReactMapGL>
 
 </div>
-      <div style={{ position: 'absolute', top: 80, left: 10, }}>
+      <div style={{ position: 'absolute', top: 40, left: 10,  zIndex:100,}}>
         {/* Pass the selectedMarker state to the TabsDemo component */}
-        <TabsDemo selectedMarker={selectedMarker} />
+        <TabsDemo
+  selectedMarker={selectedMarker}
+  markersData={markersData}
+  onSelectMarker={handleMarkerClick} // Pass handleMarkerClick directly
+/>
+
       </div>
 
     </>

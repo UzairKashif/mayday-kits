@@ -21,12 +21,12 @@ input {
   display: flex;
   flex-direction: column;
   width: 89%;
-  min-width: 420px;
+  min-width: 400px;
   
-  min-height: 86vh;
+  min-height: 100vh;
   margin: 0;
   margin-bottom: 60px;
-  border-radius: 20px;
+  border-radius: 10px;
   box-shadow: 0 2px 10px var(--black-a4);
   overflow-y: auto; 
   /* Enable vertical scrolling */
@@ -58,11 +58,11 @@ input {
 }
 
 .TabsTrigger:first-child {
-  border-top-left-radius: 26px;
+  border-top-left-radius: 10px;
 }
 
 .TabsTrigger:last-child {
-  border-top-right-radius: 26px;
+  border-top-right-radius: 10px;
 }
 
 .TabsTrigger:hover {
@@ -87,8 +87,8 @@ input {
   flex-grow: 1;
   padding: 12px;
   background-color: white;
-  border-bottom-left-radius: 46px;
-  border-bottom-right-radius: 46px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
   outline: none;
   overflow-y: auto; /* Enable vertical scrolling */
   max-height: calc(100vh - 16vh); /* Set max height to viewport height minus the height of the tab triggers */
@@ -175,3 +175,77 @@ input {
     transform: translateY(0);
   }
 }
+
+
+.fire-icon {
+  color: #F56565; /* Brighter shade of red for the icon */
+  margin-right: 16px;
+  font-size: 1.5rem; /* Larger icon size */
+}
+
+.event-card {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  border-radius: 12px;
+  background-color: #FFF5F5; /* Lighter, softer red background */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-left: 4px solid #F56565; /* Accent border */
+}
+
+.event-card:hover {
+  transform: translateY(-3px); /* Slight lift effect on hover */
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+}
+
+.event-card.selected {
+  background-color: #F7FAFC; /* Light neutral background for selected */
+  border-left-color: #48BB78; /* Green accent border for selected */
+  color: #2D3748; /* Darker text color for contrast */
+}
+
+.event-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.event-info > div {
+  margin-bottom: 4px;
+  color: #2D3748; /* Dark text for better readability */
+  font-weight: 500; /* Medium font weight for text */
+}
+
+.event-info > div:last-child {
+  margin-bottom: 0; /* Remove margin for the last element */
+}
+
+/* Enhance visibility and interaction cues */
+.event-card .fire-icon, .event-info > div {
+  transition: color 0.3s ease; /* Smooth color transition for interactive elements */
+}
+
+.event-card:hover .fire-icon, .event-card:hover .event-info > div {
+  color: #E53E3E; /* Highlight color change on hover */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
