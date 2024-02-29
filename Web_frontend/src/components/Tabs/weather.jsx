@@ -42,6 +42,7 @@ function NextPageWeather() {
   }, []);
 console.log('Selected Marker:', selectedMarker); // Debug log
   return (
+<>
     <ReactMapGL
       ref={mapRef}
       {...viewport}
@@ -49,6 +50,7 @@ console.log('Selected Marker:', selectedMarker); // Debug log
       onMove={evt => setViewport(evt.viewport)}
       mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
     >
+      
    {weatherData.map((event) => (
   <Marker key={event.id} longitude={event.longitude} latitude={event.latitude}>
   <div onClick={(e) => {
@@ -79,6 +81,7 @@ console.log('Selected Marker:', selectedMarker); // Debug log
 
 
     </ReactMapGL>
+    </>
   );
 }
 

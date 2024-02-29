@@ -13,10 +13,15 @@ import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import "./NextPage.css";
 import 'mapbox-gl/dist/mapbox-gl.css';
-import Tabs from '../Tabs/Tabs';
 import TabsDemo from '../Tabs/Tabs';
 import globeIcon from '../assets/earthico.png';
 import { FaSearch } from 'react-icons/fa';
+import Dropdown from '../dropdown_menu/dropdown';
+
+
+
+
+
 function NextPage() {
   const [viewport, setViewport] = useState({
     width: '100%',
@@ -173,17 +178,15 @@ function NextPage() {
   };
   return (
     <> 
-    
- <div style={{ position: 'relative' }}>
-        <div id="geocoder" className="custom-geocoder" style={{ position: 'absolute', zIndex: 1, top: 8, left: 0 }}>
-          {/* Your geocoder content */}
-        </div>
-        <button style={globeButtonStyle} onClick={handleGlobeButtonClick}>
-  <img style={globeIconStyle} src={globeIcon} alt="Globe Icon" />
-</button>
+
+
+
+ <div id="geocoder" className="custom-geocoder" style={{ position: 'absolute', zIndex: 1, top: 10, right: 30 }}></div>   
+ <div style={{ position: 'relative' }}>       
+  <button style={globeButtonStyle} onClick={handleGlobeButtonClick}><img style={globeIconStyle} src={globeIcon} alt="Globe Icon" /></button>
 
 {isPopupVisible && (
-      <div style={popupStyle}>
+    <div style={popupStyle}>
       <CloseButton />
       <video style={{ width: '100%', height: '100%' }} controls>
         <source src=" https://geos-stat1.s3.us-east-2.amazonaws.com/G16/FULL/terra/Last24hrs.mp4 " type="video/mp4" />
@@ -191,7 +194,11 @@ function NextPage() {
       </video>
     </div>
     )}
-      </div>
+    </div>
+
+
+
+<div style={{ position: 'relative', height: '100%' }}>
 
       <ReactMapGL
         ref={mapRef}
@@ -201,7 +208,12 @@ function NextPage() {
         mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
         onLoad={handleLoad}
       >
-   
+
+<div style={{ position: 'absolute', top: 10 }}>
+<Dropdown/>
+      </div>
+
+
       {markersData.map((marker, index) => (
         <Marker
           key={index}
@@ -242,12 +254,11 @@ function NextPage() {
       <div style={{ position: 'absolute', top: 10, right: 10 }}>
         <NavigationControl />
       </div>
-
       <div style={{ position: 'absolute', top: 10, left: 10 }}>
         <FullscreenControl />
       </div>
 
-      <div style={{ position: 'absolute', bottom: 10, right: 10 , zIndex: 10}}>
+      <div style={{ position: 'absolute', bottom: 100, right: 10 , zIndex: 10}}>
         <GeolocateControl
           positionOptions={{ enableHighAccuracy: true }}
           trackUserLocation={true}
@@ -259,6 +270,8 @@ function NextPage() {
 
       
       </ReactMapGL>
+
+</div>
       <div style={{ position: 'absolute', top: 80, left: 10, }}>
         {/* Pass the selectedMarker state to the TabsDemo component */}
         <TabsDemo selectedMarker={selectedMarker} />
