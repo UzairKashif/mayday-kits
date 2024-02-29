@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactMapGL, { Marker, Popup } from 'react-map-gl';
+import { db } from '../../firebaseConfig'; // Adjust the path according to your project structure
 
 function NextPage() {
   const [viewport, setViewport] = useState({
@@ -17,16 +18,34 @@ function NextPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/earthquake-events');
-        const data = await response.json();
-        setEarthquakeData(data);
+        const querySnapshot = await db.collection("earthquakes").get();
+        const data = querySnapshot.docs.map(doc => ({
+          ...doc.data(),
+          id: doc.id
+        }));
+        console.log("Fetched earthquake data:", data); // Log the fetched data
+        setEarthquakeData(data.map(earthquake => {
+          // THIS IS HOW YOU CAN QUERY OTHER PROPERTIES FROM FIRESTORE DB
+          console.log(earthquake.properties.status);
+          
+          // Return the modified earthquake object
+          return {
+            ...earthquake,
+            coordinates: [earthquake.geometry.coordinates[0], earthquake.geometry.coordinates[1]]
+          };
+        }));        
+        
       } catch (error) {
-        console.error('Error fetching earthquake data:', error);
+        console.error('Error fetching earthquake data from Firestore:', error);
       }
     };
     fetchData();
   }, []);
-  console.log('Selected Marker:', selectedMarker); // Debug log
+  
+
+  // The rest of your component...
+
+
   return (
     <ReactMapGL
       ref={mapRef}
@@ -35,47 +54,30 @@ function NextPage() {
       onMove={evt => setViewport(evt.viewport)}
       mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
     >
-     // ... other parts of your component remain the same
+      {earthquakeData.map((earthquake, index) => (
+        <Marker
+          key={index}
+          longitude={earthquake.coordinates[0]}
+          latitude={earthquake.coordinates[1]}
+        >
+          <div onClick={() => setSelectedMarker(earthquake)}>🌎</div>
+        </Marker>
+      ))}
 
-{earthquakeData.map((earthquake, index) => (
-  <Marker
-    key={index}
-    longitude={earthquake.coordinates[0]}
-    latitude={earthquake.coordinates[1]}
-  >
-    <div
-      onClick={() => setSelectedMarker(earthquake)}
-      style={{ fontSize: '16px', cursor: 'pointer' }}
-    >
-      ☢️
-    </div>
-  </Marker>
-))}
-
-
-
-
-{selectedMarker && (
-  <Popup
-    longitude={selectedMarker.coordinates[0]}
-    latitude={selectedMarker.coordinates[1]}
-    onClose={() => setSelectedMarker(null)}
-    closeOnClick={true}
-    anchor="bottom"
-  >
-    <div>
-      <h3>Earthquake Details</h3>
-      <p>Longitude: {selectedMarker.coordinates[0]}</p>
-      <p>Latitude: {selectedMarker.coordinates[1]}</p>
-      {/* Include additional details here as needed, such as elevation if relevant */}
-      <p>Elevation: {selectedMarker.coordinates[2]} meters</p>
-      {/* If you have magnitude and time data, you can add them here */}
-      {selectedMarker.magnitude && <p>Magnitude: {selectedMarker.magnitude}</p>}
-      {selectedMarker.time && <p>Time: {new Date(selectedMarker.time).toLocaleString()}</p>}
-    </div>
-  </Popup>
-)}
-
+      {selectedMarker && (
+        <Popup
+          longitude={selectedMarker.coordinates[0]}
+          latitude={selectedMarker.coordinates[1]}
+          onClose={() => setSelectedMarker(null)}
+          closeOnClick={true}
+          anchor="bottom"
+        >
+          <div>
+            {/* Display information from the selected marker. Adjust as necessary. */}
+            Coordinates: {selectedMarker.coordinates[0]}, {selectedMarker.coordinates[1]}
+          </div>
+        </Popup>
+      )}
     </ReactMapGL>
   );
 }
