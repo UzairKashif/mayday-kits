@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactMapGL, { Marker, Popup } from 'react-map-gl';
-import { db } from '../../firebaseConfig'; // Adjust the path according to your project structure
+import { db } from '../../firebaseConfig'; // Make sure this path is correct
 
 function NextPage() {
   const [viewport, setViewport] = useState({
@@ -8,7 +8,7 @@ function NextPage() {
     height: '100vh',
     latitude: 0,
     longitude: 0,
-    zoom: 1
+    zoom: 2
   });
 
   const [earthquakeData, setEarthquakeData] = useState([]);
@@ -23,28 +23,26 @@ function NextPage() {
           ...doc.data(),
           id: doc.id
         }));
-        console.log("Fetched earthquake data:", data); // Log the fetched data
-        setEarthquakeData(data.map(earthquake => {
-          // THIS IS HOW YOU CAN QUERY OTHER PROPERTIES FROM FIRESTORE DB
-          console.log(earthquake.properties.status);
-          
-          // Return the modified earthquake object
-          return {
-            ...earthquake,
-            coordinates: [earthquake.geometry.coordinates[0], earthquake.geometry.coordinates[1]]
-          };
-        }));        
-        
+        setEarthquakeData(data);
       } catch (error) {
         console.error('Error fetching earthquake data from Firestore:', error);
       }
     };
     fetchData();
   }, []);
+  const handleMarkerClick = (earthquake, event) => {
+    event.stopPropagation(); // Prevent click from propagating to the map
+    console.log('Clicked marker data:', earthquake); // This should log the earthquake data structure
   
-
-  // The rest of your component...
-
+    // Check if the earthquake object and its geometry are defined
+    if (earthquake && earthquake.geometry && earthquake.geometry.coordinates) {
+      setSelectedMarker(earthquake);
+    } else {
+      console.error('Invalid earthquake data:', earthquake);
+    }
+  };
+  
+  
 
   return (
     <ReactMapGL
@@ -56,25 +54,34 @@ function NextPage() {
     >
       {earthquakeData.map((earthquake, index) => (
         <Marker
-          key={index}
-          longitude={earthquake.coordinates[0]}
-          latitude={earthquake.coordinates[1]}
+        key={index}
+        longitude={earthquake.geometry.coordinates[0]}
+        latitude={earthquake.geometry.coordinates[1]}
+      >
+        <div
+          onClick={(e) => handleMarkerClick(earthquake, e)} // Pass the earthquake data and event
+          style={{ fontSize: '18px', cursor: 'pointer' }}
         >
-          <div onClick={() => setSelectedMarker(earthquake)}>🌎</div>
-        </Marker>
+          🌎
+        </div>
+      </Marker>
+      
       ))}
 
       {selectedMarker && (
         <Popup
-          longitude={selectedMarker.coordinates[0]}
-          latitude={selectedMarker.coordinates[1]}
+          longitude={selectedMarker.geometry.coordinates[0]}
+          latitude={selectedMarker.geometry.coordinates[1]}
           onClose={() => setSelectedMarker(null)}
           closeOnClick={true}
           anchor="bottom"
         >
           <div>
-            {/* Display information from the selected marker. Adjust as necessary. */}
-            Coordinates: {selectedMarker.coordinates[0]}, {selectedMarker.coordinates[1]}
+            <strong>Place:</strong> {selectedMarker.properties.place}<br />
+            <strong>Magnitude:</strong> {selectedMarker.properties.mag}<br />
+            <strong>Type:</strong> {selectedMarker.properties.type}<br />
+            <strong>Time:</strong> {new Date(selectedMarker.properties.time).toLocaleString()}<br />
+            <strong>Coordinates:</strong> {selectedMarker.geometry.coordinates.join(', ')}
           </div>
         </Popup>
       )}

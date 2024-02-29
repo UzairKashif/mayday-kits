@@ -73,4 +73,18 @@ body, html, #root {
     left: 50%;
     top: 50%;
   }
-  
+  /* Override Mapbox attribution styles */
+.mapboxgl-ctrl-attrib,
+.mapboxgl-ctrl.mapboxgl-ctrl-attrib {
+  background-color: rgba(0,0,0,0.5) !important; /* Semi-transparent black */
+  color: #ffffff !important; /* White text */
+  font-size: 10px !important;
+  border-radius: 4px; /* Rounded corners */
+  padding: 4px 6px; /* Adjust padding */
+  /* Add any additional custom styles here */
+}
+
+/* Optionally hide the Mapbox logo if desired */
+.mapboxgl-ctrl-attrib.mapboxgl-ctrl-attrib-logo {
+  display: none !important;
+}

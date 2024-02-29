@@ -16,7 +16,7 @@ const NavigationMenuDemo = () => {
             <ul className="List one">
               <li style={{ gridRow: 'span 3' }}>
                 <NavigationMenu.Link asChild>
-                  <a className="Callout" href="/">
+                  <a className="Callout" href="/nextpage">
                     <svg aria-hidden width="30" height="30" viewBox="0 0 25 25" fill="white">
                       <path d="M12 25C7.58173 25 4 21.4183 4 17C4 12.5817 7.58173 9 12 9V25Z"></path>
                       <path d="M12 0H4V8H12V0Z"></path>
@@ -28,13 +28,13 @@ const NavigationMenuDemo = () => {
                 </NavigationMenu.Link>
               </li>
 
-              <ListItem href="https://stitches.dev/" title="Earthquakes">
+              <ListItem href="/test" title="Earthquakes">
                USGS Earthquakes detections
               </ListItem>
               <ListItem href="/colors" title="FIRMS fire events">
                 NASA worldwide fire detections
               </ListItem>
-              <ListItem href="https://icons.radix-ui.com/" title="Extreme Weather Alerts">
+              <ListItem href="/weather" title="Extreme Weather Alerts">
                 NWS alerts for US
               </ListItem>
             </ul>
