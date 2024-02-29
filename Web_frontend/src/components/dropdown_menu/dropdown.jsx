@@ -3,6 +3,10 @@ import * as NavigationMenu from '@radix-ui/react-navigation-menu';
 import classNames from 'classnames';
 import { CaretDownIcon } from '@radix-ui/react-icons';
 import './stylesdrop.css';
+import fireicon from '../assets/fire.png';
+import '@radix-ui/themes/styles.css';
+
+
 
 const NavigationMenuDemo = () => {
   return (
@@ -17,11 +21,8 @@ const NavigationMenuDemo = () => {
               <li style={{ gridRow: 'span 3' }}>
                 <NavigationMenu.Link asChild>
                   <a className="Callout" href="/">
-                    <svg aria-hidden width="30" height="30" viewBox="0 0 25 25" fill="white">
-                      <path d="M12 25C7.58173 25 4 21.4183 4 17C4 12.5817 7.58173 9 12 9V25Z"></path>
-                      <path d="M12 0H4V8H12V0Z"></path>
-                      <path d="M17 8C19.2091 8 21 6.20914 21 4C21 1.79086 19.2091 0 17 0C14.7909 0 13 1.79086 13 4C13 6.20914 14.7909 8 17 8Z"></path>
-                    </svg>
+                   
+                    <img src={fireicon} alt="" className="icon-small" />
                     <div className="CalloutHeading">Mayday Fire Events</div>
                     <p className="CalloutText">AI fire detections</p>
                   </a>
@@ -71,7 +72,7 @@ const NavigationMenuDemo = () => {
 
         <NavigationMenu.Item>
           <NavigationMenu.Link className="NavigationMenuLink" href="https://github.com/radix-ui">
-            Github
+            About
           </NavigationMenu.Link>
         </NavigationMenu.Item>
 
@@ -84,6 +85,8 @@ const NavigationMenuDemo = () => {
         <NavigationMenu.Viewport className="NavigationMenuViewport" />
       </div>
     </NavigationMenu.Root>
+
+
   );
 };
 

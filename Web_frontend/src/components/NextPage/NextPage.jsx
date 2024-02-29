@@ -17,8 +17,8 @@ import TabsDemo from '../Tabs/Tabs';
 import globeIcon from '../assets/earthico.png';
 import { FaSearch } from 'react-icons/fa';
 import Dropdown from '../dropdown_menu/dropdown';
-
-
+import '@radix-ui/themes/styles.css';
+import {Theme} from '@radix-ui/themes';
 
 
 
@@ -210,8 +210,10 @@ function NextPage() {
       >
 
 <div style={{ position: 'absolute', top: 10 }}>
+<Theme>
 <Dropdown/>
-      </div>
+</Theme>
+</div>
 
 
       {markersData.map((marker, index) => (
