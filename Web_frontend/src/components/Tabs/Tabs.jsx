@@ -87,7 +87,7 @@ const TabsDemo = ({ selectedMarker, markersData, onSelectMarker }) => {
           
                   <div className="events-container">
                   {sortedMarkers.map((marker) => (
-                    <div key={marker.id} className="event-card" onClick={() => onSelectMarker(marker)}>
+                    <div key={marker.id} className="event-card" onClick={() => onSelectMarker(marker, {preventDefault: () => {}})}>
                       <FaFire className="fire-icon" />
                       <div className="event-info">
                         <div>{marker.name}</div>
@@ -97,20 +97,21 @@ const TabsDemo = ({ selectedMarker, markersData, onSelectMarker }) => {
                     </div>
                   ))}
                 </div>
-              )}
+                
+        )}
       </Tabs.Content>
        
         <Tabs.Content value="tab2" className="TabsContent">
         {selectedMarker && (
           <div>
             <h3>VIS Video</h3>
-            <video width="100%" height="340" controls>
+            <video width="100%" height="340" controls autoPlay muted loop>
               <source src={visUrl} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
 
             <h3>IR Video</h3>
-            <video width="100%" height="340" controls>
+            <video width="100%" height="340" controls autoPlay muted loop>
               <source src={irUrl} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
