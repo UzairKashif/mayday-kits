@@ -214,7 +214,7 @@ return (
         onLoad={handleLoad}
       >
 
-<div style={{ position: 'absolute', top: 10 }}>
+<div style={{ position: 'absolute', top: 10 , zIndex:10000,}}>
 <Theme>
 <Dropdown/>
 </Theme>
