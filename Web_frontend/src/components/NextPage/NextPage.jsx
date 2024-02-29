@@ -280,7 +280,7 @@ return (
       
 
 </div>
-      <div style={{ position: 'absolute', top: 40, left: 10,  zIndex:100,}}>
+      <div style={{ position: 'absolute', top: 10, left: 10,  zIndex:100,}}>
         {/* Pass the selectedMarker state to the TabsDemo component */}
         <TabsDemo
   selectedMarker={selectedMarker}
