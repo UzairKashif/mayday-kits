@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactMapGL, { Marker, Popup } from 'react-map-gl';
 import { db } from '../../firebaseConfig'; // Make sure this path is correct
+import TabsEarthquake from '../Tabs/Tabsearthquake'; // Ensure the path to your TabsDemo component is correct
+import Dropdown from '../dropdown_menu/dropdown'; // Ensure the path to your Dropdown component is correct
+import "../NextPage/NextPage.css";
+import TabsDemo from '../Tabs/Tabs';
+
+
 
 function NextPage() {
   const [viewport, setViewport] = useState({
@@ -45,6 +51,9 @@ function NextPage() {
   
 
   return (
+
+    <>
+    
     <ReactMapGL
       ref={mapRef}
       {...viewport}
@@ -52,7 +61,10 @@ function NextPage() {
       onMove={evt => setViewport(evt.viewport)}
       mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
     >
-      {earthquakeData.map((earthquake, index) => (
+      <Dropdown />
+      
+      
+            {earthquakeData.map((earthquake, index) => (
         <Marker
         key={index}
         longitude={earthquake.geometry.coordinates[0]}
@@ -86,6 +98,10 @@ function NextPage() {
         </Popup>
       )}
     </ReactMapGL>
+
+    
+    
+    </>
   );
 }
 
