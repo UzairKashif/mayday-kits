@@ -274,7 +274,7 @@ function NextPage() {
 </div>
       <div style={{ position: 'absolute', top: 80, left: 10, }}>
         {/* Pass the selectedMarker state to the TabsDemo component */}
-        <TabsDemo selectedMarker={selectedMarker} />
+        <TabsDemo selectedMarker={selectedMarker} markersData={markersData} onSelectMarker={setSelectedMarker} />
       </div>
 
     </>
