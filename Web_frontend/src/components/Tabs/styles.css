@@ -11,7 +11,6 @@ body {
   padding: 0;
 }
 
-/* Reset */
 button,
 fieldset,
 input {
@@ -37,12 +36,11 @@ input {
 .TabsList {
   flex-shrink: 0;
   display: flex;
-  border-bottom: 1px solid var(--mauve-6);
 }
 
 .TabsTrigger {
   font-family: inherit;
-  background-color: white;
+  background-color: #181111;
   padding: 0 20px;
   height: 45px;
   flex: 1;
@@ -51,7 +49,7 @@ input {
   justify-content: center;
   font-size: 15px;
   line-height: 1;
-  color: var(--mauve-11);
+  color: #FBD3CB;
   user-select: none;
   transition: color 0.3s ease;
   cursor: pointer;
@@ -66,11 +64,11 @@ input {
 }
 
 .TabsTrigger:hover {
-  background-color: rgb(216, 238, 255);
+  background-color:#1F1513;
 }
 
 .TabsTrigger[data-state='active'] {
-  color: rgb(0, 0, 0);
+  color: #FBD3CB;
   font-weight: bolder;
   border: none;  
 }
@@ -86,7 +84,7 @@ input {
 .TabsContent {
   flex-grow: 1;
   padding: 12px;
-  background-color: white;
+  background-color: #1F1513;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   outline: none;
@@ -122,7 +120,8 @@ input {
   }
 }
 .marker-details {
-  background-color: #ffffff;
+  color: #FBD3CB;
+  background-color: #1F1513;
 
   border-radius: 8px;
 
@@ -136,7 +135,7 @@ input {
 }
 
 .detail-box {
-  border: 1px solid #ccc;
+  border: 1px solid #853A2D;
   padding: 20px;
   border-radius: 8px;
 }
@@ -145,7 +144,7 @@ input {
   
   margin-right: 30px;
   margin-top: -34px;
- background-color: rgb(255, 255, 255);
+ background-color: #1F1513;
  white-space: nowrap; 
  width: 27%;
   
@@ -188,12 +187,12 @@ input {
   align-items: center;
   padding: 12px 20px;
   border-radius: 12px;
-  background-color: #FFF5F5; /* Lighter, softer red background */
+  background-color: #181111; /* Lighter, softer red background */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
   margin-bottom: 10px;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border-left: 4px solid #F56565; /* Accent border */
+  border-left: 4px solid #FF977D; /* Accent border */
 }
 
 .event-card:hover {
@@ -203,8 +202,7 @@ input {
 
 .event-card.selected {
   background-color: #F7FAFC; /* Light neutral background for selected */
-  border-left-color: #48BB78; /* Green accent border for selected */
-  color: #2D3748; /* Darker text color for contrast */
+  color: #FBD3CB; /* Darker text color for contrast */
 }
 
 .event-info {
@@ -214,7 +212,7 @@ input {
 
 .event-info > div {
   margin-bottom: 4px;
-  color: #2D3748; /* Dark text for better readability */
+  color: #FBD3CB; /* Dark text for better readability */
   font-weight: 500; /* Medium font weight for text */
 }
 
@@ -228,8 +226,46 @@ input {
 }
 
 .event-card:hover .fire-icon, .event-card:hover .event-info > div {
-  color: #E53E3E; /* Highlight color change on hover */
+  color: #FBD3CB; /* Highlight color change on hover */
 }
+
+
+
+
+
+
+
+/* This styles the entire scrollbar */
+::-webkit-scrollbar {
+  width: 12px; /* Width of the vertical scrollbar */
+  height: 12px; /* Height of the horizontal scrollbar */
+}
+
+/* This styles the track (or progress bar) of the scrollbar */
+::-webkit-scrollbar-track {
+  background: #181111; /* Color of the tracking area */
+}
+
+/* This styles the thumb (the draggable part of the scrollbar) */
+::-webkit-scrollbar-thumb {
+  background: #391714; /* Color of the thumb */
+}
+
+/* This styles the thumb when it's being hovered over */
+::-webkit-scrollbar-thumb:hover {
+  background: #853A2D; /* Darker color on hover */
+}
+
+/* Optional: Style the scrollbar corner (where horizontal and vertical scrollbars meet) */
+::-webkit-scrollbar-corner {
+  background: #000; /* Color of the scrollbar corner */
+}
+
+/* Optional: Style the buttons (if your scrollbars have buttons) */
+::-webkit-scrollbar-button {
+  display: none; /* This example simply removes the buttons */
+}
+
 
 
 

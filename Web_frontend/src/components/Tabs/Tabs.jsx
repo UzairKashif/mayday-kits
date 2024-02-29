@@ -35,7 +35,7 @@ const TabsDemo = ({ selectedMarker, markersData, onSelectMarker }) => {
       <Tabs.List className="TabsList" aria-label="Manage your account">
         <Tabs.Trigger className="TabsTrigger" value="tab1">
           <FiInfo className="TabIcon" />
-          Info
+          Events
         </Tabs.Trigger>
         <Tabs.Trigger className="TabsTrigger" value="tab2">
           <FiCamera className="TabIcon" />

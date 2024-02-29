@@ -180,12 +180,13 @@ function NextPage() {
     height: '50px',
     fill: '#ffffff', // Replace with desired color
   };
-  return (
+return (
     <> 
 
 
 
- <div id="geocoder" className="custom-geocoder" style={{ position: 'absolute', zIndex: 1, top: 10, right: 30 }}></div>   
+ <div id="geocoder" className="custom-geocoder" style={{ position: 'absolute', zIndex: 1, top: 10, right: 30 }}>
+  </div>   
  <div style={{ position: 'relative' }}>       
   <button style={globeButtonStyle} onClick={handleGlobeButtonClick}><img style={globeIconStyle} src={globeIcon} alt="Globe Icon" /></button>
 
@@ -209,7 +210,7 @@ function NextPage() {
         {...viewport}
         mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
         onMove={evt => setViewport(evt.viewport)}
-        mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
+        mapStyle="mapbox://styles/mapbox/dark-v11"
         onLoad={handleLoad}
       >
 
@@ -270,12 +271,13 @@ function NextPage() {
           trackUserLocation={true}
         />
       </div>
-      <div style={{  bottom: 10, left: 10 }}>
-        <ScaleControl />
+      
+      <div style={{  bottom: 10, left:10 }}>
+        
       </div> 
-
       
       </ReactMapGL>
+      
 
 </div>
       <div style={{ position: 'absolute', top: 40, left: 10,  zIndex:100,}}>
