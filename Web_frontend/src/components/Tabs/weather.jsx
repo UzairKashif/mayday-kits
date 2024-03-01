@@ -1,88 +1,102 @@
 import React, { useState, useEffect, useRef } from 'react';
-import ReactMapGL, { Marker, Popup } from 'react-map-gl';
+import ReactMapGL, { Source, Layer } from 'react-map-gl';
+import { db } from '../../firebaseConfig'; // Ensure this path is correct for your Firebase configuration
+import { collection, getDocs } from 'firebase/firestore';
+import * as turf from '@turf/turf';
 
-function NextPageWeather() {
+const NextPageWeather = () => {
   const [viewport, setViewport] = useState({
-    width: '100%',
+    width: '80%',
     height: '100vh',
-    latitude: 37.0902, // Default center of the US
+    latitude: 37.0902,
     longitude: -95.7129,
-    zoom: 3
+    zoom: 3,
   });
 
+  const viewportRef = useRef(viewport); // Use ref to keep track of the current viewport
   const [weatherData, setWeatherData] = useState([]);
-  const [selectedMarker, setSelectedMarker] = useState(null);
-  const mapRef = useRef();
+  const [selectedEventGeometry, setSelectedEventGeometry] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await fetch('https://api.weather.gov/alerts/active');
-        const data = await response.json();
-        const processedData = data.features.map(feature => {
-          if (feature.geometry && feature.geometry.coordinates[0]) {
-            // Assuming a polygon - calculating the centroid might be more complex
-            const firstCoordinate = feature.geometry.coordinates[0][0];
-            return {
-              id: feature.id,
-              longitude: firstCoordinate[0],
-              latitude: firstCoordinate[1],
-              title: feature.properties.event,
-              description: feature.properties.headline
-            };
-          }
-          return null;
-        }).filter(item => item !== null);
-        setWeatherData(processedData);
-      } catch (error) {
-        console.error('Error fetching weather data:', error);
-      }
+      const querySnapshot = await getDocs(collection(db, "weatherAlerts"));
+      const data = querySnapshot.docs.map(doc => ({...doc.data(), id: doc.id}));
+      setWeatherData(data);
     };
+
     fetchData();
   }, []);
-console.log('Selected Marker:', selectedMarker); // Debug log
-  return (
-<>
-    <ReactMapGL
-      ref={mapRef}
-      {...viewport}
-      mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
-      onMove={evt => setViewport(evt.viewport)}
-      mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
-    >
+
+  useEffect(() => {
+    // This effect ensures that the viewport state is always up-to-date with the ref's current value.
+    viewportRef.current = viewport;
+  }, [viewport]);
+
+  const handleSelectEvent = async (event) => {
+    const geometries = [];
+
+    for (const zoneUrl of event.properties.affectedZones) {
+      try {
+        const response = await fetch(zoneUrl);
+        const data = await response.json();
+        if (data.geometry) {
+          geometries.push(data.geometry);
+        }
+      } catch (error) {
+        console.error('Error fetching zone geometry:', error);
+      }
+    }
+
+    setSelectedEventGeometry(geometries);
+
+    if (geometries.length > 0) {
+      const allCoords = geometries.flatMap(geo => turf.coordAll(geo));
+      const bbox = turf.bbox({type: 'FeatureCollection', features: allCoords.map(coord => turf.point(coord))});
+      const [minLng, minLat, maxLng, maxLat] = bbox;
       
-   {weatherData.map((event) => (
-  <Marker key={event.id} longitude={event.longitude} latitude={event.latitude}>
-  <div onClick={(e) => {
-    e.stopPropagation(); // Prevent click from propagating to the map
-    setSelectedMarker(event);
-  }} style={{ fontSize: '18px', cursor: 'pointer' }}>⛅</div>
-</Marker>
+      // Directly update the viewport state and the ref to enforce the viewport change.
+      const newViewport = {
+        ...viewportRef.current, // Use the current viewport settings
+        longitude: (minLng + maxLng) / 2,
+        latitude: (minLat + maxLat) / 2,
+        zoom: 6, // Adjust zoom as needed
+        transitionDuration: 1000 // Optional: add transition for smooth zooming
+      };
+      setViewport(newViewport);
+      viewportRef.current = newViewport; // Update the ref to the new viewport
+    }
+  };
 
-))}
-
-{selectedMarker && (
-  <Popup
-    longitude={selectedMarker.longitude}
-    latitude={selectedMarker.latitude}
-    onClose={() => {
-      console.log('Closing popup'); // Add this for debugging
-      setSelectedMarker(null);
-    }}
-    closeOnClick={true}
-    anchor="bottom"
-  >
-    <div>
-      <h3>{selectedMarker.title}</h3>
-      <p>{selectedMarker.description}</p>
+  return (
+    <div style={{ display: 'flex', height: '100vh' }}>
+      <div style={{ width: '20%', overflowY: 'scroll', backgroundColor: 'white', borderRight: '1px solid #ddd', color:'black', }}>
+        {weatherData.map((event) => (
+          <div key={event.id} onClick={() => handleSelectEvent(event)} style={{ cursor: 'pointer', padding: '10px', borderBottom: '1px solid #ddd' }}>
+            {event.properties.event} - {event.properties.headline}
+          </div>
+        ))}
+      </div>
+      <ReactMapGL
+        {...viewport}
+        mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+        onMove={(nextViewport) => setViewport(nextViewport.viewState || nextViewport)}
+        mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
+      >
+        {selectedEventGeometry.map((geo, index) => (
+          <Source key={index} id={`source-${index}`} type="geojson" data={geo}>
+            <Layer
+              id={`layer-${index}`}
+              type="fill"
+              paint={{
+                'fill-color': '#088',
+                'fill-opacity': 0.8
+              }}
+            />
+          </Source>
+        ))}
+      </ReactMapGL>
     </div>
-  </Popup>
-)}
-
-
-    </ReactMapGL>
-    </>
   );
-}
+};
 
 export default NextPageWeather;
