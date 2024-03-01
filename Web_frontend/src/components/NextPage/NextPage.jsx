@@ -252,7 +252,7 @@ return (
         </Marker>
       ))}
 
-{selectedMarker && (
+{/* {selectedMarker && (
   <Popup
   latitude={parseFloat(selectedMarker.lat)}
   longitude={parseFloat(selectedMarker.lon)}
@@ -270,7 +270,7 @@ return (
     </button>
   </div>
 </Popup>
-)}
+)} */}
 
       {/* Control Containers */}
       <div style={{ position: 'absolute', top: 10, right: 10 }}>

@@ -32,7 +32,7 @@ const NavigationMenuDemo = () => {
               <ListItem href="/test" title="Earthquakes">
                USGS Earthquakes detections
               </ListItem>
-              <ListItem href="/colors" title="FIRMS fire events">
+              <ListItem href="/firms" title="FIRMS fire events">
                 NASA worldwide fire detections
               </ListItem>
               <ListItem href="/weather" title="Extreme Weather Alerts">
