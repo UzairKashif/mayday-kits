@@ -19,6 +19,7 @@ import { FaSearch } from 'react-icons/fa';
 import Dropdown from '../dropdown_menu/dropdown';
 import '@radix-ui/themes/styles.css';
 import {Theme} from '@radix-ui/themes';
+import { TailSpin } from 'react-loader-spinner';
 
 
 
@@ -83,15 +84,19 @@ function NextPage() {
       setInitialCamera(null);
     }
   };
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
         const response = await fetch('http://localhost:3000/api/fire-events');
         const data = await response.json();
         setMarkersData(data);
       } catch (error) {
         console.error('Error fetching marker data:', error);
+      }
+      finally {
+        setLoading(false); // Stop loading
       }
     };
     fetchData();
@@ -213,6 +218,16 @@ return (
         mapStyle="mapbox://styles/mapbox/dark-v11"
         onLoad={handleLoad}
       >
+
+{loading && (
+            <div style={{ position: 'absolute', top: 12, right: 300, zIndex: 10 }}>
+              <TailSpin // Use the imported spinner
+                color="#FF977D" // Spinner color
+                height={30} // Height of spinner
+                width={30} // Width of spinner
+              />
+            </div>
+          )}
 
 <div style={{ position: 'absolute', top: 10 , zIndex:10000,}}>
 <Theme>
