@@ -1,0 +1,288 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+@import '@radix-ui/colors/black-alpha.css';
+@import '@radix-ui/colors/green.css';
+@import '@radix-ui/colors/mauve.css';
+@import '@radix-ui/colors/violet.css';
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #F7FAFC;
+}
+
+button,
+fieldset,
+input {
+  all: unset;
+}
+.TabsRoot {
+  display: flex;
+  flex-direction: column;
+  width: 89%;
+  min-width: 400px;
+  
+  min-height: 100vh;
+  margin: 0;
+  margin-bottom: 60px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px var(--black-a4);
+  overflow-y: auto; 
+  /* Enable vertical scrolling */
+}
+
+/* Rest of your CSS code... */
+
+.TabsList {
+  flex-shrink: 0;
+  display: flex;
+}
+
+.TabsTrigger {
+  font-family: inherit;
+  background-color: #181111;
+  padding: 0 20px;
+  height: 45px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  line-height: 1;
+  color: #FBD3CB;
+  user-select: none;
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+.TabsTrigger:first-child {
+  border-top-left-radius: 10px;
+}
+
+.TabsTrigger:last-child {
+  border-top-right-radius: 10px;
+}
+
+.TabsTrigger:hover {
+  background-color:#1F1513;
+}
+
+.TabsTrigger[data-state='active'] {
+  color: #FBD3CB;
+  font-weight: bolder;
+  border: none;  
+}
+
+.TabsTrigger:focus {
+  position: relative;
+}
+
+.TabIcon {
+  margin-right: 5px;
+  vertical-align: middle;
+}
+.TabsContent {
+  flex-grow: 1;
+  padding: 12px;
+  background-color: #1F1513;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  outline: none;
+  overflow-y: auto; /* Enable vertical scrolling */
+  max-height: calc(100vh - 16vh); /* Set max height to viewport height minus the height of the tab triggers */
+  box-sizing: border-box; /* Add this line */
+}
+
+/* Rest of your CSS code... */
+
+/* Rest of your CSS code... */
+.Text {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: var(--mauve-11);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+
+
+/* Responsive Styles */
+
+@media screen and (max-width: 480px) {
+  .TabsRoot {
+    min-height: 90vh;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .TabsContent {
+    border-radius: 0;
+  }
+}
+.marker-details {
+  color: #FBD3CB;
+  background-color: #1F1513;
+
+  border-radius: 8px;
+
+}
+
+.marker-info {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: 20px;
+  margin-top: 20px;
+}
+
+.detail-box {
+  border: 1px solid #853A2D;
+  padding: 20px;
+  border-radius: 8px;
+}
+.detail-box h4 {
+ 
+  
+  margin-right: 30px;
+  margin-top: -34px;
+ background-color: #1F1513;
+ white-space: nowrap; 
+ width: 27%;
+  
+}
+
+.detail-box p {
+  margin: 0;
+}
+
+/* Animation */
+.marker-details {
+  animation-name: slide-up;
+  animation-duration: 0.3s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.fire-icon {
+  color: #F56565; /* Brighter shade of red for the icon */
+  margin-right: 16px;
+  font-size: 1.5rem; /* Larger icon size */
+}
+
+.event-card {
+  display: flex;
+  align-items: center;
+  padding: 7px 7px;
+  border-radius: 12px;
+  background-color: #181111; /* Lighter, softer red background */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-left: 4px solid #FF977D; /* Accent border */
+}
+
+.event-card:hover {
+  transform: translateY(-3px); /* Slight lift effect on hover */
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+}
+
+.event-card.selected {
+  background-color: #F7FAFC; /* Light neutral background for selected */
+  color: #FBD3CB; /* Darker text color for contrast */
+}
+
+.event-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.event-info > div {
+  margin-bottom: 4px;
+  color: #FBD3CB; /* Dark text for better readability */
+  font-weight: 500; /* Medium font weight for text */
+}
+
+.event-info > div:last-child {
+  margin-bottom: 0; /* Remove margin for the last element */
+}
+
+/* Enhance visibility and interaction cues */
+.event-card .fire-icon, .event-info > div {
+  transition: color 0.3s ease; /* Smooth color transition for interactive elements */
+}
+
+.event-card:hover .fire-icon, .event-card:hover .event-info > div {
+  color: #FBD3CB; /* Highlight color change on hover */
+}
+
+
+
+
+
+
+
+/* This styles the entire scrollbar */
+::-webkit-scrollbar {
+  width: 12px; /* Width of the vertical scrollbar */
+  height: 12px; /* Height of the horizontal scrollbar */
+}
+
+/* This styles the track (or progress bar) of the scrollbar */
+::-webkit-scrollbar-track {
+  background: #181111; /* Color of the tracking area */
+}
+
+/* This styles the thumb (the draggable part of the scrollbar) */
+::-webkit-scrollbar-thumb {
+  background: #391714; /* Color of the thumb */
+}
+
+/* This styles the thumb when it's being hovered over */
+::-webkit-scrollbar-thumb:hover {
+  background: #853A2D; /* Darker color on hover */
+}
+
+/* Optional: Style the scrollbar corner (where horizontal and vertical scrollbars meet) */
+::-webkit-scrollbar-corner {
+  background: #000; /* Color of the scrollbar corner */
+}
+
+/* Optional: Style the buttons (if your scrollbars have buttons) */
+::-webkit-scrollbar-button {
+  display: none; /* This example simply removes the buttons */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
