@@ -92,7 +92,23 @@ const TabsDemo = ({ selectedMarker, markersData, onSelectMarker }) => {
                       <div className="event-info">
                         <div>{marker.name}</div>
                         <div>Status: {marker.status}</div>
-                        <div>Start Date: {marker.event_start_since}</div>
+                        <div>
+  Start Date: {
+    new Date(marker.event_start_since).toLocaleDateString('en-US', {
+      year: 'numeric', // numeric, 2-digit
+      month: 'long', // numeric, 2-digit, long, short, narrow
+      day: 'numeric', // numeric, 2-digit
+      weekday: 'long', // long, short, narrow
+    }) + ' ' + 
+    new Date(marker.event_start_since).toLocaleTimeString('en-US', {
+      hour: '2-digit', // numeric, 2-digit
+      minute: '2-digit', // numeric, 2-digit
+      second: '2-digit', // numeric, 2-digit
+      hour12: true // true for AM/PM; false for 24-hour
+    })
+  }
+</div>
+
                       </div>
                     </div>
                   ))}
