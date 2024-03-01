@@ -83,3 +83,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 npm install firebase
 
 npm install @radix-ui/themes
+
+
+npm install react-loader-spinner

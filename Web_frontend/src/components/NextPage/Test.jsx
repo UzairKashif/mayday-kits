@@ -17,6 +17,8 @@ import ReactMapGL, {
 import "./NextPage.css";
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '@radix-ui/themes/styles.css';
+import { TailSpin } from 'react-loader-spinner';
+ // Import the loader
 
 
 function NextPage() {
@@ -54,10 +56,12 @@ function NextPage() {
 
     document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
   };
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
+        
         const querySnapshot = await db.collection("earthquakes").get();
         const data = querySnapshot.docs.map(doc => ({
           ...doc.data(),
@@ -66,6 +70,8 @@ function NextPage() {
         setEarthquakeData(data);
       } catch (error) {
         console.error('Error fetching earthquake data from Firestore:', error);
+      } finally {
+        setLoading(false); // Stop loading
       }
     };
     fetchData();
@@ -127,7 +133,6 @@ mapInstance.flyTo({
     }
   };
   
-
   return (
 
     <>
@@ -145,6 +150,16 @@ mapInstance.flyTo({
       onLoad={handleLoad}
     
     >
+
+{loading && (
+            <div style={{ position: 'absolute', top: 12, right: 300, zIndex: 10 }}>
+              <TailSpin // Use the imported spinner
+                color="#FF977D" // Spinner color
+                height={30} // Height of spinner
+                width={30} // Width of spinner
+              />
+            </div>
+          )}
       <Dropdown />
       
       
