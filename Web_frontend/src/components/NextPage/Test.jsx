@@ -1,11 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
-import ReactMapGL, { Marker, Popup } from 'react-map-gl';
 import { db } from '../../firebaseConfig'; // Make sure this path is correct
-
 import Dropdown from '../dropdown_menu/dropdown'; // Ensure the path to your Dropdown component is correct
 import "../NextPage/NextPage.css";
 import TabsEarthquake from '../Tabs/Tabsearthquake';
-
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+import mapboxgl from 'mapbox-gl';
+import '@radix-ui/themes/styles.css';
+import ReactMapGL, {
+  Marker,
+  Popup,
+  NavigationControl,
+  FullscreenControl,
+  GeolocateControl,
+} from 'react-map-gl';
+import "./NextPage.css";
+import 'mapbox-gl/dist/mapbox-gl.css';
+import '@radix-ui/themes/styles.css';
 
 
 function NextPage() {
@@ -23,6 +34,26 @@ function NextPage() {
   const [selectedEarthquake, setSelectedEarthquake] = useState(null);
 
   const mapRef = useRef();
+
+  const handleLoad = () => {
+    const map = mapRef.current.getMap();
+
+    const geocoder = new MapboxGeocoder({
+      accessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN,
+      mapboxgl: mapboxgl,
+    });
+
+    geocoder.on('result', function(e) {
+      setViewport(prevViewport => ({
+        ...prevViewport,
+        longitude: e.result.center[0],
+        latitude: e.result.center[1],
+        zoom: 10,
+      }));
+    });
+
+    document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -100,14 +131,18 @@ mapInstance.flyTo({
   return (
 
     <>
+
+<div id="geocoder" className="custom-geocoder" style={{ position: 'absolute', zIndex: 1, top: 10, right: 30 }}>
+  </div>  
     <div style={{ position: 'relative', height: '100%' }}>
     <ReactMapGL
       ref={mapRef}
       {...viewport}
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
       onMove={evt => setViewport(evt.viewport)}
-      mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
+      mapStyle="mapbox://styles/mapbox/dark-v11"
       onClick={handleMapClick}
+      onLoad={handleLoad}
     
     >
       <Dropdown />
@@ -131,6 +166,23 @@ mapInstance.flyTo({
       
       ))}
 
+      <div style={{ position: 'absolute', top: 10, right: 10 }}>
+        <NavigationControl />
+      </div>
+      <div style={{ position: 'absolute', top: 10, left: 10 }}>
+        <FullscreenControl />
+      </div>
+
+      <div style={{ position: 'absolute', bottom: 100, right: 10 , zIndex: 10}}>
+        <GeolocateControl
+          positionOptions={{ enableHighAccuracy: true }}
+          trackUserLocation={true}
+        />
+      </div>
+      
+      <div style={{  bottom: 10, left:10 }}>
+        
+      </div> 
       
     </ReactMapGL>
 

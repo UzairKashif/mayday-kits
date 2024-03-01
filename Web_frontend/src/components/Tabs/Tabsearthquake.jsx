@@ -4,6 +4,12 @@ import { FiInfo } from 'react-icons/fi';
 import './earthquake.css'; // Ensure the path to styles.css is correct
 import { FaExclamationTriangle } from 'react-icons/fa';
 
+import '@radix-ui/themes/styles.css';
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+import "../NextPage/NextPage.css";
+import 'mapbox-gl/dist/mapbox-gl.css';
+import '@radix-ui/themes/styles.css';
+
 const TabsEarthquake = ({ earthquakeData, selectedEarthquake,setSelectedEarthquake ,onSelectMarker}) => {
   // State to manage the selected earthquake marker
   
@@ -58,6 +64,7 @@ const TabsEarthquake = ({ earthquakeData, selectedEarthquake,setSelectedEarthqua
             ))}
           </div>
         )}
+
       </Tabs.Content>
     </Tabs.Root>
   );
