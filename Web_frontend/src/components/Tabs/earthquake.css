@@ -20,7 +20,7 @@ input {
 .TabsRoot {
   display: flex;
   flex-direction: column;
-  width: 89%;
+  width: 73%;
   min-width: 400px;
   
   min-height: 100vh;

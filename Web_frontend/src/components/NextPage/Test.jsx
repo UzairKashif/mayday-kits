@@ -14,7 +14,7 @@ function NextPage() {
     height: '100vh',
    latitude: -14.2350, // Update latitude to a value over Brazil
     longitude: -51.9253, // Update longitude to a value over Brazil
-    zoom: 2.5
+    zoom: 1.5
   });
   const [initialCamera, setInitialCamera] = useState(null);
 
@@ -106,7 +106,7 @@ mapInstance.flyTo({
       {...viewport}
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
       onMove={evt => setViewport(evt.viewport)}
-      mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
+      mapStyle="mapbox://styles/mapbox/dark-v11"
       onClick={handleMapClick}
     
     >
@@ -124,7 +124,7 @@ mapInstance.flyTo({
           onClick={(e) => handleMarkerClick(earthquake, e)} 
           onClose={handleClosePopup} // Pass the earthquake data and event
           style={{ fontSize: '18px', cursor: 'pointer' }}
-        >
+          >
           ⚠️
         </div>
       </Marker>
@@ -136,7 +136,7 @@ mapInstance.flyTo({
 
     </div>
       <div style={{ position: 'absolute', top: 10, left: 10, }}>
-        {/* Pass the selectedMarker state to the TabsDemo component */}
+        
       
 <TabsEarthquake
   earthquakeData={earthquakeData}

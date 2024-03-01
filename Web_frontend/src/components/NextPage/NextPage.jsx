@@ -28,7 +28,7 @@ function NextPage() {
     height: '100vh',
    latitude: -14.2350, // Update latitude to a value over Brazil
     longitude: -51.9253, // Update longitude to a value over Brazil
-    zoom: 2.5
+    zoom: 1.5
   });
   const [initialCamera, setInitialCamera] = useState(null);
 

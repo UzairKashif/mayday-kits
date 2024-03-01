@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
 import classNames from 'classnames';
 import { CaretDownIcon } from '@radix-ui/react-icons';
@@ -9,7 +9,32 @@ import '@radix-ui/themes/styles.css';
 
 
 const NavigationMenuDemo = () => {
+
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+
+  const togglePopup = () => {
+    setIsPopupVisible(!isPopupVisible);
+  };
+
+  const popupStyle = {
+    position: 'fixed',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '80%',
+    height: '80%',
+    backgroundColor: '#010001',
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
+    borderRadius: '30px',
+    padding: '20px',
+    zIndex: 9999,
+  };
+
+
+
+
   return (
+    <>
     <NavigationMenu.Root className="NavigationMenuRoot">
       <NavigationMenu.List className="NavigationMenuList">
         <NavigationMenu.Item>
@@ -18,7 +43,7 @@ const NavigationMenuDemo = () => {
           </NavigationMenu.Trigger>
           <NavigationMenu.Content className="NavigationMenuContent">
             <ul className="List one">
-              <li style={{ gridRow: 'span 3' }}>
+              <li style={{ gridRow: 'span 4' }}>
                 <NavigationMenu.Link asChild>
                   <a className="Callout" href="/nextpage">
                    
@@ -38,6 +63,9 @@ const NavigationMenuDemo = () => {
               <ListItem href="/weather" title="Extreme Weather Alerts">
                 NWS alerts for US
               </ListItem>
+             <ListItem href="#!" title="Satellite View" onClick={togglePopup}>
+                  Global Satellite Video
+                </ListItem>
             </ul>
           </NavigationMenu.Content>
         </NavigationMenu.Item>
@@ -85,15 +113,24 @@ const NavigationMenuDemo = () => {
         <NavigationMenu.Viewport className="NavigationMenuViewport" />
       </div>
     </NavigationMenu.Root>
-
+    {isPopupVisible && (
+        <div style={popupStyle}>
+          <button style={{color:'white',}} onClick={() => setIsPopupVisible(false)}>Close</button>
+          <video style={{ width: '100%', height: '100%' }} controls>
+            <source src="https://geos-stat1.s3.us-east-2.amazonaws.com/G16/FULL/terra/Last24hrs.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      )}
+    </>
 
   );
 };
 
-const ListItem = React.forwardRef(({ className, children, title, ...props }, forwardedRef) => (
+const ListItem = React.forwardRef(({ className, children, title, onClick, ...props }, forwardedRef) => (
   <li>
     <NavigationMenu.Link asChild>
-      <a className={classNames('ListItemLink', className)} {...props} ref={forwardedRef}>
+      <a className={classNames('ListItemLink', className)} {...props} ref={forwardedRef} onClick={onClick}>
         <div className="ListItemHeading">{title}</div>
         <p className="ListItemText">{children}</p>
       </a>
