@@ -248,7 +248,7 @@ return (
   closeButton={false} // Hide the default close button
 >
   <div className="popup-content">
-    <h4>Fire Hazard</h4>
+    <h4 style={{color:'black',}}>Fire Hazard</h4>
     
     <button className="custom-close-button" onClick={handleClosePopup}>
       
