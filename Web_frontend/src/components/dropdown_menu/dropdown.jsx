@@ -82,7 +82,7 @@ const NavigationMenuDemo = ({ showFire, setShowFire, showEarthquake, setShowEart
             </label>
           </li>
               </ListItem>
-              <ListItem href="/colors" title="FIRMS fire events">
+              <ListItem href="/firms" title="FIRMS fire events">
                 NASA worldwide fire detections
               </ListItem>
               <ListItem href="/weather" title="Extreme Weather Alerts">

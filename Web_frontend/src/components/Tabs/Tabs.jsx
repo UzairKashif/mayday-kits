@@ -111,7 +111,10 @@ console.log(selectedEvent);
                   <div className="event-info">
                   <h2>{event.type === 'earthquake' ? 'Earthquake' : 'Fire'}</h2>
                     <div>  {event.type === 'earthquake' ? event.properties.place : event.name}</div>
+                    <div>{event.type === 'earthquake' ? `` : `Event ID: ${event.event_id}`}</div>
                     <div>{event.type === 'earthquake' ? `` : `Status: ${event.status}`}</div>
+                    
+                   
 
 <div>{event.type === 'earthquake' ? `Time: ${new Date(event.date).toLocaleString()}` : `Start Date: ${new Date(event.date).toLocaleString()}`}</div>
                   </div>

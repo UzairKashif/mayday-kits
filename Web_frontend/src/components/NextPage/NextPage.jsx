@@ -14,6 +14,7 @@ import TabsDemo from '../Tabs/Tabs';
 import FireMarkersComponent from '../FireMarkersComponent';
 import EarthquakeMarkersComponent from '../EarthquakeMarkersComponent';
 import { useMarkerClickHandler } from '../useMarkerClickHandler'; // Ensure this path is correct
+import FireMap from '../Tabs/firms'; // Update the import path as necessary
 
 function NextPage() {
   const [viewport, setViewport] = useState({
@@ -24,7 +25,53 @@ function NextPage() {
     zoom: 1.5,
   });
   const [allMarkers, setAllMarkers] = useState([]);
-  
+  const [showURT, setShowURT] = useState(false);
+  const [showNRT, setShowNRT] = useState(false);
+// CSS for the toggle switch
+const toggleStyle = {
+  position: 'relative',
+  display: 'inline-block',
+  width: '60px',
+  height: '34px',
+  margin: '0 10px',
+};
+
+const toggleSliderStyle = {
+  position: 'absolute',
+  cursor: 'pointer',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  backgroundColor: '#ccc',
+  transition: '.4s',
+  borderRadius: '34px',
+};
+
+const toggleSliderBeforeStyle = {
+  position: 'absolute',
+  content: '""',
+  height: '26px',
+  width: '26px',
+  left: '4px',
+  bottom: '4px',
+  backgroundColor: 'white',
+  transition: '.4s',
+  borderRadius: '50%',
+};
+const ToggleSwitch = ({ isOn, handleToggle, label }) => (
+  <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+      <span style={{ color: 'white' }}>{label}</span>
+      <div style={toggleStyle} onClick={handleToggle}>
+          <div style={{...toggleSliderStyle, backgroundColor: isOn ? '#2196F3' : '#ccc'}}>
+              <div style={{
+                  ...toggleSliderBeforeStyle,
+                  transform: isOn ? 'translateX(26px)' : 'translateX(0)'
+              }}></div>
+          </div>
+      </div>
+  </div>
+);
   const handleMapViewport = ({ latitude, longitude, zoom }) => {
     setViewport({ latitude, longitude, zoom });
   
@@ -113,6 +160,40 @@ function NextPage() {
       >
         {showFire && <FireMarkersComponent mapRef={mapRef} onMarkerClick={(lat, lon, event) => handleMarkerClick(lat, lon, event)} />}
 {showEarthquake && <EarthquakeMarkersComponent mapRef={mapRef} onMarkerClick={(lat, lon, event) => handleMarkerClick(lat, lon, event)} />}
+{showURT && <FireMap showURT={showURT} setShowURT={setShowURT} />}
+        {showNRT && <FireMap showNRT={showNRT} setShowNRT={setShowNRT} />}
+        // Inside your NextPage component's return statement:
+<FireMap 
+  showURT={showURT}
+  setShowURT={setShowURT}
+  showNRT={showNRT}
+  setShowNRT={setShowNRT}
+  mapRef={mapRef} // Pass the mapRef down to the FireMap component
+/>
+
+
+
+
+
+ {/* FIRMS Filters */}
+ <div style={{ position: 'absolute', top: 0, right: 0, margin: '20px', zIndex: 1 }}>
+ <div style={{ position: 'relative', height: '100vh' }}>
+            <div id="map" style={{ width: '100%', height: '100%' }} />
+            <div style={{ position: 'absolute', top: 0, right: 0, margin: '20px', zIndex: 1 }}>
+  <ToggleSwitch
+    isOn={showURT}
+    handleToggle={() => setShowURT(!showURT)}
+    label="URT"
+  />
+  <ToggleSwitch
+    isOn={showNRT}
+    handleToggle={() => setShowNRT(!showNRT)}
+    label="NRT"
+  />
+</div>
+        </div>
+        </div>
+
 
         <Dropdown 
           showFire={showFire} 
