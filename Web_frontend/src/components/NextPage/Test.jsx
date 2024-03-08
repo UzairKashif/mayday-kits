@@ -74,7 +74,7 @@ function NextPage() {
         setLoading(false); // Stop loading
       }
     };
-    fetchData();
+   
   }, []);
   const handleMarkerClick = (earthquake, event = {}) => {
     // Only call stopPropagation if it's a function
@@ -139,7 +139,7 @@ mapInstance.flyTo({
 
 <div id="geocoder" className="custom-geocoder" style={{ position: 'absolute', zIndex: 1, top: 10, right: 30 }}>
   </div>  
-    <div style={{ position: 'relative', height: '100%' }}>
+    
     <ReactMapGL
       ref={mapRef}
       {...viewport}
@@ -198,13 +198,7 @@ mapInstance.flyTo({
       <div style={{  bottom: 10, left:10 }}>
         
       </div> 
-      
-    </ReactMapGL>
-
-    </div>
-      <div style={{ position: 'absolute', top: 10, left: 10, }}>
-        {/* Pass the selectedMarker state to the TabsDemo component */}
-      
+      <div style={{ position: 'absolute', top: 10, left: 0, zIndex: 3 }} className="overlay-container">
 <TabsEarthquake
   earthquakeData={earthquakeData}
   selectedEarthquake={selectedEarthquake}
@@ -214,6 +208,10 @@ mapInstance.flyTo({
 />
 
       </div>
+    </ReactMapGL>
+
+    
+     
     
     
     </>

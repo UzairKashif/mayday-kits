@@ -72,6 +72,7 @@ p {
 height: auto;
   animation-duration: 250ms;
   animation-timing-function: ease;
+ 
 }
 .NavigationMenuContent[data-motion='from-start'] {
   animation-name: enterFromLeft;
@@ -119,6 +120,7 @@ height: auto;
   box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
   height: var(--radix-navigation-menu-viewport-height);
   transition: width, height, 300ms ease;
+  
 }
 .NavigationMenuViewport[data-state='open'] {
   animation: scaleIn 200ms ease;
@@ -330,4 +332,106 @@ height: auto;
   to {
     opacity: 0;
   }
+}
+
+
+
+
+.checkbox-container {
+  display: inline-block;
+  height: 34px;
+  position: relative;
+  width: 60px;
+}
+
+.checkbox-container input {
+  display: none;
+}
+
+.checkbox-label {
+  background-color: #ccc;
+  border-radius: 34px;
+  cursor: pointer;
+  display: inline-block;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  transition: background-color 0.2s;
+}
+
+.checkbox-container input:checked + .checkbox-label {
+  background-color: #4BD763;
+}
+
+.checkbox-label:before {
+  content: "";
+  display: block;
+  border-radius: 50%;
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  position: absolute;
+  background-color: white;
+  transition: transform 0.2s;
+}
+
+.checkbox-container input:checked + .checkbox-label:before {
+  transform: translateX(26px);
+}
+
+/* Label text style */
+.checkbox-label span {
+  display: none; /* Hide the text label, since we're going for a text-less toggle */
+}
+
+
+
+
+.checkbox-container {
+  position: relative;
+  width: 60px;
+  height: 34px;
+}
+
+.checkbox-container input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.checkbox-label {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.checkbox-label:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .checkbox-label {
+  background-color: #4BD763;
+}
+
+input:checked + .checkbox-label:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
 }

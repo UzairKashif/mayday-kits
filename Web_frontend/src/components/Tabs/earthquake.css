@@ -29,6 +29,7 @@ input {
   border-radius: 10px;
   box-shadow: 0 2px 10px var(--black-a4);
   overflow-y: auto; 
+  
   /* Enable vertical scrolling */
 }
 
@@ -266,6 +267,98 @@ input {
 ::-webkit-scrollbar-button {
   display: none; /* This example simply removes the buttons */
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.TabsContainer {
+  position: relative; /* Ensure this container is positioned for transform */
+  transition: transform 0.5s ease; /* Use transform for the transition */
+  will-change: transform; /* Optimizes animations */
+}
+.TabsContainer.closed {
+  transform: translateX(-100%); /* Move the sidebar out of view */
+}
+
+.TabsContainer.open {
+  transform: translateX(0); /* Reset position when sidebar is open */
+}
+
+/* Positioning the toggle button fixed relative to the viewport */
+.SidebarToggle {
+  position: fixed;
+  z-index: 100001; /* Ensure it's above other elements */
+  top: 3%;
+  left: 0; /* Adjust this based on your layout */
+  
+  background-color: #181111;
+  color: #FBD3CB;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 0 5px 5px 0;
+}
+
+/* Adjust the container's open and closed states */
+.TabsContainer.closed {
+  transform: translateX(-100%);
+}
+
+.TabsContainer.open {
+  transform: translateX(0);
+}
+
+/* Make sure your container allows for the fixed position of the toggle */
+.TabsContainer {
+  transition: transform 0.5s ease;
+  will-change: transform;
+}
+
+/* Add your existing styles.css content here, adjusting as necessary for the new layout */
+/* Positioning the toggle button fixed relative to the viewport */
+.SidebarToggle {
+  position: fixed;
+  z-index: 1001; /* Ensure it's above other elements */
+  top: 2%; /* Positioned 4% from the top of the viewport */
+  /* Remove the left property if you want it to be based on the natural document flow, */
+  /* or set it explicitly if you want to align it to a specific position. */
+  background-color: #181111;
+  color: #FBD3CB;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 0 5px 5px 0;
+}
+
+
+/* Apply the rotation transformation only to the icon within the toggle button */
+.SidebarToggle .ToggleIcon {
+  transition: transform 0.5s ease; /* Smooth rotation transition */
+}
+
+/* Rotate the icon when the sidebar is open to indicate the toggle action */
+.SidebarToggle.open .ToggleIcon {
+  transform: rotate(180deg); /* Rotate icon for visual feedback */
+}
+
+
 
 
 

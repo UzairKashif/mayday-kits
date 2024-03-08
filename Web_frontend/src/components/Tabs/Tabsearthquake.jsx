@@ -3,7 +3,7 @@ import * as Tabs from '@radix-ui/react-tabs';
 import { FiInfo } from 'react-icons/fi';
 import './earthquake.css'; // Ensure the path to styles.css is correct
 import { FaExclamationTriangle } from 'react-icons/fa';
-
+import { FiChevronRight } from 'react-icons/fi';
 import '@radix-ui/themes/styles.css';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import "../NextPage/NextPage.css";
@@ -13,7 +13,24 @@ import '@radix-ui/themes/styles.css';
 const TabsEarthquake = ({ earthquakeData, selectedEarthquake,setSelectedEarthquake ,onSelectMarker}) => {
   // State to manage the selected earthquake marker
   
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+
   return (
+
+
+    <>
+
+
+<button style={{backgroundColor:'#1F1513'}} className={`SidebarToggle ${isSidebarOpen ? 'open' : ''}`} onClick={toggleSidebar}>
+        <FiChevronRight className="ToggleIcon" />
+      </button>
+      <div className={`TabsContainer ${isSidebarOpen ? 'open' : 'closed'}`}>
+
     <Tabs.Root className="TabsRoot" defaultValue="info">
       <Tabs.List className="TabsList">
         <Tabs.Trigger className="TabsTrigger" value="info">
@@ -67,6 +84,8 @@ const TabsEarthquake = ({ earthquakeData, selectedEarthquake,setSelectedEarthqua
 
       </Tabs.Content>
     </Tabs.Root>
+    </div>
+    </>
   );
 };
 
