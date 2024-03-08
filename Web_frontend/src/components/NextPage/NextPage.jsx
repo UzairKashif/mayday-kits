@@ -81,6 +81,7 @@ function NextPage() {
   };
   
   const handleMarkerClick = (lat, lon, event) => {
+    console.log("Clicked marker event:", event); // Log the event object
     setSelectedEvent(event); // Update selectedEvent with the clicked event
     setShowDetails(true); // Show the event details
     handleMapViewport({
@@ -92,6 +93,8 @@ function NextPage() {
       speed: 1.2,
     });
   };
+  
+  
   
   
 
@@ -120,7 +123,7 @@ function NextPage() {
         <div id="geocoder" className="custom-geocoder" style={{ position: 'absolute', zIndex: 100000, top: 10, right: 30 }}>
         </div>
         <div style={{ position: 'absolute', top: 10, left: 0, zIndex: 1 }} className="overlay-container">
-          <TabsDemo handleMapViewport={handleMapViewport} handleMarkerClick={handleMarkerClick} />
+          <TabsDemo selectedEvent={selectedEvent} handleMapViewport={handleMapViewport} handleMarkerClick={handleMarkerClick} />
         </div>
 
         <div style={{ position: 'absolute', top: 10, right: 10 }}>

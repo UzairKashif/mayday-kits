@@ -44,27 +44,27 @@ const TabsDemo = ({ handleMapViewport }) => {
   }, []);
  
   const handleEventSelect = (event) => {
-    setSelectedEvent(event);
-    setShowDetails(true); // Show details
-  
-    // Fly to the event location
-    handleMapViewport({
-      latitude: parseFloat(event.lat || event.geometry.coordinates[1]),
-      longitude: parseFloat(event.lon || event.geometry.coordinates[0]),
-      zoom: 10, // Adjust zoom level as needed
-      pitch: 60,
-      bearing: 30,
-      speed: 1.2,
-    });
-  };
-  
+  setSelectedEvent(event);
+  setShowDetails(true); // Show details
+
+  // Fly to the event location
+  handleMapViewport({
+    latitude: parseFloat(event.lat || event.geometry.coordinates[1]),
+    longitude: parseFloat(event.lon || event.geometry.coordinates[0]),
+    zoom: 10, // Adjust zoom level as needed
+    pitch: 60,
+    bearing: 30,
+    speed: 1.2,
+  });
+};
+
   
   
   
 
   const handleBack = () => {
     setShowDetails(false); // Hide details and show list of events
-
+    setSelectedEvent(null);
     // Reset map to initial state
     handleMapViewport({
       latitude: -14.2350,

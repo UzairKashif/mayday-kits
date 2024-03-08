@@ -3,7 +3,7 @@ import { Marker } from 'react-map-gl';
 import { db } from '../firebaseConfig';
 import { TailSpin } from 'react-loader-spinner';
 
-const EarthquakeMarkersComponent = ({ mapRef, onMarkerClick }) => {
+const EarthquakeMarkersComponent = ({ mapRef, onMarkerClick ,event}) => {
   const [earthquakeData, setEarthquakeData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -34,7 +34,7 @@ const EarthquakeMarkersComponent = ({ mapRef, onMarkerClick }) => {
           latitude={parseFloat(earthquake.geometry.coordinates[1])}
           longitude={parseFloat(earthquake.geometry.coordinates[0])}
         >
-          <div onClick={() => onMarkerClick(earthquake.geometry.coordinates[1], earthquake.geometry.coordinates[0])} style={{ cursor: 'pointer' }}>
+          <div onClick={() => onMarkerClick(earthquake.geometry.coordinates[1], earthquake.geometry.coordinates[0], earthquake)} style={{ cursor: 'pointer' }}>
 
             {/* Customize your marker style here */}
             ⚠️

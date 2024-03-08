@@ -32,7 +32,7 @@ const FireMarkersComponent = ({ mapRef, onMarkerClick }) => {
         >
           <div className="marker-container">
             <div className="simple-marker" />
-            <div className="clickable-center" onClick={() => onMarkerClick(marker.lat, marker.lon)}>
+            <div className="clickable-center" onClick={() => onMarkerClick(marker.lat, marker.lon, marker)}>
 
               {/* Marker content */}
             </div>
