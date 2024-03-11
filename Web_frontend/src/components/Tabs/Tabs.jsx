@@ -120,7 +120,7 @@ const TabsDemo = ({ handleMapViewport }) => {
                                   <div key={event.id} className="event-card" onClick={() => handleEventSelect(event)}>
                                         {event.type === 'earthquake' ? <FaExclamationTriangle className="iconearth" /> : <FaFire className="icon" />}
                                             <div className="event-info">
-                                                <h2>{event.type === 'earthquake' ? 'Earthquake' : 'Fire'}</h2>
+                                                <h2 style={{color:'white',}}>{event.type === 'earthquake' ? 'Earthquake' : 'Fire'}</h2>
                                                 <div>  {event.type === 'earthquake' ? event.properties.place : event.name}</div>
                                                 <div>{event.type === 'earthquake' ? `` : `Event ID: ${event.event_id}`}</div>
                                                 <div>{event.type === 'earthquake' ? `` : `Status: ${event.status}`}</div>
@@ -134,7 +134,7 @@ const TabsDemo = ({ handleMapViewport }) => {
                       
                         // Event details view
                         <div className="event-details-container">
-                            <button style={{fontSize:'19px',}} onClick={handleBack}>⤺</button> {/* Back button */}
+                            <button style={{fontSize:'19px',  color:'white'}} onClick={handleBack}>⤺</button> {/* Back button */}
                           
                           <div className="marker-details">
                               <div className="marker-info">
