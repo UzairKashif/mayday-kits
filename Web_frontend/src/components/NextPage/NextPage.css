@@ -189,3 +189,44 @@ body, html, #root {
   width: 28px;
 }
 
+/* nextpage.css */
+
+.toggle-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 60px;
+  height: 34px;
+  background-color: #ccc; /* Off state background */
+  border-radius: 34px;
+  transition: background-color 0.4s ease-in-out;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+}
+
+.toggle-switch.on {
+  background-color: #2196F3; /* On state background */
+}
+
+.toggle-slider {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 30px;
+  height: 30px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  transition: transform 0.4s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-switch.on .toggle-slider {
+  transform: translateX(26px); /* Move slider to the right */
+}
+
+/* Label style (Optional) */
+.toggle-label {
+  margin-left: 75px;
+  color: #ffffff;
+  font-weight: bold;
+}

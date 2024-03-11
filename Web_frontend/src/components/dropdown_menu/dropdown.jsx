@@ -142,7 +142,7 @@ const NavigationMenuDemo = ({ showFire, setShowFire, showEarthquake, setShowEart
         <div style={popupStyle}>
           <button style={{color:'white',}} onClick={() => setIsPopupVisible(false)}>Close</button>
           <video style={{ width: '100%', height: '100%' }} controls>
-            <source src="https://geos-stat1.s3.us-east-2.amazonaws.com/G16/FULL/terra/Last24hrs.mp4" type="video/mp4" />
+            <source src="https://geos-stat1.s3.us-east-2.amazonaws.com/G16/FULL/terra/Last24hrs.mp4" type="video/mp4" controls autoPlay muted loop />
             Your browser does not support the video tag.
           </video>
         </div>

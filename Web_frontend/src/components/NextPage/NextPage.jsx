@@ -24,122 +24,74 @@ function NextPage() {
     longitude: -51.9253,
     zoom: 1.5,
   });
-  const [allMarkers, setAllMarkers] = useState([]);
+
   const [showURT, setShowURT] = useState(false);
   const [showNRT, setShowNRT] = useState(false);
-// CSS for the toggle switch
-const toggleStyle = {
-  position: 'relative',
-  display: 'inline-block',
-  width: '60px',
-  height: '34px',
-  margin: '0 10px',
-};
 
-const toggleSliderStyle = {
-  position: 'absolute',
-  cursor: 'pointer',
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  backgroundColor: '#ccc',
-  transition: '.4s',
-  borderRadius: '34px',
-};
 
-const toggleSliderBeforeStyle = {
-  position: 'absolute',
-  content: '""',
-  height: '26px',
-  width: '26px',
-  left: '4px',
-  bottom: '4px',
-  backgroundColor: 'white',
-  transition: '.4s',
-  borderRadius: '50%',
-};
 const ToggleSwitch = ({ isOn, handleToggle, label }) => (
-  <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-      <span style={{ color: 'white' }}>{label}</span>
-      <div style={toggleStyle} onClick={handleToggle}>
-          <div style={{...toggleSliderStyle, backgroundColor: isOn ? '#2196F3' : '#ccc'}}>
-              <div style={{
-                  ...toggleSliderBeforeStyle,
-                  transform: isOn ? 'translateX(26px)' : 'translateX(0)'
-              }}></div>
-          </div>
-      </div>
+  <div className={`toggle-switch ${isOn ? 'on' : ''}`} onClick={handleToggle}>
+    <div className="toggle-slider"></div>
+    <span style={{ color: 'white', marginLeft: '70px' }}>{label}</span>
   </div>
 );
-  const handleMapViewport = ({ latitude, longitude, zoom }) => {
-    setViewport({ latitude, longitude, zoom });
-  
-    if (mapRef.current) {
-      const map = mapRef.current.getMap();
-      map.flyTo({
-        center: [longitude, latitude],
-        zoom,
-        essential: true,
-      });
-    }
-  };
-  
-  const mapboxAccessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
-  const mapRef = useRef();
-  
-  const [showFire, setShowFire] = useState(true);
-  const [showEarthquake, setShowEarthquake] = useState(true);
-  const [selectedEvent, setSelectedEvent] = useState(null);
-  const [showDetails, setShowDetails] = useState(false);
 
-  const handleLoad = () => {
+
+const handleMapViewport = ({ latitude, longitude, zoom }) => {
+  setViewport({ latitude, longitude, zoom });
+
+  if (mapRef.current) {
     const map = mapRef.current.getMap();
-    const geocoder = new MapboxGeocoder({
-      accessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN,
-      mapboxgl: mapboxgl,
+    map.flyTo({
+      center: [longitude, latitude],
+      zoom,
+      essential: true,
     });
+  }
+};
 
-    geocoder.on('result', function(e) {
-      setViewport(prevViewport => ({
-        ...prevViewport,
-        longitude: e.result.center[0],
-        latitude: e.result.center[1],
-        zoom: 10,
-      }));
-    });
+const mapboxAccessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
+const mapRef = useRef();
 
-    document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
-  };
+const [showFire, setShowFire] = useState(true);
+const [showEarthquake, setShowEarthquake] = useState(true);
+const [selectedEvent, setSelectedEvent] = useState(null);
+const [showDetails, setShowDetails] = useState(false);
 
-  const handleEventSelect = (event) => {
-    setSelectedEvent(event);
-    setShowDetails(true);
-  
-    if (event.type === 'earthquake') {
-      const latitude = parseFloat(event.geometry.coordinates[0]);
-      const longitude = parseFloat(event.geometry.coordinates[1]);
-      handleMapViewport({
-        latitude,
-        longitude,
-        zoom: 10,
-      });
-    }
-  };
-  
-  const handleMarkerClick = (lat, lon, event) => {
-    console.log("Clicked marker event:", event); // Log the event object
-    setSelectedEvent(event); // Update selectedEvent with the clicked event
-    setShowDetails(true); // Show the event details
-    handleMapViewport({
-      latitude: parseFloat(lat),
-      longitude: parseFloat(lon),
+const handleLoad = () => {
+  const map = mapRef.current.getMap();
+  const geocoder = new MapboxGeocoder({
+    accessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN,
+    mapboxgl: mapboxgl,
+  });
+
+  geocoder.on('result', function(e) {
+    setViewport(prevViewport => ({
+      ...prevViewport,
+      longitude: e.result.center[0],
+      latitude: e.result.center[1],
       zoom: 10,
-      pitch: 60,
-      bearing: 30,
-      speed: 1.2,
-    });
-  };
+    }));
+  });
+
+  document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
+};
+
+
+  
+const handleMarkerClick = (lat, lon, event) => {
+  console.log("Clicked marker event:", event); // Log the event object
+  setSelectedEvent(event); // Update selectedEvent with the clicked event
+  setShowDetails(true); // Show the event details
+  handleMapViewport({
+    latitude: parseFloat(lat),
+    longitude: parseFloat(lon),
+    zoom: 10,
+    pitch: 60,
+    bearing: 30,
+    speed: 1.2,
+  });
+};
   
   
   
@@ -158,40 +110,40 @@ const ToggleSwitch = ({ isOn, handleToggle, label }) => (
         }}
         onLoad={handleLoad}
       >
-        {showFire && <FireMarkersComponent mapRef={mapRef} onMarkerClick={(lat, lon, event) => handleMarkerClick(lat, lon, event)} />}
-{showEarthquake && <EarthquakeMarkersComponent mapRef={mapRef} onMarkerClick={(lat, lon, event) => handleMarkerClick(lat, lon, event)} />}
-{showURT && <FireMap showURT={showURT} setShowURT={setShowURT} />}
+        {showFire &&  <FireMarkersComponent mapRef={mapRef} onMarkerClick={(lat, lon, event) => handleMarkerClick(lat, lon, event)} />}
+        {showEarthquake && <EarthquakeMarkersComponent mapRef={mapRef} onMarkerClick={(lat, lon, event) => handleMarkerClick(lat, lon, event)} />}
+        {showURT && <FireMap showURT={showURT} setShowURT={setShowURT} />}
         {showNRT && <FireMap showNRT={showNRT} setShowNRT={setShowNRT} />}
-        // Inside your NextPage component's return statement:
-<FireMap 
-  showURT={showURT}
-  setShowURT={setShowURT}
-  showNRT={showNRT}
-  setShowNRT={setShowNRT}
-  mapRef={mapRef} // Pass the mapRef down to the FireMap component
-/>
+    
+        <FireMap 
+        showURT={showURT}
+        setShowURT={setShowURT}
+        showNRT={showNRT}
+        setShowNRT={setShowNRT}
+        mapRef={mapRef} // Pass the mapRef down to the FireMap component
+        />
 
 
 
 
 
- {/* FIRMS Filters */}
- <div style={{ position: 'absolute', top: 0, right: 0, margin: '20px', zIndex: 1 }}>
- <div style={{ position: 'relative', height: '100vh' }}>
-            <div id="map" style={{ width: '100%', height: '100%' }} />
-            <div style={{ position: 'absolute', top: 0, right: 0, margin: '20px', zIndex: 1 }}>
-  <ToggleSwitch
-    isOn={showURT}
-    handleToggle={() => setShowURT(!showURT)}
-    label="URT"
-  />
-  <ToggleSwitch
-    isOn={showNRT}
-    handleToggle={() => setShowNRT(!showNRT)}
-    label="NRT"
-  />
-</div>
-        </div>
+ 
+        <div style={{ position: 'absolute', top: 30, right: 50, margin: '20px', zIndex: 1 }}>
+            <div style={{ position: 'relative', height: '100vh' }}>
+                <div id="map" style={{ width: '100%', height: '100%' }} />
+                    <div style={{ position: 'absolute', top: 0, right: 0, margin: '20px', zIndex: 1 }}>
+                        <ToggleSwitch
+                          isOn={showURT}
+                          handleToggle={() => setShowURT(!showURT)}
+                          label="URT"
+                        />
+                        <ToggleSwitch
+                          isOn={showNRT}
+                          handleToggle={() => setShowNRT(!showNRT)}
+                          label="NRT"
+                        />
+                    </div>
+              </div>
         </div>
 
 
@@ -203,6 +155,7 @@ const ToggleSwitch = ({ isOn, handleToggle, label }) => (
         />
         <div id="geocoder" className="custom-geocoder" style={{ position: 'absolute', zIndex: 100000, top: 10, right: 30 }}>
         </div>
+        
         <div style={{ position: 'absolute', top: 10, left: 0, zIndex: 1 }} className="overlay-container">
           <TabsDemo selectedEvent={selectedEvent} handleMapViewport={handleMapViewport} handleMarkerClick={handleMarkerClick} />
         </div>
@@ -219,6 +172,7 @@ const ToggleSwitch = ({ isOn, handleToggle, label }) => (
             positionOptions={{ enableHighAccuracy: true }}
             trackUserLocation={true}
           />
+        
         </div>
       
       </ReactMapGL>
