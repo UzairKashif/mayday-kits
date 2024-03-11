@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Marker } from 'react-map-gl';
-import { db } from '../firebaseConfig';
+import { db } from '../../firebaseConfig';
 import { TailSpin } from 'react-loader-spinner';
 
 const EarthquakeMarkersComponent = ({ mapRef, onMarkerClick ,event}) => {

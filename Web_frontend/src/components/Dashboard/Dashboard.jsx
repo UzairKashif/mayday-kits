@@ -11,10 +11,10 @@ import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Dropdown from '../dropdown_menu/dropdown';
 import TabsDemo from '../Tabs/Tabs';
-import FireMarkersComponent from '../FireMarkersComponent';
-import EarthquakeMarkersComponent from '../EarthquakeMarkersComponent';
-import { useMarkerClickHandler } from '../useMarkerClickHandler'; // Ensure this path is correct
-import FireMap from '../Tabs/firms'; // Update the import path as necessary
+import FireMarkersComponent from '../MarkersComponents/FireMarkersComponent';
+import EarthquakeMarkersComponent from '../MarkersComponents/EarthquakeMarkersComponent';
+import { useMarkerClickHandler} from '../Hooks/useMarkerClickHandler'; // Ensure this path is correct
+import FireMap from '../Firms/firms'; // Update the import path as necessary
 
 function NextPage() {
   const [viewport, setViewport] = useState({

@@ -3,7 +3,7 @@ import ReactMapGL, { Source, Layer } from 'react-map-gl';
 import { db } from '../../firebaseConfig'; // Adjust this path to your Firebase configuration
 import { collection, getDocs } from 'firebase/firestore';
 import * as turf from '@turf/turf';
-import "../NextPage/NextPage.css"; // Ensure these paths are correct
+import "../Dashboard/NextPage.css"; // Ensure these paths are correct
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import mapboxgl from 'mapbox-gl';
