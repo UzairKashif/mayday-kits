@@ -196,64 +196,7 @@ const TabsDemo = ({ handleMapViewport, showFire, showEarthquake, selectedEvent,s
                                   )}
 
                                     
-                                    {selectedEvent.type === 'fire' && (
-                                        <>
-                                              {/* Fire event details */}
-                                              
-                                              <div className="detail-box">
-                                                <h4>Event ID</h4>
-                                                <p>{selectedEvent.event_id}</p>
-                                              </div>
-                                              <div className="detail-box">
-                                                <h4>Latitude</h4>
-                                                <p>{selectedEvent.lat}</p>
-                                              </div>
-                                              <div className="detail-box">
-                                                <h4>Longitude</h4>
-                                                <p>{selectedEvent.lon}</p>
-                                              </div>
-                                              <div className="detail-box">
-                                                <h4>Height</h4>
-                                                <p>{selectedEvent.height}</p>
-                                              </div>
-                                              <div className="detail-box">
-                                                <h4>Status</h4>
-                                                <p>{selectedEvent.status}</p>
-                                              </div>
-                                              <div className="detail-box">
-                                                <h4>Update Flag</h4>
-                                                <p>{selectedEvent.update_flag}</p>
-                                              </div>
-                                              <div className="detail-box">
-                                                <h4>Event Start Since</h4>
-                                                <p>{selectedEvent.event_start_since}</p>
-                                              </div>
-                                              <div className="detail-box">
-                                                <h4>Event Last Seen</h4>
-                                                <p>{selectedEvent.event_last_seen}</p>
-                                              </div>
-
-                                              <div>
-                                              <h3>Cameras & Videos</h3>
-                                              <div>
-                                                <h4>VIS Video</h4>
-                                                <video width="100%" controls>
-                                                  <source src={visUrl} type="video/mp4" />
-                                                  Your browser does not support the video tag.
-                                                </video>
-                                              </div>
-                                              <div>
-                                                <h4>IR Video</h4>
-                                                <video width="100%" controls>
-                                                  <source src={irUrl} type="video/mp4" />
-                                                  Your browser does not support the video tag.
-                                                </video>
-                                              </div>
-                                            </div>
-
-                                        </>
-                                        )}
-
+                                    
 
 
                                     {selectedEvent.type === 'earthquake' && (
@@ -291,24 +234,32 @@ const TabsDemo = ({ handleMapViewport, showFire, showEarthquake, selectedEvent,s
                             </div>
                           </div>
                         </div>
-                      ):(
-                        <div className="events-container">
+                      ): (
+                        <div className="no-event-selected">
+                          {visibleEvents.length > 0 ? (
+                            <div className="events-container">
                               {visibleEvents.map((event) => (
-                                  <div key={event.id} className="event-card" onClick={() => handleEventSelect(event)}>
-                                        {event.type === 'earthquake' ? <FaExclamationTriangle className="iconearth" /> : <FaFire className="icon" />}
-                                            <div className="event-info">
-                                                <h2 style={{color:'white',}}>{event.type === 'earthquake' ? 'Earthquake' : 'Fire'}</h2>
-                                                <div>  {event.type === 'earthquake' ? event.properties.place : event.name}</div>
-                                                <div>{event.type === 'earthquake' ? `` : `Event ID: ${event.event_id}`}</div>
-                                                <div>{event.type === 'earthquake' ? `` : `Status: ${event.status}`}</div>
-                                                <div>{event.type === 'earthquake' ? `Time: ${new Date(event.date).toLocaleString()}` : `Start Date: ${new Date(event.date).toLocaleString()}`}</div>
-                                            </div>
-                                    </div>
-                                    ))}
+                                <div key={event.id} className="event-card" onClick={() => handleEventSelect(event)}>
+                                  {event.type === 'earthquake' ? <FaExclamationTriangle className="iconearth" /> : <FaFire className="icon" />}
+                                  <div className="event-info">
+                                    <h2 style={{ color: 'white' }}>{event.type === 'earthquake' ? 'Earthquake' : 'Fire'}</h2>
+                                    <div>{event.type === 'earthquake' ? event.properties.place : event.name}</div>
+                                    <div>{event.type === 'earthquake' ? `` : `Event ID: ${event.event_id}`}</div>
+                                    <div>{event.type === 'earthquake' ? `` : `Status: ${event.status}`}</div>
+                                    <div>{event.type === 'earthquake' ? `Time: ${new Date(event.date).toLocaleString()}` : `Start Date: ${new Date(event.date).toLocaleString()}`}</div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="events-placeholder">
+                              {/* Display this message when no events are selected */}
+                              <p>No event selected. Please select an event to view details.</p>
+                            </div>
+                          )}
                         </div>
-                    
                       )}
-          </Tabs.Content>
+                    </Tabs.Content>
 
           
                 
