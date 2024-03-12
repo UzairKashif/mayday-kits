@@ -33,10 +33,10 @@ const EarthquakeMarkersComponent = ({ mapRef, onMarkerClick ,event}) => {
         {earthquakeData.map((earthquake, index) => 
         (
           <Marker key={index} latitude={parseFloat(earthquake.geometry.coordinates[1])} longitude={parseFloat(earthquake.geometry.coordinates[0])}>
-              <div onClick={() => onMarkerClick(earthquake.geometry.coordinates[1], earthquake.geometry.coordinates[0], earthquake)} style={{ cursor: 'pointer' }}>
-                ⚠️
-              </div>
-          </Marker>
+          <div onClick={() => onMarkerClick(earthquake.geometry.coordinates[1], earthquake.geometry.coordinates[0], { ...earthquake, type: 'earthquake' })} style={{ cursor: 'pointer' }}>
+            ⚠️
+          </div>
+        </Marker>
         )
         )}
 
