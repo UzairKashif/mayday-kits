@@ -14,7 +14,7 @@ body {
 button,
 fieldset,
 input {
-  all: unset;
+ 
 }
 .TabsRoot {
   display: flex;
@@ -407,9 +407,9 @@ input {
   flex-direction: column;
   position: absolute;
   top: 100%;
-  left: 0;
+  left: 20%;
   background-color: #f9f9f9;
-  min-width: 160px;
+  min-width: 260px;
   max-height: 200px; /* Set a maximum height */
   overflow-y: auto; /* Enable vertical scrolling */
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
@@ -426,9 +426,10 @@ input {
 
 .filter-option input[type="checkbox"] {
   margin-right: 10px;
+  visibility: visible;
 }
 
-/* Optional: Hide the dropdown menu when clicking outside */
-body:not(.filter-dropdown):not(.filter-dropdown *) {
-  onclick: "setIsDropdownVisible(false)";
+input[type="checkbox"] {
+  visibility: visible;
+  display: inline-block; /* or block */
 }

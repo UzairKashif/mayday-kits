@@ -150,7 +150,7 @@ body, html, #root {
 .toggle-checkbox {
   height: 0;
   width: 0;
-  visibility: hidden;
+
 }
 
 .toggle-label {

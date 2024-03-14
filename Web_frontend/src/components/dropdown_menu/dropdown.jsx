@@ -133,7 +133,8 @@ const NavigationMenuDemo = ({ showFire, setShowFire, showEarthquake,showWeather,
                   <HoverCard.Portal>
         <HoverCard.Content   style={{zIndex:'1000',}}>
           {/* Place filter dropdown UI here */}
-          <div className="filter-container">
+          // In Dropdown component
+<div className="filter-container">
   {validEvents.map((eventType) => (
     <div key={eventType} className="filter-option">
       <label>
@@ -148,6 +149,7 @@ const NavigationMenuDemo = ({ showFire, setShowFire, showEarthquake,showWeather,
     </div>
   ))}
 </div>
+
 
         </HoverCard.Content>
       </HoverCard.Portal>

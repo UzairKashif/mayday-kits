@@ -71,23 +71,7 @@ const handleWeatherMarkerClick = (event) => {
           date: new Date(doc.data().properties.time).getTime(),
         }));
 
-        const validEvents = [
-          "earthquake", "environment-pollution", "explosion", "fire", "flood", "hazmat", "landslide",
-          "nuclear", "snow", "technological-disaster", "tsunami", "volcano", "wildfire", "hurricane",
-          "tornado", "drought", "avalanche", "Air Quality Alert", "Ashfall Warning", "Beach Hazards Statement",
-          "Coastal Flood Warning", "Dense Fog Advisory", "Dense Smoke Advisory", "Earthquake Warning",
-          "Evacuation - Immediate", "Excessive Heat Warning", "Extreme Cold Warning", "Extreme Fire Danger",
-          "Extreme Wind Warning", "Fire Warning", "Fire Weather Watch", "Flash Flood Warning", "Flood Warning",
-          "Freeze Warning", "Freezing Fog Advisory", "Freezing Rain Advisory", "Freezing Spray Advisory",
-          "Frost Advisory", "Gale Warning", "Hard Freeze Warning", "Hazardous Materials Warning",
-          "Hazardous Seas Warning", "Hazardous Weather Outlook", "Heat Advisory", "High Surf Warning",
-          "High Wind Warning", "Hurricane Force Wind Warning", "Hurricane Local Statement", "Ice Storm Warning",
-          "Lakeshore Flood Warning", "Nuclear Power Plant Warning", "Radiological Hazard Warning", "Red Flag Warning",
-          "Rip Current Statement", "Severe Thunderstorm Warning", "Severe Weather Statement", "Shelter In Place Warning",
-          "Storm Surge Warning", "Storm Warning", "Tornado Warning", "Tsunami Warning", "Typhoon Warning",
-          "Urban And Small Stream Flood Advisory", "Volcano Warning", "Wind Advisory", "Wind Chill Warning",
-          "Winter Storm Warning", "Winter Weather Advisory"
-        ];
+       
         const weatherEvents = weatherSnapshot.docs.map(doc => {
           const eventData = doc.data();
           return {
@@ -183,8 +167,16 @@ const handleWeatherMarkerClick = (event) => {
         
         const handleWeatherFilterChange = (event) => {
           const { name, checked } = event.target;
-          setWeatherEventFilters((prevFilters) => ({ ...prevFilters, [name]: checked }));
+          setWeatherEventFilters(prevFilters => {
+            const updatedFilters = { ...prevFilters, [name]: checked };
+            console.log('Updated Filters:', updatedFilters);
+            return updatedFilters;
+          });
         };
+        useEffect(() => {
+          console.log('Current Weather Event Filters:', weatherEventFilters);
+        }, [weatherEventFilters]); // Add weatherEventFilters to dependency array to log whenever it changes
+                
         
 
   // Filtered events based on selected weather event types
@@ -213,25 +205,30 @@ if (showWeather && isFilterApplied) {
       </button>
 
       <div className="filter-dropdown">
-  <button onClick={() => setIsDropdownVisible(!isDropdownVisible)} className="filter-dropdown-button">
+              <button onClick={() => setIsDropdownVisible(!isDropdownVisible)} className="filter-dropdown-button">
     Filter Events
   </button>
   {isDropdownVisible && (
     <div className="filter-container">
-      {validEvents.map((eventType) => (
-        <label key={eventType} className="filter-option">
-          <input
-            type="checkbox"
-            name={eventType}
-            checked={weatherEventFilters[eventType]}
-            onChange={handleWeatherFilterChange}
-          />
-          {eventType}
-        </label>
-      ))}
-    </div>
+  {validEvents.map((eventType) => (
+    <label key={eventType} className="filter-option">
+    <input
+  type="checkbox"
+  id={`checkbox-${eventType}`}
+  name={eventType}
+  checked={!!weatherEventFilters[eventType]}
+  onChange={handleWeatherFilterChange}
+/>
+
+      {eventType}
+    </label>
+  ))}
+</div>
+
   )}
 </div>
+
+
       
       <div className={`TabsContainer ${isSidebarOpen ? 'open' : 'closed'}`}>
 

@@ -73,6 +73,23 @@ const [selectedEvent, setSelectedEvent] = useState(null);
 const [showDetails, setShowDetails] = useState(false);
 const [showWeather, setShowWeather] = useState(true); // State to control weather event visibility
 const [selectedEventGeometry, setSelectedEventGeometry] = useState([]);
+const validEvents = [
+    "earthquake", "environment-pollution", "explosion", "fire", "flood", "hazmat", "landslide",
+    "nuclear", "snow", "technological-disaster", "tsunami", "volcano", "wildfire", "hurricane",
+    "tornado", "drought", "avalanche", "Air Quality Alert", "Ashfall Warning", "Beach Hazards Statement",
+    "Coastal Flood Warning", "Dense Fog Advisory", "Dense Smoke Advisory", "Earthquake Warning",
+    "Evacuation - Immediate", "Excessive Heat Warning", "Extreme Cold Warning", "Extreme Fire Danger",
+    "Extreme Wind Warning", "Fire Warning", "Fire Weather Watch", "Flash Flood Warning", "Flood Warning",
+    "Freeze Warning", "Freezing Fog Advisory", "Freezing Rain Advisory", "Freezing Spray Advisory",
+    "Frost Advisory", "Gale Warning", "Hard Freeze Warning", "Hazardous Materials Warning",
+    "Hazardous Seas Warning", "Hazardous Weather Outlook", "Heat Advisory", "High Surf Warning",
+    "High Wind Warning", "Hurricane Force Wind Warning", "Hurricane Local Statement", "Ice Storm Warning",
+    "Lakeshore Flood Warning", "Nuclear Power Plant Warning", "Radiological Hazard Warning", "Red Flag Warning",
+    "Rip Current Statement", "Severe Thunderstorm Warning", "Severe Weather Statement", "Shelter In Place Warning",
+    "Storm Surge Warning", "Storm Warning", "Tornado Warning", "Tsunami Warning", "Typhoon Warning",
+    "Urban And Small Stream Flood Advisory", "Volcano Warning", "Wind Advisory", "Wind Chill Warning",
+    "Winter Storm Warning", "Winter Weather Advisory"
+  ];
 
 
 const handleLoad = () => {
@@ -114,7 +131,11 @@ const handleMarkerClick = (lat, lon, event) => {
 const handleWeatherPolygonSelect = (polygonData) => {
   setSelectedWeatherPolygon(polygonData); // Set the polygon data state
 };
-const [weatherEventFilters, setWeatherEventFilters] = useState({/* initial state */});
+// In NextPage component, initialize weatherEventFilters state
+const [weatherEventFilters, setWeatherEventFilters] = useState(() => {
+  const initialFilters = validEvents.reduce((acc, curr) => ({ ...acc, [curr]: true }), {});
+  return initialFilters;
+});
 
 // Handler for changing the filters
 const handleWeatherFilterChange = (event) => {
@@ -180,6 +201,7 @@ const handleWeatherFilterChange = (event) => {
           showWeather={showWeather}
   setShowWeather={setShowWeather}
   weatherEventFilters={weatherEventFilters}
+ 
   onWeatherFilterChange={handleWeatherFilterChange}
         />
         <div id="geocoder" className="custom-geocoder" style={{ position: 'absolute', zIndex: 100000, top: 10, right: 30 }}>
@@ -192,6 +214,8 @@ const handleWeatherFilterChange = (event) => {
           showWeather={showWeather}
           onWeatherMarkerClick={handleWeatherPolygonSelect}
           weatherEventFilters={weatherEventFilters}
+         
+  onWeatherFilterChange={handleWeatherFilterChange}
           />
         </div>
 
