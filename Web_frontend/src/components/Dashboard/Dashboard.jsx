@@ -58,6 +58,7 @@ const mapRef = useRef();
 
 const [showFire, setShowFire] = useState(false);
 const [showEarthquake, setShowEarthquake] = useState(false);
+const [showWeather, setShowWeather] = useState(false);
 const [selectedEvent, setSelectedEvent] = useState(null);
 const [showDetails, setShowDetails] = useState(false);
 const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -168,6 +169,8 @@ const handleMarkerClick = async (lat, lon, event) => {
           setShowFire={setShowFire} 
           showEarthquake={showEarthquake} 
           setShowEarthquake={setShowEarthquake}
+          showWeather={showWeather}
+          setShowWeather={setShowWeather}
         />
         <div id="geocoder" className="custom-geocoder" style={{ position: 'absolute', zIndex: 100000, top: 10, right: 30 }}>
         </div>
@@ -184,6 +187,7 @@ const handleMarkerClick = async (lat, lon, event) => {
           setIsSidebarOpen={setIsSidebarOpen}
           showFire={showFire} 
           showEarthquake={showEarthquake} 
+          showWeather={showWeather}
           />
         </div>
 
