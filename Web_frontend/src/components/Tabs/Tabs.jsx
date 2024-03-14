@@ -2,63 +2,83 @@ import React, { useEffect, useState } from 'react';
 import * as Tabs from '@radix-ui/react-tabs';
 import { FiInfo, FiCamera, FiChevronRight } from 'react-icons/fi';
 import { FaExclamationTriangle, FaFire } from 'react-icons/fa';
+import { FaCloud } from 'react-icons/fa';
 import './styles.css';
 import { db } from '../../firebaseConfig'; // Ensure this path is correctly set
 import { TailSpin } from 'react-loader-spinner';
+import { collection, getDocs } from 'firebase/firestore';
+
 const TabsDemo = ({ handleMapViewport, showFire, showEarthquake,showWeather, selectedEvent,setSelectedEvent, showDetails, setShowDetails,isSidebarOpen,setIsSidebarOpen }) => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   // const [selectedEvent, setSelectedEvent] = useState(null);
   // const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   // const [showDetails, setShowDetails] = useState(false);
-
+  const validEvents = [
+    "earthquake", "environment-pollution", "explosion", "fire", "flood", "hazmat", "landslide",
+    "nuclear", "snow", "technological-disaster", "tsunami", "volcano", "wildfire", "hurricane",
+    "tornado", "drought", "avalanche", "Air Quality Alert", "Ashfall Warning", "Beach Hazards Statement",
+    "Coastal Flood Warning", "Dense Fog Advisory", "Dense Smoke Advisory", "Earthquake Warning",
+    "Evacuation - Immediate", "Excessive Heat Warning", "Extreme Cold Warning", "Extreme Fire Danger",
+    "Extreme Wind Warning", "Fire Warning", "Fire Weather Watch", "Flash Flood Warning", "Flood Warning",
+    "Freeze Warning", "Freezing Fog Advisory", "Freezing Rain Advisory", "Freezing Spray Advisory",
+    "Frost Advisory", "Gale Warning", "Hard Freeze Warning", "Hazardous Materials Warning",
+    "Hazardous Seas Warning", "Hazardous Weather Outlook", "Heat Advisory", "High Surf Warning",
+    "High Wind Warning", "Hurricane Force Wind Warning", "Hurricane Local Statement", "Ice Storm Warning",
+    "Lakeshore Flood Warning", "Nuclear Power Plant Warning", "Radiological Hazard Warning", "Red Flag Warning",
+    "Rip Current Statement", "Severe Thunderstorm Warning", "Severe Weather Statement", "Shelter In Place Warning",
+    "Storm Surge Warning", "Storm Warning", "Tornado Warning", "Tsunami Warning", "Typhoon Warning",
+    "Urban And Small Stream Flood Advisory", "Volcano Warning", "Wind Advisory", "Wind Chill Warning",
+    "Winter Storm Warning", "Winter Weather Advisory"
+  ];
     useEffect(() => {
       const fetchEvents = async () => {
         setLoading(true);
-      try {
-        // Fetch fire events
-        const fireResponse = await fetch('http://localhost:3000/api/fire-events');
-        const fireEvents = await fireResponse.json();
-        // Normalize fire events data
-        const normalizedFireEvents = fireEvents.map(event => ({
-          ...event,
-          type: 'fire',
-          date: new Date(event.event_start_since).getTime(),
-        }));
-
-      // Fetch earthquake events
-      const querySnapshot = await db.collection("earthquakes").get();
-      // Normalize earthquake events data
-      const earthquakeEvents = querySnapshot.docs.map(doc => ({
-        ...doc.data(),
-        id: doc.id,
-        type: 'earthquake',
-        date: new Date(doc.data().properties.time).getTime(),
-      }));
-
-      const weatherEvents = weatherSnapshot.docs.map(doc => {
-        const eventData = doc.data();
-        return {
-          ...eventData,
-          id: doc.id,
-          type: 'weather',
-          date: eventData.date ? new Date(eventData.date).getTime() : null
-        };
-      }).filter(event => validEvents.includes(event.properties.event));
-
-      // Combine all events and sort by date
-      const combinedEvents = [...normalizedFireEvents, ...earthquakeEvents, ...weatherEvents].sort((a, b) => a.date - b.date);
-
-      setEvents(combinedEvents);
-    } catch (error) {
-      console.error("Failed to fetch events:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  fetchEvents();
-}, []);
+        try {
+          // Combine all fetch operations into a single async function
+          const fireEventsPromise = fetch('http://localhost:3000/api/fire-events').then(res => res.json());
+          const earthquakeEventsPromise = getDocs(collection(db, "earthquakes"));
+          const weatherEventsPromise = getDocs(collection(db, "weatherAlerts"));
+  
+          const [fireEvents, earthquakeSnapshot, weatherSnapshot] = await Promise.all([fireEventsPromise, earthquakeEventsPromise, weatherEventsPromise]);
+  
+          const normalizedFireEvents = fireEvents.map(event => ({
+            ...event,
+            type: 'fire',
+            date: new Date(event.event_start_since).getTime(),
+          }));
+  
+          const earthquakeEvents = earthquakeSnapshot.docs.map(doc => ({
+            ...doc.data(),
+            id: doc.id,
+            type: 'earthquake',
+            date: new Date(doc.data().properties.time).getTime(),
+          }));
+  
+         
+          const weatherEvents = weatherSnapshot.docs.map(doc => {
+            const eventData = doc.data();
+            return {
+              ...eventData,
+              id: doc.id,
+              type: 'weather',
+              date: eventData.date ? new Date(eventData.date).getTime() : null
+            };
+          }).filter(event => validEvents.includes(event.properties.event));
+  
+          // Combine all events and sort by date
+          const combinedEvents = [...normalizedFireEvents, ...earthquakeEvents, ...weatherEvents].sort((a, b) => a.date - b.date);
+  
+          setEvents(combinedEvents);
+        } catch (error) {
+          console.error("Failed to fetch events:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      fetchEvents();
+    }, []);
 
  
     useEffect(() => {
@@ -135,6 +155,17 @@ const TabsDemo = ({ handleMapViewport, showFire, showEarthquake,showWeather, sel
 
 
           <Tabs.Content value="tab1" className="TabsContent">
+          {
+        loading && (
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+            <TailSpin
+              color="#FF977D"
+              height={40}
+              width={40}
+            />
+          </div>
+        )}
+
 
                     {showDetails && selectedEvent ?(
                       
@@ -212,40 +243,40 @@ const TabsDemo = ({ handleMapViewport, showFire, showEarthquake,showWeather, sel
                                     </>
                                   )}
 
-{selectedEvent.type === 'weather' && (
-  <>
-    <div className="detail-box">
-      <h4>Event</h4>
-      <p>{selectedEvent.properties.event}</p>
-    </div>
-    <div className="detail-box">
-      <h4>Severity</h4>
-      <p>{selectedEvent.properties.severity}</p>
-    </div>
-    <div className="detail-box">
-      <h4>Area</h4>
-      <p>{selectedEvent.properties.areaDesc}</p>
-    </div>
-    <div className="detail-box">
-      <h4>Effective</h4>
-      <p>{new Date(selectedEvent.properties.effective).toLocaleString()}</p>
-    </div>
-    <div className="detail-box">
-      <h4>Expires</h4>
-      <p>{selectedEvent.properties.expires ? new Date(selectedEvent.properties.expires).toLocaleString() : "N/A"}</p>
-    </div>
-    <div className="detail-box">
-      <h4>Description</h4>
-      <p>{selectedEvent.properties.description}</p>
-    </div>
-    <div className="detail-box">
-      <h4>Instruction</h4>
-      <p>{selectedEvent.properties.instruction || "No specific instructions provided."}</p>
-    </div>
-    </>
-                                          )}
-                        
-                                    
+                                {selectedEvent.type === 'weather' && (
+                                  <>
+                                    <div className="detail-box">
+                                      <h4>Event</h4>
+                                      <p>{selectedEvent.properties.event}</p>
+                                    </div>
+                                    <div className="detail-box">
+                                      <h4>Severity</h4>
+                                      <p>{selectedEvent.properties.severity}</p>
+                                    </div>
+                                    <div className="detail-box">
+                                      <h4>Area</h4>
+                                      <p>{selectedEvent.properties.areaDesc}</p>
+                                    </div>
+                                    <div className="detail-box">
+                                      <h4>Effective</h4>
+                                      <p>{new Date(selectedEvent.properties.effective).toLocaleString()}</p>
+                                    </div>
+                                    <div className="detail-box">
+                                      <h4>Expires</h4>
+                                      <p>{selectedEvent.properties.expires ? new Date(selectedEvent.properties.expires).toLocaleString() : "N/A"}</p>
+                                    </div>
+                                    <div className="detail-box">
+                                      <h4>Description</h4>
+                                      <p>{selectedEvent.properties.description}</p>
+                                    </div>
+                                    <div className="detail-box">
+                                      <h4>Instruction</h4>
+                                      <p>{selectedEvent.properties.instruction || "No specific instructions provided."}</p>
+                                    </div>
+                                    </>
+                                                                          )}
+                                                        
+                                                                    
 
 
                                     {selectedEvent.type === 'earthquake' && (
@@ -293,7 +324,8 @@ const TabsDemo = ({ handleMapViewport, showFire, showEarthquake,showWeather, sel
                                 {event.type === 'fire' && <FaFire className="icon" />}
                                 {event.type === 'weather' && <FaCloud className="iconweather" />} {/* Display an icon for weather events */}
                                 <div className="event-info">
-                                  <h2 style={{ color: 'white' }}>{event.type.charAt(0).toUpperCase() + event.type.slice(1)}</h2>
+                                  <h2 style={{ color: 'white' }}>{event.type.charAt(0).toUpperCase() + event.type.slice(1)} 
+                                  <p style={{ marginLeft:'120px', right:'0', color:'white',   fontSize:'8px',}}>click to see details</p></h2>
                                   {event.type === 'earthquake' ? (
                                     <>
                                       <div>Location: {event.properties.place}</div>
@@ -310,23 +342,26 @@ const TabsDemo = ({ handleMapViewport, showFire, showEarthquake,showWeather, sel
                                     <>
                                       {/* Display additional info specific to weather events */}
                                       <div>Event: {event.properties.event}</div>
-                                      <div>Severity: {event.properties.severity}</div>
-                                      <div>Area: {event.properties.areaDesc}</div>
+                                    
                                       <div>Effective: {new Date(event.properties.effective).toLocaleString()}</div>
                                       <div>Expires: {event.properties.expires ? new Date(event.properties.expires).toLocaleString() : "N/A"}</div>
-                                   
+                                      
                                     </>
                                   ) : null}
+                                    
                                 </div>
                               </div>
                             ))}
+                          
                           </div>
                           ) : (
                             <div className="events-placeholder">
                               {/* Display this message when no events are selected */}
-                              <p>No event selected. Please select an event to view details.</p>
+                              <p style={{color:'white',}}>No event selected. Please select an event to view details.</p>
                             </div>
                           )}
+
+
                         </div>
                       )}
                     </Tabs.Content>

@@ -91,6 +91,7 @@ input {
   overflow-y: auto; /* Enable vertical scrolling */
   max-height: calc(100vh - 16vh); /* Set max height to viewport height minus the height of the tab triggers */
   box-sizing: border-box; /* Add this line */
+  max-width: 400px;
 }
 
 /* Rest of your CSS code... */
@@ -196,6 +197,19 @@ input {
 
 .iconearth:hover {
   color: #eeff00; /* Brighter shade of red for the icon */
+  margin-right: 16px;
+  font-size: 1.5rem; /* Larger icon size */
+}
+
+
+.iconweather {
+  color: #ffffff; /* Brighter shade of red for the icon */
+  margin-right: 16px;
+  font-size: 1.5rem; /* Larger icon size */
+}
+
+.iconweather:hover {
+  color: #575757; /* Brighter shade of red for the icon */
   margin-right: 16px;
   font-size: 1.5rem; /* Larger icon size */
 }
