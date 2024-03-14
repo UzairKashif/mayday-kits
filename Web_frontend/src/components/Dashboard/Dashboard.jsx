@@ -94,7 +94,7 @@ const handleMarkerClick = async (lat, lon, event) => {
   handleMapViewport({
     latitude: parseFloat(lat),
     longitude: parseFloat(lon),
-    zoom: 10,
+    zoom: 13,
     pitch: 60,
     bearing: 30,
     speed: 1.2,

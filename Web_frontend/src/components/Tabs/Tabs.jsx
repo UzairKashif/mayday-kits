@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useRef } from 'react';
 import * as Tabs from '@radix-ui/react-tabs';
 import { FiInfo, FiCamera, FiChevronRight } from 'react-icons/fi';
 import { FaExclamationTriangle, FaFire } from 'react-icons/fa';
@@ -7,6 +7,10 @@ import { db } from '../../firebaseConfig'; // Ensure this path is correctly set
 
 const TabsDemo = ({ handleMapViewport, showFire, showEarthquake, selectedEvent,setSelectedEvent, showDetails, setShowDetails,isSidebarOpen,setIsSidebarOpen,setFireEventPixels }) => {
   const [events, setEvents] = useState([]);
+  // Add video references and state
+  const visVideoRef = useRef(null);
+  const irVideoRef = useRef(null);
+  // const [isPlaying, setIsPlaying] = useState(false);
   // const [selectedEvent, setSelectedEvent] = useState(null);
   // const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   // const [showDetails, setShowDetails] = useState(false);
@@ -97,6 +101,70 @@ const TabsDemo = ({ handleMapViewport, showFire, showEarthquake, selectedEvent,s
         const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
         console.log(selectedEvent);
 
+        const syncVideos = () => {
+          if (!visVideoRef.current || !irVideoRef.current) return;
+          
+          const visTime = visVideoRef.current.currentTime;
+          const irTime = irVideoRef.current.currentTime;
+          
+          if (Math.abs(visTime - irTime) > 0.1) {
+            irVideoRef.current.currentTime = visTime;
+            visVideoRef.current.currentTime = visTime;
+          }
+        };
+        
+        // Control playback for both videos
+        const controlVideoPlayback = (play) => {
+          if (!visVideoRef.current || !irVideoRef.current) return;
+        
+          if (play) {
+            visVideoRef.current.play();
+            irVideoRef.current.play();
+          } else {
+            visVideoRef.current.pause();
+            irVideoRef.current.pause();
+          }
+        };
+        
+        // UseEffect to add the event listeners and autoplay videos
+        useEffect(() => {
+          const visVideo = visVideoRef.current;
+          const irVideo = irVideoRef.current;
+        
+          const playBothVideos = () => controlVideoPlayback(true);
+          const pauseBothVideos = () => controlVideoPlayback(false);
+          
+          if (visVideo && irVideo) {
+            visVideo.addEventListener('play', playBothVideos);
+            irVideo.addEventListener('play', playBothVideos);
+            visVideo.addEventListener('pause', pauseBothVideos);
+            irVideo.addEventListener('pause', pauseBothVideos);
+            
+            visVideo.play(); // Attempt to autoplay the videos
+            irVideo.play(); // Attempt to autoplay the videos
+            
+            // Loop the videos manually
+            visVideo.onended = () => {
+              visVideo.play();
+              irVideo.play();
+            };
+            irVideo.onended = () => {
+              visVideo.play();
+              irVideo.play();
+            };
+          }
+        
+          return () => {
+            if (visVideo && irVideo) {
+              visVideo.removeEventListener('play', playBothVideos);
+              irVideo.removeEventListener('play', playBothVideos);
+              visVideo.removeEventListener('pause', pauseBothVideos);
+              irVideo.removeEventListener('pause', pauseBothVideos);
+            }
+          };
+        }, []);
+        
+        
   
   return (
     <>
@@ -179,14 +247,32 @@ const TabsDemo = ({ handleMapViewport, showFire, showEarthquake, selectedEvent,s
                                           <h3>Cameras & Videos</h3>
                                           <div>
                                             <h4>VIS Video</h4>
-                                            <video width="100%" controls>
+                                            <video
+                                              width="100%"
+                                              controls
+                                              loop
+                                              ref={visVideoRef}
+                                              preload="auto"
+                                              onTimeUpdate={syncVideos}
+                                              onPlay={syncVideos}
+                                              onPause={syncVideos}
+                                            >
                                               <source src={visUrl} type="video/mp4" />
                                               Your browser does not support the video tag.
                                             </video>
                                           </div>
                                           <div>
                                             <h4>IR Video</h4>
-                                            <video width="100%" controls>
+                                            <video
+                                              width="100%"
+                                              controls
+                                              loop
+                                              ref={irVideoRef}
+                                              preload="auto"
+                                              onTimeUpdate={syncVideos}
+                                              onPlay={syncVideos}
+                                              onPause={syncVideos}
+                                            >
                                               <source src={irUrl} type="video/mp4" />
                                               Your browser does not support the video tag.
                                             </video>
