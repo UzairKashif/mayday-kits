@@ -4,6 +4,7 @@ import ReactMapGL, {
   FullscreenControl,
   GeolocateControl,
   ScaleControl,
+  Marker,
 } from 'react-map-gl';
 import mapboxgl from 'mapbox-gl'; // Ensure mapboxgl is correctly imported if needed
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
@@ -15,6 +16,8 @@ import FireMarkersComponent from '../MarkersComponents/FireMarkersComponent';
 import EarthquakeMarkersComponent from '../MarkersComponents/EarthquakeMarkersComponent';
 import { useMarkerClickHandler} from '../Hooks/useMarkerClickHandler'; // Ensure this path is correct
 import FireMap from '../Firms/firms'; // Update the import path as necessary
+
+
 
 function NextPage() {
   const [viewport, setViewport] = useState({
@@ -58,6 +61,9 @@ const [showEarthquake, setShowEarthquake] = useState(false);
 const [selectedEvent, setSelectedEvent] = useState(null);
 const [showDetails, setShowDetails] = useState(false);
 const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+const [fireEventPixels, setFireEventPixels] = useState([]);
+
+
 
 const handleLoad = () => {
   const map = mapRef.current.getMap();
@@ -80,7 +86,7 @@ const handleLoad = () => {
 
 
   
-const handleMarkerClick = (lat, lon, event) => {
+const handleMarkerClick = async (lat, lon, event) => {
   // console.log("Clicked marker event:", event); // Log the event object
   setSelectedEvent(event); // Update selectedEvent with the clicked event
   setShowDetails(true); // Show the event details
@@ -93,6 +99,17 @@ const handleMarkerClick = (lat, lon, event) => {
     bearing: 30,
     speed: 1.2,
   });
+  
+  if (event.type === 'fire') {
+    try {
+      const pixelsResponse = await fetch(`http://localhost:3000/api/fire-events/${event.event_id}/pixels`);
+      const pixelsData = await pixelsResponse.json();
+      setFireEventPixels(pixelsData); // Set the state for fire event pixels
+    } catch (error) {
+      console.error('Error fetching fire event pixel data:', error);
+    }
+  }
+
 };
 
 
@@ -113,6 +130,11 @@ const handleMarkerClick = (lat, lon, event) => {
         {showEarthquake && <EarthquakeMarkersComponent mapRef={mapRef} onMarkerClick={(lat, lon, event) => handleMarkerClick(lat, lon, event)} />}
         {showURT && <FireMap showURT={showURT} setShowURT={setShowURT} />}
         {showNRT && <FireMap showNRT={showNRT} setShowNRT={setShowNRT} />}
+        {fireEventPixels.map((pixel, index) => (
+          <Marker key={index} latitude={parseFloat(pixel.lat)} longitude={parseFloat(pixel.lon)}>
+            <div className="fire-event-pixel" />
+          </Marker>
+        ))}
     
         <FireMap 
         showURT={showURT}

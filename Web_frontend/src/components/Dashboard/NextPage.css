@@ -230,3 +230,12 @@ body, html, #root {
   color: #ffffff;
   font-weight: bold;
 }
+
+.fire-event-pixel {
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+  position: 'absolute';
+  transform: translate(-50%, -50%);
+}

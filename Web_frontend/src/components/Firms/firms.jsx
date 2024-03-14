@@ -5,25 +5,33 @@ import { csv } from 'd3-fetch';
 const FireMap = ({ showURT, setShowURT, showNRT, setShowNRT, mapRef }) => {
 
   const addFireData = async () => {
-    const fireData = await csv('https://firms.modaps.eosdis.nasa.gov/api/area/csv/c1c6f1030fea82cb719ada6b8ea41b75/VIIRS_SNPP_NRT/world/1');
-    const urtData = fireData.filter(d => d.version === '2.0URT');
-    const nrtData = fireData.filter(d => d.version === '2.0NRT');
+    try {
+      // Fetch the JSON data
+      const response = await fetch('http://localhost:3000/api/firms-events');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const fireData = await response.json();
 
-    const createGeoJSON = (data) => ({
-      type: 'FeatureCollection',
-      features: data.map(d => ({
-        type: 'Feature',
-        properties: {
-          title: `Fire at ${d.latitude}, ${d.longitude}`,
-          brightness: d.bright_ti4,
-          version: d.version
-        },
-        geometry: {
-          type: 'Point',
-          coordinates: [parseFloat(d.longitude), parseFloat(d.latitude)]
-        }
-      }))
-    });
+      // Process the data (filtering and creating GeoJSON) exactly as before
+      const urtData = fireData.filter(d => d.version === '2.0URT');
+      const nrtData = fireData.filter(d => d.version === '2.0NRT');
+
+      const createGeoJSON = (data) => ({
+        type: 'FeatureCollection',
+        features: data.map(d => ({
+          type: 'Feature',
+          properties: {
+            title: `Fire at ${d.latitude}, ${d.longitude}`,
+            brightness: d.bright_ti4,
+            version: d.version
+          },
+          geometry: {
+            type: 'Point',
+            coordinates: [parseFloat(d.longitude), parseFloat(d.latitude)]
+          }
+        }))
+      });
 
     const map = mapRef.current.getMap();
 
@@ -134,6 +142,9 @@ const FireMap = ({ showURT, setShowURT, showNRT, setShowNRT, mapRef }) => {
         map.removeSource('nrt-data');
       }
     }
+  } catch (error) {
+    console.error("Failed to fetch fire data:", error);
+  }
   };
 
   useEffect(() => {
