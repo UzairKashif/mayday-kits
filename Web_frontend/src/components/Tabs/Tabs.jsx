@@ -5,7 +5,7 @@ import { FaExclamationTriangle, FaFire } from 'react-icons/fa';
 import './styles.css';
 import { db } from '../../firebaseConfig'; // Ensure this path is correctly set
 
-const TabsDemo = ({ handleMapViewport, showFire, showEarthquake, selectedEvent,setSelectedEvent, showDetails, setShowDetails,isSidebarOpen,setIsSidebarOpen }) => {
+const TabsDemo = ({ handleMapViewport, showFire, showEarthquake, selectedEvent,setSelectedEvent, showDetails, setShowDetails,isSidebarOpen,setIsSidebarOpen,setFireEventPixels }) => {
   const [events, setEvents] = useState([]);
   // const [selectedEvent, setSelectedEvent] = useState(null);
   // const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -78,6 +78,7 @@ const TabsDemo = ({ handleMapViewport, showFire, showEarthquake, selectedEvent,s
         const handleBack = () => {
           setShowDetails(false); // Hide details and show list of events
           setSelectedEvent(null);
+          setFireEventPixels([]);
           // Reset map to initial state
           handleMapViewport({
             latitude: -14.2350,

@@ -184,6 +184,7 @@ const handleMarkerClick = async (lat, lon, event) => {
           setIsSidebarOpen={setIsSidebarOpen}
           showFire={showFire} 
           showEarthquake={showEarthquake} 
+          setFireEventPixels={setFireEventPixels}
           />
         </div>
 
