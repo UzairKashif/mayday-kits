@@ -5,10 +5,11 @@ import { CaretDownIcon } from '@radix-ui/react-icons';
 import './stylesdrop.css';
 import fireicon from '../assets/fire.png';
 import '@radix-ui/themes/styles.css';
+import * as HoverCard from '@radix-ui/react-hover-card';
 
 
 
-const NavigationMenuDemo = ({ showFire, setShowFire, showEarthquake, setShowEarthquake }) => {
+const NavigationMenuDemo = ({ showFire, setShowFire, showEarthquake, setShowEarthquake, showWeather,setShowWeather}) => {
 
   const [isPopupVisible, setIsPopupVisible] = useState(false);
 
@@ -85,9 +86,51 @@ const NavigationMenuDemo = ({ showFire, setShowFire, showEarthquake, setShowEart
               <ListItem href="/firms" title="FIRMS fire events">
                 NASA worldwide fire detections
               </ListItem>
-              <ListItem href="/weather" title="Extreme Weather Alerts">
-                NWS alerts for US
+             
+             
+              <HoverCard.Root>
+                  <HoverCard.Trigger asChild>
+                    <li>
+                   
+                      <ListItem href="/weather" title="Extreme Weather Alerts">
               </ListItem>
+                        <li>
+                        <label className="checkbox-container">
+                            <input
+                              type="checkbox"
+                              checked={showWeather}
+                              onChange={(e) => setShowWeather(e.target.checked)}
+                            />
+                            <span className="checkbox-label"></span>
+                        </label>
+                    </li>
+                     
+                    </li>
+                  </HoverCard.Trigger>
+                  <HoverCard.Portal>
+        <HoverCard.Content   style={{zIndex:'1000',}}>
+          {/* Place filter dropdown UI here
+          
+<div className="filter-container">
+  {validEvents.map((eventType) => (
+    <div key={eventType} className="filter-option">
+      <label>
+        <input
+          type="checkbox"
+          name={eventType}
+          checked={weatherEventFilters[eventType]}
+          onChange={onWeatherFilterChange}
+        />
+        {eventType}
+      </label>
+    </div>
+  ))}
+</div>
+ */}
+
+        </HoverCard.Content>
+      </HoverCard.Portal>
+                </HoverCard.Root>
              <ListItem href="#!" title="Satellite View" onClick={togglePopup}>
                   Global Satellite Video
                 </ListItem>
