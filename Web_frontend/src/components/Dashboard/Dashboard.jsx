@@ -53,11 +53,10 @@ const handleMapViewport = ({ latitude, longitude, zoom }) => {
 const mapboxAccessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 const mapRef = useRef();
 
-const [showFire, setShowFire] = useState(false);
-const [showEarthquake, setShowEarthquake] = useState(false);
+const [showFire, setShowFire] = useState(true);
+const [showEarthquake, setShowEarthquake] = useState(true);
 const [selectedEvent, setSelectedEvent] = useState(null);
 const [showDetails, setShowDetails] = useState(false);
-const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
 const handleLoad = () => {
   const map = mapRef.current.getMap();
@@ -81,10 +80,9 @@ const handleLoad = () => {
 
   
 const handleMarkerClick = (lat, lon, event) => {
-  // console.log("Clicked marker event:", event); // Log the event object
+  console.log("Clicked marker event:", event); // Log the event object
   setSelectedEvent(event); // Update selectedEvent with the clicked event
   setShowDetails(true); // Show the event details
-  setIsSidebarOpen(true);
   handleMapViewport({
     latitude: parseFloat(lat),
     longitude: parseFloat(lon),
@@ -94,7 +92,10 @@ const handleMarkerClick = (lat, lon, event) => {
     speed: 1.2,
   });
 };
-
+  
+  
+  
+  
 
   return (
     <>
@@ -121,6 +122,11 @@ const handleMarkerClick = (lat, lon, event) => {
         setShowNRT={setShowNRT}
         mapRef={mapRef} // Pass the mapRef down to the FireMap component
         />
+
+
+
+
+
  
         <div style={{ position: 'absolute', top: 30, right: 50, margin: '20px', zIndex: 1 }}>
             <div style={{ position: 'relative', height: '100vh' }}>
@@ -151,24 +157,13 @@ const handleMarkerClick = (lat, lon, event) => {
         </div>
         
         <div style={{ position: 'absolute', top: 10, left: 0, zIndex: 1 }} className="overlay-container">
-          <TabsDemo 
-          selectedEvent={selectedEvent} 
-          setSelectedEvent={setSelectedEvent}
-          handleMapViewport={handleMapViewport} 
-          handleMarkerClick={handleMarkerClick} 
-          showDetails={showDetails}
-          setShowDetails={setShowDetails}
-          isSidebarOpen = {isSidebarOpen}
-          setIsSidebarOpen={setIsSidebarOpen}
-          showFire={showFire} 
-          showEarthquake={showEarthquake} 
-          />
+          <TabsDemo selectedEvent={selectedEvent} handleMapViewport={handleMapViewport} handleMarkerClick={handleMarkerClick} />
         </div>
 
         <div style={{ position: 'absolute', top: 10, right: 10 }}>
           <NavigationControl />
         </div>
-        <div style={{ position: 'absolute', top: 10, left: 10 }}> 
+        <div style={{ position: 'absolute', top: 10, left: 10 }}>
           <FullscreenControl />
         </div>
 
