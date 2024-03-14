@@ -4,15 +4,18 @@ import { FiInfo, FiCamera, FiChevronRight } from 'react-icons/fi';
 import { FaExclamationTriangle, FaFire } from 'react-icons/fa';
 import './styles.css';
 import { db } from '../../firebaseConfig'; // Ensure this path is correctly set
-
-const TabsDemo = ({ handleMapViewport, showFire, showEarthquake, selectedEvent,setSelectedEvent, showDetails, setShowDetails,isSidebarOpen,setIsSidebarOpen }) => {
+import { TailSpin } from 'react-loader-spinner';
+const TabsDemo = ({ handleMapViewport, showFire, showEarthquake,showWeather, selectedEvent,setSelectedEvent, showDetails, setShowDetails,isSidebarOpen,setIsSidebarOpen }) => {
   const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
   // const [selectedEvent, setSelectedEvent] = useState(null);
   // const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   // const [showDetails, setShowDetails] = useState(false);
 
     useEffect(() => {
       const fetchEvents = async () => {
+        setLoading(true);
+      try {
         // Fetch fire events
         const fireResponse = await fetch('http://localhost:3000/api/fire-events');
         const fireEvents = await fireResponse.json();
@@ -33,16 +36,30 @@ const TabsDemo = ({ handleMapViewport, showFire, showEarthquake, selectedEvent,s
         date: new Date(doc.data().properties.time).getTime(),
       }));
 
-      // Combine and sort events by date
-      const combinedEvents = [...normalizedFireEvents, ...earthquakeEvents];
-      combinedEvents.sort((a, b) => a.date - b.date);
+      const weatherEvents = weatherSnapshot.docs.map(doc => {
+        const eventData = doc.data();
+        return {
+          ...eventData,
+          id: doc.id,
+          type: 'weather',
+          date: eventData.date ? new Date(eventData.date).getTime() : null
+        };
+      }).filter(event => validEvents.includes(event.properties.event));
+
+      // Combine all events and sort by date
+      const combinedEvents = [...normalizedFireEvents, ...earthquakeEvents, ...weatherEvents].sort((a, b) => a.date - b.date);
 
       setEvents(combinedEvents);
-      };
+    } catch (error) {
+      console.error("Failed to fetch events:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-      fetchEvents();
-    
-    },[]);
+  fetchEvents();
+}, []);
+
  
     useEffect(() => {
       if (selectedEvent) {
@@ -52,12 +69,12 @@ const TabsDemo = ({ handleMapViewport, showFire, showEarthquake, selectedEvent,s
     }, [selectedEvent]);
     
 
-
-      const visibleEvents = events.filter(event => {
-        if (event.type === 'fire' && showFire) return true;
-        if (event.type === 'earthquake' && showEarthquake) return true;
-        return false; // Exclude events that don't match visibility conditions
-      });
+    const visibleEvents = events.filter(event => {
+      if (event.type === 'fire' && showFire) return true;
+      if (event.type === 'earthquake' && showEarthquake) return true;
+      if (event.type === 'weather' && showWeather) return true;
+      return false;
+    });
 
       const handleEventSelect = (event) => {
       setSelectedEvent(event);
@@ -195,7 +212,39 @@ const TabsDemo = ({ handleMapViewport, showFire, showEarthquake, selectedEvent,s
                                     </>
                                   )}
 
-                                    
+{selectedEvent.type === 'weather' && (
+  <>
+    <div className="detail-box">
+      <h4>Event</h4>
+      <p>{selectedEvent.properties.event}</p>
+    </div>
+    <div className="detail-box">
+      <h4>Severity</h4>
+      <p>{selectedEvent.properties.severity}</p>
+    </div>
+    <div className="detail-box">
+      <h4>Area</h4>
+      <p>{selectedEvent.properties.areaDesc}</p>
+    </div>
+    <div className="detail-box">
+      <h4>Effective</h4>
+      <p>{new Date(selectedEvent.properties.effective).toLocaleString()}</p>
+    </div>
+    <div className="detail-box">
+      <h4>Expires</h4>
+      <p>{selectedEvent.properties.expires ? new Date(selectedEvent.properties.expires).toLocaleString() : "N/A"}</p>
+    </div>
+    <div className="detail-box">
+      <h4>Description</h4>
+      <p>{selectedEvent.properties.description}</p>
+    </div>
+    <div className="detail-box">
+      <h4>Instruction</h4>
+      <p>{selectedEvent.properties.instruction || "No specific instructions provided."}</p>
+    </div>
+    </>
+                                          )}
+                        
                                     
 
 
@@ -236,21 +285,42 @@ const TabsDemo = ({ handleMapViewport, showFire, showEarthquake, selectedEvent,s
                         </div>
                       ): (
                         <div className="no-event-selected">
-                          {visibleEvents.length > 0 ? (
-                            <div className="events-container">
-                              {visibleEvents.map((event) => (
-                                <div key={event.id} className="event-card" onClick={() => handleEventSelect(event)}>
-                                  {event.type === 'earthquake' ? <FaExclamationTriangle className="iconearth" /> : <FaFire className="icon" />}
-                                  <div className="event-info">
-                                    <h2 style={{ color: 'white' }}>{event.type === 'earthquake' ? 'Earthquake' : 'Fire'}</h2>
-                                    <div>{event.type === 'earthquake' ? event.properties.place : event.name}</div>
-                                    <div>{event.type === 'earthquake' ? `` : `Event ID: ${event.event_id}`}</div>
-                                    <div>{event.type === 'earthquake' ? `` : `Status: ${event.status}`}</div>
-                                    <div>{event.type === 'earthquake' ? `Time: ${new Date(event.date).toLocaleString()}` : `Start Date: ${new Date(event.date).toLocaleString()}`}</div>
-                                  </div>
+                        {visibleEvents.length > 0 ? (
+                          <div className="events-container">
+                            {visibleEvents.map((event) => (
+                              <div key={event.id} className="event-card" onClick={() => handleEventSelect(event)}>
+                                {event.type === 'earthquake' && <FaExclamationTriangle className="iconearth" />}
+                                {event.type === 'fire' && <FaFire className="icon" />}
+                                {event.type === 'weather' && <FaCloud className="iconweather" />} {/* Display an icon for weather events */}
+                                <div className="event-info">
+                                  <h2 style={{ color: 'white' }}>{event.type.charAt(0).toUpperCase() + event.type.slice(1)}</h2>
+                                  {event.type === 'earthquake' ? (
+                                    <>
+                                      <div>Location: {event.properties.place}</div>
+                                      <div>Magnitude: {event.properties.mag}</div>
+                                      <div>Time: {new Date(event.date).toLocaleString()}</div>
+                                    </>
+                                  ) : event.type === 'fire' ? (
+                                    <>
+                                      <div>Event ID: {event.event_id}</div>
+                                      <div>Status: {event.status}</div>
+                                      <div>Start Date: {new Date(event.date).toLocaleString()}</div>
+                                    </>
+                                  ) : event.type === 'weather' ? (
+                                    <>
+                                      {/* Display additional info specific to weather events */}
+                                      <div>Event: {event.properties.event}</div>
+                                      <div>Severity: {event.properties.severity}</div>
+                                      <div>Area: {event.properties.areaDesc}</div>
+                                      <div>Effective: {new Date(event.properties.effective).toLocaleString()}</div>
+                                      <div>Expires: {event.properties.expires ? new Date(event.properties.expires).toLocaleString() : "N/A"}</div>
+                                   
+                                    </>
+                                  ) : null}
                                 </div>
-                              ))}
-                            </div>
+                              </div>
+                            ))}
+                          </div>
                           ) : (
                             <div className="events-placeholder">
                               {/* Display this message when no events are selected */}
