@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
 import classNames from 'classnames';
 import { CaretDownIcon } from '@radix-ui/react-icons';
+import HoverCardDemo from './HoverCard/hovercard';
 import './stylesdrop.css';
+import * as HoverCard from '@radix-ui/react-hover-card';
 import fireicon from '../assets/fire.png';
 import '@radix-ui/themes/styles.css';
 
 
 
-const NavigationMenuDemo = ({ showFire, setShowFire, showEarthquake, setShowEarthquake }) => {
+const NavigationMenuDemo = ({ showFire, setShowFire, showEarthquake,showWeather,setShowWeather, setShowEarthquake,weatherEventFilters, onWeatherFilterChange }) => {
 
   const [isPopupVisible, setIsPopupVisible] = useState(false);
 
@@ -30,7 +32,23 @@ const NavigationMenuDemo = ({ showFire, setShowFire, showEarthquake, setShowEart
     zIndex: 9999,
   };
 
-
+  const validEvents = [
+    "earthquake", "environment-pollution", "explosion", "fire", "flood", "hazmat", "landslide",
+    "nuclear", "snow", "technological-disaster", "tsunami", "volcano", "wildfire", "hurricane",
+    "tornado", "drought", "avalanche", "Air Quality Alert", "Ashfall Warning", "Beach Hazards Statement",
+    "Coastal Flood Warning", "Dense Fog Advisory", "Dense Smoke Advisory", "Earthquake Warning",
+    "Evacuation - Immediate", "Excessive Heat Warning", "Extreme Cold Warning", "Extreme Fire Danger",
+    "Extreme Wind Warning", "Fire Warning", "Fire Weather Watch", "Flash Flood Warning", "Flood Warning",
+    "Freeze Warning", "Freezing Fog Advisory", "Freezing Rain Advisory", "Freezing Spray Advisory",
+    "Frost Advisory", "Gale Warning", "Hard Freeze Warning", "Hazardous Materials Warning",
+    "Hazardous Seas Warning", "Hazardous Weather Outlook", "Heat Advisory", "High Surf Warning",
+    "High Wind Warning", "Hurricane Force Wind Warning", "Hurricane Local Statement", "Ice Storm Warning",
+    "Lakeshore Flood Warning", "Nuclear Power Plant Warning", "Radiological Hazard Warning", "Red Flag Warning",
+    "Rip Current Statement", "Severe Thunderstorm Warning", "Severe Weather Statement", "Shelter In Place Warning",
+    "Storm Surge Warning", "Storm Warning", "Tornado Warning", "Tsunami Warning", "Typhoon Warning",
+    "Urban And Small Stream Flood Advisory", "Volcano Warning", "Wind Advisory", "Wind Chill Warning",
+    "Winter Storm Warning", "Winter Weather Advisory"
+  ];
 
 
   return (
@@ -49,7 +67,7 @@ const NavigationMenuDemo = ({ showFire, setShowFire, showEarthquake, setShowEart
 
 
                 <NavigationMenu.Link asChild>
-                  <a className="Callout" href="">
+                  <a className="Callout" >
                    
                     <img src={fireicon} alt="" className="icon-small" />
                     <div className="CalloutHeading">Mayday Fire Events</div>
@@ -66,7 +84,7 @@ const NavigationMenuDemo = ({ showFire, setShowFire, showEarthquake, setShowEart
                 </NavigationMenu.Link>
               </li>
 
-              <ListItem href="" title="Earthquakes">
+              <ListItem  title="Earthquakes">
                USGS Earthquakes detections
                
           {/* Earthquakes Checkbox */}
@@ -82,12 +100,85 @@ const NavigationMenuDemo = ({ showFire, setShowFire, showEarthquake, setShowEart
             </label>
           </li>
               </ListItem>
-              <ListItem href="/firms" title="FIRMS fire events">
+
+
+
+              
+              <ListItem  title="FIRMS fire events">
                 NASA worldwide fire detections
               </ListItem>
-              <ListItem href="/weather" title="Extreme Weather Alerts">
-                NWS alerts for US
+
+
+
+
+              <HoverCard.Root>
+                  <HoverCard.Trigger asChild>
+                    <li>
+                   
+                      <ListItem href="/weather" title="Extreme Weather Alerts">
               </ListItem>
+                        <li>
+                        <label className="checkbox-container">
+                            <input
+                              type="checkbox"
+                              checked={showWeather}
+                              onChange={(e) => setShowWeather(e.target.checked)}
+                            />
+                            <span className="checkbox-label"></span>
+                        </label>
+                    </li>
+                     
+                    </li>
+                  </HoverCard.Trigger>
+                  <HoverCard.Portal>
+        <HoverCard.Content   style={{zIndex:'1000',}}>
+          {/* Place filter dropdown UI here */}
+          <div className="filter-container">
+  {validEvents.map((eventType) => (
+    <div key={eventType} className="filter-option">
+      <label>
+        <input
+          type="checkbox"
+          name={eventType}
+          checked={weatherEventFilters[eventType]}
+          onChange={onWeatherFilterChange}
+        />
+        {eventType}
+      </label>
+    </div>
+  ))}
+</div>
+
+        </HoverCard.Content>
+      </HoverCard.Portal>
+                </HoverCard.Root>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+             
              <ListItem href="#!" title="Satellite View" onClick={togglePopup}>
                   Global Satellite Video
                 </ListItem>

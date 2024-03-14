@@ -344,6 +344,7 @@ const NextPageWeather = () => {
           zIndex: 2,
           maxHeight: '90vh',
           overflowY: 'auto',
+          color:'white',
         }}
       >
         {
@@ -378,15 +379,15 @@ const NextPageWeather = () => {
       <div style={{ width: '20%', overflowY: 'scroll', backgroundColor: '#1F1513', borderRight: '1px solid #ddd' }}>
     {selectedEventDetails ? (
         // Display the selected event details
-        <div style={{ padding: '10px', borderBottom: '1px solid #ddd' }}>
+        <div style={{ padding: '10px', borderBottom: '1px solid #ddd' ,color:'white',}}>
             <h2>{selectedEventDetails.headline}</h2>
             <p>{selectedEventDetails.description}</p>
-            <button onClick={resetSelection}>Back</button>
+            <button style={{color:'red',}} onClick={resetSelection}>Back</button>
         </div>
     ) : (
       // Filter and display the list of events based on selectedEvents state
       filteredWeatherData.map((event) => (
-        <div key={event.id} onClick={() => handleSelectEvent(event)} style={{ cursor: 'pointer', padding: '10px', borderBottom: '1px solid #ddd', display: 'flex', alignItems: 'center' }}>
+        <div   key={event.id} onClick={() => handleSelectEvent(event)} style={{ cursor: 'pointer', padding: '10px',color:'white', borderBottom: '1px solid #ddd', display: 'flex', alignItems: 'center' }}>
           <img src={getIconForEvent(event.properties.event)} alt="Event icon" style={{ marginRight: '10px' }} width="24" height="24" />
           {event.properties.event} - {event.properties.headline}
         </div>

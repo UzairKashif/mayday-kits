@@ -138,6 +138,7 @@ input {
   border: 1px solid #853A2D;
   padding: 20px;
   border-radius: 8px;
+  max-width: 300px;
 }
 .detail-box h4 {
  
@@ -177,7 +178,7 @@ input {
 
 
 .icon {
-  color: #F56565; /* Brighter shade of red for the icon */
+  color: #ff0000; /* Brighter shade of red for the icon */
   margin-right: 16px;
   font-size: 1.5rem; /* Larger icon size */
 }
@@ -198,6 +199,13 @@ input {
   color: #eeff00; /* Brighter shade of red for the icon */
   margin-right: 16px;
   font-size: 1.5rem; /* Larger icon size */
+}
+
+.iconweather{
+  color: #fbfbfb; /* Brighter shade of red for the icon */
+  margin-right: 16px;
+  font-size: 1.5rem; /* Larger icon size */
+
 }
 .event-card {
   display: flex;
@@ -373,4 +381,54 @@ input {
 /* Rotate the icon when the sidebar is open to indicate the toggle action */
 .SidebarToggle.open .ToggleIcon {
   transform: rotate(180deg); /* Rotate icon for visual feedback */
+}
+
+.filter-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.filter-dropdown-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.filter-dropdown-button:hover, .filter-dropdown-button:focus {
+  background-color: #0056b3;
+}
+
+.filter-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  max-height: 200px; /* Set a maximum height */
+  overflow-y: auto; /* Enable vertical scrolling */
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  z-index: 1;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.filter-option {
+  display: block;
+  margin: 5px 0;
+  cursor: pointer;
+}
+
+.filter-option input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+/* Optional: Hide the dropdown menu when clicking outside */
+body:not(.filter-dropdown):not(.filter-dropdown *) {
+  onclick: "setIsDropdownVisible(false)";
 }

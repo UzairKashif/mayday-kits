@@ -31,7 +31,7 @@ exports.fetchEarthquakeData = functions.pubsub.schedule("every 1 minutes").onRun
     format: "geojson",
     starttime: "2024-01-01",
     endtime: "2024-02-02",
-    minmagnitude: "3",
+    minmagnitude: "5",
   };
 
   try {

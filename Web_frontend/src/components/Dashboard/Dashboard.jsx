@@ -15,6 +15,10 @@ import FireMarkersComponent from '../MarkersComponents/FireMarkersComponent';
 import EarthquakeMarkersComponent from '../MarkersComponents/EarthquakeMarkersComponent';
 import { useMarkerClickHandler} from '../Hooks/useMarkerClickHandler'; // Ensure this path is correct
 import FireMap from '../Firms/firms'; // Update the import path as necessary
+import  { Source, Layer } from 'react-map-gl';
+import * as turf from '@turf/turf';
+
+
 
 function NextPage() {
   const [viewport, setViewport] = useState({
@@ -28,7 +32,17 @@ function NextPage() {
   const [showURT, setShowURT] = useState(false);
   const [showNRT, setShowNRT] = useState(false);
 
+  const [selectedWeatherPolygon, setSelectedWeatherPolygon] = useState(null); // New state for weather polygon
 
+  // Extend handleMarkerClick or create a new one for weather markers
+  const handleWeatherMarkerClick = (polygonData, lat, lon) => {
+    setSelectedWeatherPolygon(polygonData); // Assuming polygonData is GeoJSON
+    handleMapViewport({
+      latitude: lat,
+      longitude: lon,
+      zoom: 10, // or any zoom level you prefer
+    });
+  };
 const ToggleSwitch = ({ isOn, handleToggle, label }) => (
   <div className={`toggle-switch ${isOn ? 'on' : ''}`} onClick={handleToggle}>
     <div className="toggle-slider"></div>
@@ -57,6 +71,9 @@ const [showFire, setShowFire] = useState(true);
 const [showEarthquake, setShowEarthquake] = useState(true);
 const [selectedEvent, setSelectedEvent] = useState(null);
 const [showDetails, setShowDetails] = useState(false);
+const [showWeather, setShowWeather] = useState(true); // State to control weather event visibility
+const [selectedEventGeometry, setSelectedEventGeometry] = useState([]);
+
 
 const handleLoad = () => {
   const map = mapRef.current.getMap();
@@ -94,8 +111,16 @@ const handleMarkerClick = (lat, lon, event) => {
 };
   
   
-  
-  
+const handleWeatherPolygonSelect = (polygonData) => {
+  setSelectedWeatherPolygon(polygonData); // Set the polygon data state
+};
+const [weatherEventFilters, setWeatherEventFilters] = useState({/* initial state */});
+
+// Handler for changing the filters
+const handleWeatherFilterChange = (event) => {
+  const { name, checked } = event.target;
+  setWeatherEventFilters(prevFilters => ({ ...prevFilters, [name]: checked }));
+};
 
   return (
     <>
@@ -152,12 +177,22 @@ const handleMarkerClick = (lat, lon, event) => {
           setShowFire={setShowFire} 
           showEarthquake={showEarthquake} 
           setShowEarthquake={setShowEarthquake}
+          showWeather={showWeather}
+  setShowWeather={setShowWeather}
+  weatherEventFilters={weatherEventFilters}
+  onWeatherFilterChange={handleWeatherFilterChange}
         />
         <div id="geocoder" className="custom-geocoder" style={{ position: 'absolute', zIndex: 100000, top: 10, right: 30 }}>
         </div>
         
         <div style={{ position: 'absolute', top: 10, left: 0, zIndex: 1 }} className="overlay-container">
-          <TabsDemo selectedEvent={selectedEvent} handleMapViewport={handleMapViewport} handleMarkerClick={handleMarkerClick} />
+          <TabsDemo selectedEvent={selectedEvent} handleMapViewport={handleMapViewport} handleMarkerClick={handleMarkerClick} 
+          showFire={showFire} 
+          showEarthquake={showEarthquake}
+          showWeather={showWeather}
+          onWeatherMarkerClick={handleWeatherPolygonSelect}
+          weatherEventFilters={weatherEventFilters}
+          />
         </div>
 
         <div style={{ position: 'absolute', top: 10, right: 10 }}>
@@ -175,6 +210,20 @@ const handleMarkerClick = (lat, lon, event) => {
         
         </div>
       
+        {selectedWeatherPolygon && (
+          <Source id="weather-polygon" type="geojson" data={selectedWeatherPolygon}>
+            <Layer
+              id="polygonLayer"
+              type="fill"
+              paint={{
+                'fill-color': '#888', // Customize as needed
+                'fill-opacity': 0.4,
+              }}
+            />
+          </Source>
+        )}
+
+
       </ReactMapGL>
     </>
   );

@@ -1,0 +1,230 @@
+@import '@radix-ui/colors/mauve.css';
+
+/* reset */
+a {
+    all: unset;
+  }
+  
+  /* Container for the dropdown list items */
+  .NavigationMenuList {
+    position: relative; /* Ensures that z-index of children is relative to this container */
+  }
+  
+  /* The hover card content styling */
+  .HoverCardContent {
+    border-radius: 6px;
+    padding: 20px;
+    width: 300px;
+    background-color: #1F1513;
+    color: white;
+    box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+    animation-duration: 400ms;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+    z-index: 100000; /* Very high z-index to ensure it's above other elements */
+   /* This takes the hover card out of the normal document flow */
+    top: 100%; /* Positions the hover card right below the trigger element */
+    left: 0; /* Aligns the hover card with the left edge of the trigger element */
+  }
+  
+  /* Adjust the position of the hover card arrow */
+  
+  
+  /* Other CSS classes here... */
+  
+ 
+.HoverCardContent[data-side='top'] {
+  animation-name: slideDownAndFade;
+}
+.HoverCardContent[data-side='right'] {
+  animation-name: slideLeftAndFade;
+}
+.HoverCardContent[data-side='bottom'] {
+  animation-name: slideUpAndFade;
+}
+.HoverCardContent[data-side='left'] {
+  animation-name: slideRightAndFade;
+}
+
+.HoverCardArrow {
+  fill: white;
+}
+
+.ImageTrigger {
+  cursor: pointer;
+  border-radius: 100%;
+  display: inline-block;
+}
+.ImageTrigger:focus {
+  box-shadow: 0 0 0 2px white;
+}
+
+.Image {
+  display: block;
+  border-radius: 100%;
+}
+.Image.normal {
+  width: 45px;
+  height: 45px;
+}
+.Image.large {
+  width: 60px;
+  height: 60px;
+}
+
+.Text {
+  margin: 0;
+  color: var(--mauve-12);
+  font-size: 15px;
+  line-height: 1.5;
+}
+.Text.faded {
+  color: var(--mauve-10);
+}
+.Text.bold {
+  font-weight: 500;
+}
+
+@keyframes slideUpAndFade {
+  0% {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideRightAndFade {
+  0% {
+    opacity: 0;
+    transform: translateX(-2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideDownAndFade {
+  0% {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideLeftAndFade {
+  0% {
+    opacity: 0;
+    transform: translateX(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* hovercard.css */
+/* ... other styles ... */
+
+.ListItemHeading {
+    color: #391714;
+    cursor: pointer;
+    /* Your existing styles for ListItemHeading */
+    display: flex; /* Align items in a row */
+    align-items: center; /* Center items vertically */
+    justify-content: space-between; /* Spacing between text and icon */
+  }
+  
+  .ArrowIcon {
+    cursor: pointer;
+    /* Style for the right arrow icon */
+    margin-left: 8px; /* Spacing from the heading */
+    font-size: 20px; /* Icon size, adjust as needed */
+    vertical-align: middle; /* Align the icon vertically with the text */
+  }
+  
+
+  
+.filter-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .filter-dropdown-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .filter-dropdown-button:hover, .filter-dropdown-button:focus {
+    background-color: #0056b3;
+  }
+  
+  .filter-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    max-height: 200px; /* Set a maximum height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 1;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .filter-option {
+    display: block;
+    margin: 5px 0;
+    cursor: pointer;
+  }
+  
+  .filter-option input[type="checkbox"] {
+    margin-right: 10px;
+  }
+  
+  /* Optional: Hide the dropdown menu when clicking outside */
+  body:not(.filter-dropdown):not(.filter-dropdown *) {
+    onclick: "setIsDropdownVisible(false)";
+  }
+  .HoverCardContent {
+    /* Adjust max-height as needed to fit your design */
+    max-height: 300px; 
+    overflow-y: auto; /* Makes content scrollable */
+    background-color: #404040; /* Adjust background color as needed */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: adds shadow for depth */
+    border-radius: 4px; /* Optional: rounds the corners */
+    padding: 20px;
+    color: white;
+  }
+  
+  .filter-option {
+    display: flex;
+    align-items: center; /* Aligns the checkbox and label text vertically */
+    margin-bottom: 5px; /* Space between each filter option */
+  }
+  
+  .filter-option input[type="checkbox"] {
+    margin-right: 10px; /* Space between the checkbox and its label */
+    cursor: pointer;
+    color: aqua;
+  }
+  
+  .filter-option label {
+    margin: 0; /* Removes default margin from labels */
+    cursor: pointer;
+  }
+    
