@@ -14,8 +14,10 @@ const FireMap = ({ showURT, setShowURT, showNRT, setShowNRT, mapRef }) => {
       const fireData = await response.json();
 
       // Process the data (filtering and creating GeoJSON) exactly as before
-      const urtData = fireData.filter(d => d.version === '2.0URT');
-      const nrtData = fireData.filter(d => d.version === '2.0NRT');
+      const urtData = fireData.filter(d => d.version.trim() === '2.0URT');
+      const nrtData = fireData.filter(d => d.version.trim() === '2.0NRT');
+      console.log("response urt:",urtData)
+      
 
       const createGeoJSON = (data) => ({
         type: 'FeatureCollection',
@@ -37,6 +39,7 @@ const FireMap = ({ showURT, setShowURT, showNRT, setShowNRT, mapRef }) => {
 
     if (showURT) {
       const urtGeoJSON = createGeoJSON(urtData);
+      
       if (map.getSource('urt-data')) {
         map.getSource('urt-data').setData(urtGeoJSON);
       } else {
