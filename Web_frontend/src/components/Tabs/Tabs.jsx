@@ -175,29 +175,7 @@ const TabsDemo = ({ handleMapViewport, onWeatherEventSelect, showFire, showEarth
       <button className={`SidebarToggle ${isSidebarOpen ? 'open' : ''}`} onClick={toggleSidebar}>
         <FiChevronRight className="ToggleIcon" />
       </button>
-      <div className="filter-dropdown">
-              <button onClick={() => setIsDropdownVisible(!isDropdownVisible)} className="filter-dropdown-button">
-    Filter Events
-  </button>
-  {isDropdownVisible && (
-    <div className="filter-container">
-  {validEvents.map((eventType) => (
-    <label key={eventType} className="filter-option">
-    <input
-  type="checkbox"
-  id={`checkbox-${eventType}`}
-  name={eventType}
-  checked={!!weatherEventFilters[eventType]}
-  onChange={handleWeatherFilterChange}
-/>
-
-      {eventType}
-    </label>
-  ))}
-</div>
-
-  )}
-</div>
+     
 
       <div className={`TabsContainer ${isSidebarOpen ? 'open' : 'closed'}`}>
         <Tabs.Root className="TabsRoot" defaultValue="tab1">
@@ -224,7 +202,29 @@ const TabsDemo = ({ handleMapViewport, onWeatherEventSelect, showFire, showEarth
           </div>
         )}
 
-
+{showWeather && (
+              <div className="filter-dropdown">
+                <button onClick={() => setIsDropdownVisible(!isDropdownVisible)} className="filter-dropdown-button">
+                ☁ ‎ Filter Events‎ ‎ ‎ ⮟
+                </button>
+                {isDropdownVisible && (
+                  <div className="filter-container">
+                    {validEvents.map(eventType => (
+                      <label key={eventType} className="filter-option">
+                        <input
+                          type="checkbox"
+                          id={`checkbox-${eventType}`}
+                          name={eventType}
+                          checked={!!weatherEventFilters[eventType]}
+                          onChange={handleWeatherFilterChange}
+                        />
+                        {eventType}
+                      </label>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
                     {showDetails && selectedEvent ?(
                       
                         // Event details view

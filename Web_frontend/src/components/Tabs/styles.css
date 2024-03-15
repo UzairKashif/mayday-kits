@@ -384,3 +384,65 @@ body {
 .SidebarToggle.open .ToggleIcon {
   transform: rotate(180deg); /* Rotate icon for visual feedback */
 }
+
+
+
+
+
+
+
+
+
+
+.filter-dropdown {
+  position: relative;
+  display: inline-block;
+  /* left: 290%;
+  top: 70%; */
+}
+
+.filter-dropdown-button {
+  background-color: #1F1513;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.filter-dropdown-button:hover, .filter-dropdown-button:focus {
+  background-color: #1F1513;
+}
+
+.filter-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 100%;
+  left: 20%;
+  background-color: #f9f9f9;
+  min-width: 260px;
+  max-height: 200px; /* Set a maximum height */
+  overflow-y: auto; /* Enable vertical scrolling */
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  z-index: 1;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.filter-option {
+  display: block;
+  margin: 5px 0;
+  cursor: pointer;
+}
+
+.filter-option input[type="checkbox"] {
+  margin-right: 10px;
+  visibility: visible;
+}
+
+input[type="checkbox"] {
+  visibility: visible;
+  display: inline-block; /* or block */
+}
