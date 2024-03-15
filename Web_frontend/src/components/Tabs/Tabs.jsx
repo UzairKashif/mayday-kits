@@ -238,7 +238,7 @@ const TabsDemo = ({ handleMapViewport, onWeatherEventSelect, showFire, showEarth
                               {selectedEvent.type === 'fire' && (
                                     <>
                                       <Tabs.Root defaultValue="details">
-                                        <Tabs.List aria-label="Fire Event Details">
+                                        <Tabs.List  className='innertabs' aria-label="Fire Event Details">
                                           <Tabs.Trigger value="details"><FiInfo className="TabIcon" /> Details</Tabs.Trigger>
                                           <Tabs.Trigger value="cameras"><FiCamera className="TabIcon" /> Cameras & Videos</Tabs.Trigger>
                                         </Tabs.List>
@@ -284,14 +284,14 @@ const TabsDemo = ({ handleMapViewport, onWeatherEventSelect, showFire, showEarth
                                           <h3>Cameras & Videos</h3>
                                           <div>
                                             <h4>VIS Video</h4>
-                                            <video width="100%" controls>
+                                            <video width="100%" controls autoPlay muted loop>
                                               <source src={visUrl} type="video/mp4" />
                                               Your browser does not support the video tag.
                                             </video>
                                           </div>
                                           <div>
                                             <h4>IR Video</h4>
-                                            <video width="100%" controls>
+                                            <video width="100%"controls autoPlay muted loop>
                                               <source src={irUrl} type="video/mp4" />
                                               Your browser does not support the video tag.
                                             </video>

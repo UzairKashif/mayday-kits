@@ -446,3 +446,55 @@ input[type="checkbox"] {
   visibility: visible;
   display: inline-block; /* or block */
 }
+
+
+
+
+
+/* Inner tabs list with space between items */
+.innertabs {
+  margin-left: 15px;
+  display: flex;
+  flex-direction: row;
+  gap: 80px;
+  margin-bottom: 20px; /* Space below the tab list */
+ 
+  font-size: 15px;
+}
+
+.innertabs .TabsTrigger {
+  flex: 1;
+  margin-right: 10px; /* Space between the tab items */
+  padding: 10px 20px; /* Consistent padding with main tabs */
+  cursor: pointer;
+  text-align: center;
+  background-color: transparent;
+  border: none;
+  border-bottom: 3px solid transparent; /* Invisible border for a consistent box height */
+  color: #FBD3CB; /* Text color */
+  transition: color 0.2s, background-color 0.2s;
+}
+
+/* Remove margin from the last tab item to avoid unnecessary spacing on the right */
+.innertabs .TabsTrigger:last-child {
+  margin-right: 0;
+}
+
+.innertabs .TabsTrigger[data-state='active'] {
+  color: #ffffff; /* Bright text for the active tab */
+  border-bottom-color: #FBD3CB; /* Highlight color for the active tab */
+}
+
+.innertabs .TabsTrigger:not([data-state='active']):hover {
+  background-color: #292929; /* Dark background on hover for inactive tabs */
+}
+
+/* Content of the inner tabs */
+.innertabs-content {
+  background-color: #181111; /* Background color of the content area */
+  color: #FBD3CB; /* Text color for the content */
+  padding: 20px; /* Padding inside the content area */
+  border-radius: 4px; /* Rounded corners for the content */
+}
+
+/* Rest of your CSS code */
