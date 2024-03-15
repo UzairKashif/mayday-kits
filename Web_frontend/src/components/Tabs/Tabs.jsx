@@ -1,89 +1,52 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useRef } from 'react';
 import * as Tabs from '@radix-ui/react-tabs';
 import { FiInfo, FiCamera, FiChevronRight } from 'react-icons/fi';
 import { FaExclamationTriangle, FaFire } from 'react-icons/fa';
-import { FaCloud } from 'react-icons/fa';
 import './styles.css';
 import { db } from '../../firebaseConfig'; // Ensure this path is correctly set
-import { TailSpin } from 'react-loader-spinner';
-import { collection, getDocs } from 'firebase/firestore';
-import * as turf from '@turf/turf';
-const TabsDemo = ({ handleMapViewport, onWeatherEventSelect, showFire, showEarthquake,showWeather, selectedEvent,setSelectedEvent, showDetails, setShowDetails,isSidebarOpen,setIsSidebarOpen }) => {
+
+const TabsDemo = ({ handleMapViewport, showFire, showEarthquake, selectedEvent,setSelectedEvent, showDetails, setShowDetails,isSidebarOpen,setIsSidebarOpen,setFireEventPixels }) => {
   const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [weatherEventFilters, setWeatherEventFilters] = useState({});
- 
+  // Add video references and state
+  const visVideoRef = useRef(null);
+  const irVideoRef = useRef(null);
+  // const [isPlaying, setIsPlaying] = useState(false);
   // const [selectedEvent, setSelectedEvent] = useState(null);
   // const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   // const [showDetails, setShowDetails] = useState(false);
-  const validEvents = [
-    "earthquake", "environment-pollution", "explosion", "fire", "flood", "hazmat", "landslide",
-    "nuclear", "snow", "technological-disaster", "tsunami", "volcano", "wildfire", "hurricane",
-    "tornado", "drought", "avalanche", "Air Quality Alert", "Ashfall Warning", "Beach Hazards Statement",
-    "Coastal Flood Warning", "Dense Fog Advisory", "Dense Smoke Advisory", "Earthquake Warning",
-    "Evacuation - Immediate", "Excessive Heat Warning", "Extreme Cold Warning", "Extreme Fire Danger",
-    "Extreme Wind Warning", "Fire Warning", "Fire Weather Watch", "Flash Flood Warning", "Flood Warning",
-    "Freeze Warning", "Freezing Fog Advisory", "Freezing Rain Advisory", "Freezing Spray Advisory",
-    "Frost Advisory", "Gale Warning", "Hard Freeze Warning", "Hazardous Materials Warning",
-    "Hazardous Seas Warning", "Hazardous Weather Outlook", "Heat Advisory", "High Surf Warning",
-    "High Wind Warning", "Hurricane Force Wind Warning", "Hurricane Local Statement", "Ice Storm Warning",
-    "Lakeshore Flood Warning", "Nuclear Power Plant Warning", "Radiological Hazard Warning", "Red Flag Warning",
-    "Rip Current Statement", "Severe Thunderstorm Warning", "Severe Weather Statement", "Shelter In Place Warning",
-    "Storm Surge Warning", "Storm Warning", "Tornado Warning", "Tsunami Warning", "Typhoon Warning",
-    "Urban And Small Stream Flood Advisory", "Volcano Warning", "Wind Advisory", "Wind Chill Warning",
-    "Winter Storm Warning", "Winter Weather Advisory"
-  ];
-  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
     useEffect(() => {
       const fetchEvents = async () => {
-        setLoading(true);
-        try {
-          // Combine all fetch operations into a single async function
-          const fireEventsPromise = fetch('http://localhost:3000/api/fire-events').then(res => res.json());
-          const earthquakeEventsPromise = getDocs(collection(db, "earthquakes"));
-          const weatherEventsPromise = getDocs(collection(db, "weatherAlerts"));
-  
-          const [fireEvents, earthquakeSnapshot, weatherSnapshot] = await Promise.all([fireEventsPromise, earthquakeEventsPromise, weatherEventsPromise]);
-  
-          const normalizedFireEvents = fireEvents.map(event => ({
-            ...event,
-            type: 'fire',
-            date: new Date(event.event_start_since).getTime(),
-          }));
-  
-          const earthquakeEvents = earthquakeSnapshot.docs.map(doc => ({
-            ...doc.data(),
-            id: doc.id,
-            type: 'earthquake',
-            date: new Date(doc.data().properties.time).getTime(),
-          }));
-  
-         
-          const weatherEvents = weatherSnapshot.docs.map(doc => {
-            const eventData = doc.data();
-            return {
-              ...eventData,
-              id: doc.id,
-              type: 'weather',
-              date: eventData.date ? new Date(eventData.date).getTime() : null
-            };
-          }).filter(event => validEvents.includes(event.properties.event));
-  
-          // Combine all events and sort by date
-          const combinedEvents = [...normalizedFireEvents, ...earthquakeEvents, ...weatherEvents].sort((a, b) => a.date - b.date);
-  
-          setEvents(combinedEvents);
-          console.log(combinedEvents)
-        } catch (error) {
-          console.error("Failed to fetch events:", error);
-        } finally {
-          setLoading(false);
-        }
-      };
-  
-      fetchEvents();
-    }, []);
+        // Fetch fire events
+        const fireResponse = await fetch('http://localhost:3000/api/fire-events');
+        const fireEvents = await fireResponse.json();
+        // Normalize fire events data
+        const normalizedFireEvents = fireEvents.map(event => ({
+          ...event,
+          type: 'fire',
+          date: new Date(event.event_start_since).getTime(),
+        }));
 
+      // Fetch earthquake events
+      const querySnapshot = await db.collection("earthquakes").get();
+      // Normalize earthquake events data
+      const earthquakeEvents = querySnapshot.docs.map(doc => ({
+        ...doc.data(),
+        id: doc.id,
+        type: 'earthquake',
+        date: new Date(doc.data().properties.time).getTime(),
+      }));
+
+      // Combine and sort events by date
+      const combinedEvents = [...normalizedFireEvents, ...earthquakeEvents];
+      combinedEvents.sort((a, b) => a.date - b.date);
+
+      setEvents(combinedEvents);
+      };
+
+      fetchEvents();
+    
+    },[]);
  
     useEffect(() => {
       if (selectedEvent) {
@@ -93,40 +56,33 @@ const TabsDemo = ({ handleMapViewport, onWeatherEventSelect, showFire, showEarth
     }, [selectedEvent]);
     
 
-    const displayEvents = events.filter(event => {
-      const isVisibleType = (event.type === 'fire' && showFire) || 
-                            (event.type === 'earthquake' && showEarthquake) || 
-                            (event.type === 'weather' && showWeather);
-      const passesWeatherFilter = event.type !== 'weather' || weatherEventFilters[event.properties.event];
-      return isVisibleType && passesWeatherFilter;
-    });
-    
+
+      const visibleEvents = events.filter(event => {
+        if (event.type === 'fire' && showFire) return true;
+        if (event.type === 'earthquake' && showEarthquake) return true;
+        return false; // Exclude events that don't match visibility conditions
+      });
 
       const handleEventSelect = (event) => {
       setSelectedEvent(event);
       setShowDetails(true); // Show details
       
-      if (event.type === 'weather') {
-        // Call the function passed from Dashboard
-        onWeatherEventSelect(event);
-      } else {
-        // Handle other event types as before
-        handleMapViewport({
-          latitude: parseFloat(event.lat || event.geometry.coordinates[1]),
-          longitude: parseFloat(event.lon || event.geometry.coordinates[0]),
-          zoom: 10,
-          pitch: 60,
-          bearing: 30,
-          speed: 1.2,
-        });
-      }
-    };
-  
- 
+
+      // Fly to the event location
+      handleMapViewport({
+        latitude: parseFloat(event.lat || event.geometry.coordinates[1]),
+        longitude: parseFloat(event.lon || event.geometry.coordinates[0]),
+        zoom: 10, // Adjust zoom level as needed
+        pitch: 60,
+        bearing: 30,
+        speed: 1.2,
+      });
+  };
 
         const handleBack = () => {
           setShowDetails(false); // Hide details and show list of events
           setSelectedEvent(null);
+          setFireEventPixels([]);
           // Reset map to initial state
           handleMapViewport({
             latitude: -14.2350,
@@ -145,37 +101,97 @@ const TabsDemo = ({ handleMapViewport, onWeatherEventSelect, showFire, showEarth
         const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
         console.log(selectedEvent);
 
-       
-        
-        const handleWeatherFilterChange = (event) => {
-          const { name, checked } = event.target;
-          setWeatherEventFilters(prevFilters => {
-            const updatedFilters = { ...prevFilters, [name]: checked };
-            console.log('Updated Filters:', updatedFilters);
-            return updatedFilters;
-          });
+        const syncVideos = () => {
+          if (!visVideoRef.current || !irVideoRef.current) return;
+          
+          const visTime = visVideoRef.current.currentTime;
+          const irTime = irVideoRef.current.currentTime;
+          
+          if (Math.abs(visTime - irTime) > 0.1) {
+            irVideoRef.current.currentTime = visTime;
+            visVideoRef.current.currentTime = visTime;
+          }
         };
-        useEffect(() => {
-          console.log('Current Weather Event Filters:', weatherEventFilters);
-        }, [weatherEventFilters]); // Add weatherEventFilters to dependency array to log whenever it changes
-                
         
+        // Control playback for both videos
+        const controlVideoPlayback = (play) => {
+          if (!visVideoRef.current || !irVideoRef.current) return;
+        
+          if (play) {
+            visVideoRef.current.play();
+            irVideoRef.current.play();
+          } else {
+            visVideoRef.current.pause();
+            irVideoRef.current.pause();
+          }
+        };
+        
+        // UseEffect to add the event listeners and autoplay videos
+        useEffect(() => {
+          const visVideo = visVideoRef.current;
+          const irVideo = irVideoRef.current;
+        
+          const playBothVideos = () => controlVideoPlayback(true);
+          const pauseBothVideos = () => controlVideoPlayback(false);
+          
+          if (visVideo && irVideo) {
+            visVideo.addEventListener('play', playBothVideos);
+            irVideo.addEventListener('play', playBothVideos);
+            visVideo.addEventListener('pause', pauseBothVideos);
+            irVideo.addEventListener('pause', pauseBothVideos);
+            
+            visVideo.play(); // Attempt to autoplay the videos
+            irVideo.play(); // Attempt to autoplay the videos
+            
+            // Loop the videos manually
+            visVideo.onended = () => {
+              visVideo.play();
+              irVideo.play();
+            };
+            irVideo.onended = () => {
+              visVideo.play();
+              irVideo.play();
+            };
+          }
+        
+          return () => {
+            if (visVideo && irVideo) {
+              visVideo.removeEventListener('play', playBothVideos);
+              irVideo.removeEventListener('play', playBothVideos);
+              visVideo.removeEventListener('pause', pauseBothVideos);
+              irVideo.removeEventListener('pause', pauseBothVideos);
+            }
+          };
+        }, []);
 
-  // Filtered events based on selected weather event types
-  const filteredEvents = events.filter((event) => {
-    return event.type !== 'weather' || weatherEventFilters[event.properties.event];
-  });
-  const isFilterApplied = Object.values(weatherEventFilters).some(value => value === false);
-
-// Define displayEvents based on whether a filter is applied
-// Assuming visibleEvents already filters based on showFire, showEarthquake, showWeather
+        useEffect(() => {
+          const attemptAutoplay = async () => {
+            if (visVideoRef.current && irVideoRef.current) {
+              // Mute the videos to comply with browser autoplay policies
+              visVideoRef.current.muted = true;
+              irVideoRef.current.muted = true;
+        
+              try {
+                await visVideoRef.current.play();
+                await irVideoRef.current.play();
+              } catch (error) {
+                console.error("Autoplay failed", error);
+                // Handle autoplay failure, e.g., show play button
+              }
+            }
+          };
+        
+          attemptAutoplay();
+        }, []);
+        
+        
   
   return (
     <>
       <button className={`SidebarToggle ${isSidebarOpen ? 'open' : ''}`} onClick={toggleSidebar}>
         <FiChevronRight className="ToggleIcon" />
       </button>
-     
+
 
       <div className={`TabsContainer ${isSidebarOpen ? 'open' : 'closed'}`}>
         <Tabs.Root className="TabsRoot" defaultValue="tab1">
@@ -191,40 +207,7 @@ const TabsDemo = ({ handleMapViewport, onWeatherEventSelect, showFire, showEarth
 
 
           <Tabs.Content value="tab1" className="TabsContent">
-          {
-        loading && (
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-            <TailSpin
-              color="#FF977D"
-              height={40}
-              width={40}
-            />
-          </div>
-        )}
 
-{showWeather && (
-              <div className="filter-dropdown">
-                <button onClick={() => setIsDropdownVisible(!isDropdownVisible)} className="filter-dropdown-button">
-                ☁ ‎ Filter Events‎ ‎ ‎ ⮟
-                </button>
-                {isDropdownVisible && (
-                  <div className="filter-container">
-                    {validEvents.map(eventType => (
-                      <label key={eventType} className="filter-option">
-                        <input
-                          type="checkbox"
-                          id={`checkbox-${eventType}`}
-                          name={eventType}
-                          checked={!!weatherEventFilters[eventType]}
-                          onChange={handleWeatherFilterChange}
-                        />
-                        {eventType}
-                      </label>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
                     {showDetails && selectedEvent ?(
                       
                         // Event details view
@@ -284,14 +267,32 @@ const TabsDemo = ({ handleMapViewport, onWeatherEventSelect, showFire, showEarth
                                           <h3>Cameras & Videos</h3>
                                           <div>
                                             <h4>VIS Video</h4>
-                                            <video width="100%" controls>
+                                            <video
+                                              width="100%"
+                                              controls
+                                              loop
+                                              ref={visVideoRef}
+                                              preload="auto"
+                                              onTimeUpdate={syncVideos}
+                                              onPlay={syncVideos}
+                                              onPause={syncVideos}
+                                            >
                                               <source src={visUrl} type="video/mp4" />
                                               Your browser does not support the video tag.
                                             </video>
                                           </div>
                                           <div>
                                             <h4>IR Video</h4>
-                                            <video width="100%" controls>
+                                            <video
+                                              width="100%"
+                                              controls
+                                              loop
+                                              ref={irVideoRef}
+                                              preload="auto"
+                                              onTimeUpdate={syncVideos}
+                                              onPlay={syncVideos}
+                                              onPause={syncVideos}
+                                            >
                                               <source src={irUrl} type="video/mp4" />
                                               Your browser does not support the video tag.
                                             </video>
@@ -301,40 +302,8 @@ const TabsDemo = ({ handleMapViewport, onWeatherEventSelect, showFire, showEarth
                                     </>
                                   )}
 
-                                {selectedEvent.type === 'weather' && (
-                                  <>
-                                    <div className="detail-box">
-                                      <h4>Event</h4>
-                                      <p>{selectedEvent.properties.event}</p>
-                                    </div>
-                                    <div className="detail-box">
-                                      <h4>Severity</h4>
-                                      <p>{selectedEvent.properties.severity}</p>
-                                    </div>
-                                    <div className="detail-box">
-                                      <h4>Area</h4>
-                                      <p>{selectedEvent.properties.areaDesc}</p>
-                                    </div>
-                                    <div className="detail-box">
-                                      <h4>Effective</h4>
-                                      <p>{new Date(selectedEvent.properties.effective).toLocaleString()}</p>
-                                    </div>
-                                    <div className="detail-box">
-                                      <h4>Expires</h4>
-                                      <p>{selectedEvent.properties.expires ? new Date(selectedEvent.properties.expires).toLocaleString() : "N/A"}</p>
-                                    </div>
-                                    <div className="detail-box">
-                                      <h4>Description</h4>
-                                      <p>{selectedEvent.properties.description}</p>
-                                    </div>
-                                    <div className="detail-box">
-                                      <h4>Instruction</h4>
-                                      <p>{selectedEvent.properties.instruction || "No specific instructions provided."}</p>
-                                    </div>
-                                    </>
-                                                                          )}
-                                                        
-                                                                    
+                                    
+                                    
 
 
                                     {selectedEvent.type === 'earthquake' && (
@@ -374,53 +343,27 @@ const TabsDemo = ({ handleMapViewport, onWeatherEventSelect, showFire, showEarth
                         </div>
                       ): (
                         <div className="no-event-selected">
-                        {displayEvents.length > 0 ?(
-                          <div className="events-container">
-                             {displayEvents.map((event) => (
-                           
-                              <div key={event.id} className="event-card" onClick={() => handleEventSelect(event)}>
-                                {event.type === 'earthquake' && <FaExclamationTriangle className="iconearth" />}
-                                {event.type === 'fire' && <FaFire className="icon" />}
-                                {event.type === 'weather' && <FaCloud className="iconweather" />} {/* Display an icon for weather events */}
-                                <div className="event-info">
-                                  <h2 style={{ color: 'white' }}>{event.type.charAt(0).toUpperCase() + event.type.slice(1)} 
-                                  <p style={{ marginLeft:'140px', right:'0', color:'white',   fontSize:'18px',}}>ⓘ</p></h2>
-                                  {event.type === 'earthquake' ? (
-                                    <>
-                                      <div>Location: {event.properties.place}</div>
-                                      <div>Magnitude: {event.properties.mag}</div>
-                                      <div>Time: {new Date(event.date).toLocaleString()}</div>
-                                    </>
-                                  ) : event.type === 'fire' ? (
-                                    <>
-                                      <div>Event ID: {event.event_id}</div>
-                                      <div>Status: {event.status}</div>
-                                      <div>Start Date: {new Date(event.date).toLocaleString()}</div>
-                                    </>
-                                  ) : event.type === 'weather' ? (
-                                    <>
-                                      {/* Display additional info specific to weather events */}
-                                      <div>Event: {event.properties.event}</div>
-                                    
-                                      <div>Effective: {new Date(event.properties.effective).toLocaleString()}</div>
-                                      <div>Expires: {event.properties.expires ? new Date(event.properties.expires).toLocaleString() : "N/A"}</div>
-                                      
-                                    </>
-                                  ) : null}
-                                    
+                          {visibleEvents.length > 0 ? (
+                            <div className="events-container">
+                              {visibleEvents.map((event) => (
+                                <div key={event.id} className="event-card" onClick={() => handleEventSelect(event)}>
+                                  {event.type === 'earthquake' ? <FaExclamationTriangle className="iconearth" /> : <FaFire className="icon" />}
+                                  <div className="event-info">
+                                    <h2 style={{ color: 'white' }}>{event.type === 'earthquake' ? 'Earthquake' : 'Fire'}</h2>
+                                    <div>{event.type === 'earthquake' ? event.properties.place : event.name}</div>
+                                    <div>{event.type === 'earthquake' ? `` : `Event ID: ${event.event_id}`}</div>
+                                    <div>{event.type === 'earthquake' ? `` : `Status: ${event.status}`}</div>
+                                    <div>{event.type === 'earthquake' ? `Time: ${new Date(event.date).toLocaleString()}` : `Start Date: ${new Date(event.date).toLocaleString()}`}</div>
+                                  </div>
                                 </div>
-                              </div>
-                            ))}
-                          
-                          </div>
+                              ))}
+                            </div>
                           ) : (
                             <div className="events-placeholder">
                               {/* Display this message when no events are selected */}
-                              <p style={{color:'white',}}>No event selected. Please select an event to view details.</p>
+                              <p>No event selected. Please select an event to view details.</p>
                             </div>
                           )}
-
-
                         </div>
                       )}
                     </Tabs.Content>
