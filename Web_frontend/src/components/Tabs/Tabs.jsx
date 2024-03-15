@@ -9,7 +9,7 @@ import { db } from '../../firebaseConfig'; // Ensure this path is correctly set
 import { TailSpin } from 'react-loader-spinner';
 import { collection, getDocs } from 'firebase/firestore';
 import * as turf from '@turf/turf';
-const TabsDemo = ({ handleMapViewport, onWeatherEventSelect, showFire, showEarthquake,showWeather, selectedEvent,setSelectedEvent, showDetails, setShowDetails,isSidebarOpen,setIsSidebarOpen }) => {
+const TabsDemo = ({ handleMapViewport, onWeatherEventSelect, showFire, showEarthquake,showWeather, selectedEvent,setSelectedEvent, showDetails, setShowDetails,isSidebarOpen,setIsSidebarOpen,setFireEventPixels }) => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [weatherEventFilters, setWeatherEventFilters] = useState({});
@@ -128,6 +128,7 @@ const TabsDemo = ({ handleMapViewport, onWeatherEventSelect, showFire, showEarth
         const handleBack = () => {
           setShowDetails(false); // Hide details and show list of events
           setSelectedEvent(null);
+          setFireEventPixels([]);
           // Reset map to initial state
           handleMapViewport({
             latitude: -14.2350,
