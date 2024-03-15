@@ -1,3 +1,4 @@
+import SignOut from '../signout/signout';
 import React, { useState, useRef } from 'react';
 import ReactMapGL, {
   NavigationControl,
@@ -178,6 +179,9 @@ const updateMapWithEventGeometry = (geoJsonData) => {
 
   return (
     <>
+    <div style={{ backgroundColor: "#ccc", position: 'absolute', top: 50, right: 49, zIndex: 10 }}>
+      <SignOut />
+    </div>
       <ReactMapGL
         ref={mapRef}
         {...viewport}
