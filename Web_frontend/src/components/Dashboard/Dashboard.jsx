@@ -16,6 +16,7 @@ import FireMarkersComponent from '../MarkersComponents/FireMarkersComponent';
 import EarthquakeMarkersComponent from '../MarkersComponents/EarthquakeMarkersComponent';
 import { useMarkerClickHandler} from '../Hooks/useMarkerClickHandler'; // Ensure this path is correct
 import FireMap from '../Firms/firms'; // Update the import path as necessary
+import  { Source, Layer } from 'react-map-gl';
 
 import * as turf from '@turf/turf';
 
@@ -30,7 +31,8 @@ function NextPage() {
 
   const [showURT, setShowURT] = useState(false);
   const [showNRT, setShowNRT] = useState(false);
-
+  const [selectedEventGeometry, setSelectedEventGeometry] = useState([]);
+  
 
 const ToggleSwitch = ({ isOn, handleToggle, label }) => (
   <div className={`toggle-switch ${isOn ? 'on' : ''}`} onClick={handleToggle}>
@@ -112,43 +114,28 @@ const handleMarkerClick = async (lat, lon, event) => {
   }
 
 };
-
 const handleWeatherEventSelect = async (eventData) => {
-  const affectedZones = eventData.properties.affectedZones;
-  // Assuming affectedZones contains URLs to fetch zone geometries
+  if (!eventData || !eventData.properties || !eventData.properties.affectedZones) {
+    console.error('Invalid event data:', eventData);
+    return; // Exit the function if eventData is not structured as expected.
+  }
+  // This example assumes eventData.properties.affectedZones is an array of URLs to fetch geometry data
+  const zoneUrls = eventData.properties.affectedZones;
+  const geometries = [];
 
-  const geometries = await Promise.all(
-    affectedZones.map(async (zoneUrl) => {
-      const response = await fetch(zoneUrl);
+  for (const url of zoneUrls) {
+    try {
+      const response = await fetch(url);
       const data = await response.json();
-      return data.geometry;
-    })
-  );
-
-  // Combine geometries into a single GeoJSON FeatureCollection
-  const featureCollection = turf.featureCollection(geometries.map(geo => turf.feature(geo)));
-
-  // Assume mapRef is a ref to your ReactMapGL component
-  const map = mapRef.current.getMap();
-
-  // Remove previous source and layer if exist
-  if (map.getLayer('weather-event-polygon')) {
-    map.removeLayer('weather-event-polygon');
-    map.removeSource('weather-event');
+      geometries.push(data.geometry); // Assuming the geometry is directly available under data.geometry
+    } catch (error) {
+      console.error('Failed to fetch zone geometry:', error);
+    }
   }
 
-  // Add new source and layer
-  map.addSource('weather-event', { type: 'geojson', data: featureCollection });
-  map.addLayer({
-    id: 'weather-event-polygon',
-    type: 'fill',
-    source: 'weather-event',
-    layout: {},
-    paint: {
-      'fill-color': '#888',  // Customize the polygon color
-      'fill-opacity': 0.4,
-    },
-  });
+  // Optionally, combine geometries into a single FeatureCollection
+  const featureCollection = turf.featureCollection(geometries.map(geo => turf.feature(geo)));
+  setSelectedEventGeometry(featureCollection); // Update the state with the new geometry
 };
 
 // In Dashboard.jsx
@@ -250,7 +237,7 @@ const updateMapWithEventGeometry = (geoJsonData) => {
           showFire={showFire} 
           showEarthquake={showEarthquake} 
           showWeather={showWeather}
-
+          handleWeatherEventSelect={handleWeatherEventSelect}
           onWeatherEventSelect={handleWeatherEventSelect}
           />
         </div>
@@ -269,7 +256,18 @@ const updateMapWithEventGeometry = (geoJsonData) => {
           />
         
         </div>
-      
+        {selectedEventGeometry.features && selectedEventGeometry.features.length > 0 && (
+        <Source id="event-geometry-source" type="geojson" data={selectedEventGeometry}>
+          <Layer
+            id="event-geometry-layer"
+            type="fill"
+            paint={{
+              'fill-color': '#f08', // Example fill color
+              'fill-opacity': 0.4, // Example fill opacity
+            }}
+          />
+        </Source>
+      )}
       </ReactMapGL>
     </>
   );

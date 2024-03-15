@@ -9,7 +9,7 @@ import { db } from '../../firebaseConfig'; // Ensure this path is correctly set
 import { TailSpin } from 'react-loader-spinner';
 import { collection, getDocs } from 'firebase/firestore';
 import * as turf from '@turf/turf';
-const TabsDemo = ({ handleMapViewport, onWeatherEventSelect, showFire, showEarthquake,showWeather, selectedEvent,setSelectedEvent, showDetails, setShowDetails,isSidebarOpen,setIsSidebarOpen }) => {
+const TabsDemo = ({ handleMapViewport, handleWeatherEventSelect, onWeatherEventSelect, showFire, showEarthquake,showWeather, selectedEvent,setSelectedEvent, showDetails, setShowDetails,isSidebarOpen,setIsSidebarOpen }) => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [weatherEventFilters, setWeatherEventFilters] = useState({});
@@ -103,14 +103,28 @@ const TabsDemo = ({ handleMapViewport, onWeatherEventSelect, showFire, showEarth
     });
     
 
-      const handleEventSelect = (event) => {
+    const handleEventSelect = async (event) => {
       setSelectedEvent(event);
-      setShowDetails(true); // Show details
-      
-      if (event.type === 'weather') {
-        // Call the function passed from Dashboard
-        onWeatherEventSelect(event);
+      setShowDetails(true);
+      if (event && event.properties && event.properties.affectedZones) {
+        handleWeatherEventSelect(event);
       } else {
+        console.error('Trying to select an event with invalid structure:', event);
+      }
+      if (event.type === 'weather') {
+        try {
+          // Corrected asynchronous handling
+          const geometries = await Promise.all(event.properties.affectedZones.map(async (zoneUrl) => {
+            const response = await fetch(zoneUrl);
+            const data = await response.json();
+            return data.geometry ? { ...data.geometry, properties: { event: event.properties.event } } : null;
+          }));
+          // Assuming onWeatherEventSelect is a prop function passed from Dashboard.jsx that handles weather events
+          onWeatherEventSelect(geometries.filter(geo => geo !== null));
+        } catch (error) {
+          console.error('Error fetching zone geometry:', error);
+        }
+      }  else {
         // Handle other event types as before
         handleMapViewport({
           latitude: parseFloat(event.lat || event.geometry.coordinates[1]),
@@ -122,8 +136,7 @@ const TabsDemo = ({ handleMapViewport, onWeatherEventSelect, showFire, showEarth
         });
       }
     };
-  
- 
+    
 
         const handleBack = () => {
           setShowDetails(false); // Hide details and show list of events
@@ -374,52 +387,54 @@ const TabsDemo = ({ handleMapViewport, onWeatherEventSelect, showFire, showEarth
                           </div>
                         </div>
                       ): (
-                        <div className="no-event-selected">
-                        {displayEvents.length > 0 ?(
-                          <div className="events-container">
-                             {displayEvents.map((event) => (
-                           
-                              <div key={event.id} className="event-card" onClick={() => handleEventSelect(event)}>
-                                {event.type === 'earthquake' && <FaExclamationTriangle className="iconearth" />}
-                                {event.type === 'fire' && <FaFire className="icon" />}
-                                {event.type === 'weather' && <FaCloud className="iconweather" />} {/* Display an icon for weather events */}
-                                <div className="event-info">
-                                  <h2 style={{ color: 'white' }}>{event.type.charAt(0).toUpperCase() + event.type.slice(1)} 
-                                  <p style={{ marginLeft:'140px', right:'0', color:'white',   fontSize:'18px',}}>ⓘ</p></h2>
-                                  {event.type === 'earthquake' ? (
-                                    <>
-                                      <div>Location: {event.properties.place}</div>
-                                      <div>Magnitude: {event.properties.mag}</div>
-                                      <div>Time: {new Date(event.date).toLocaleString()}</div>
-                                    </>
-                                  ) : event.type === 'fire' ? (
-                                    <>
-                                      <div>Event ID: {event.event_id}</div>
-                                      <div>Status: {event.status}</div>
-                                      <div>Start Date: {new Date(event.date).toLocaleString()}</div>
-                                    </>
-                                  ) : event.type === 'weather' ? (
-                                    <>
-                                      {/* Display additional info specific to weather events */}
-                                      <div>Event: {event.properties.event}</div>
-                                    
-                                      <div>Effective: {new Date(event.properties.effective).toLocaleString()}</div>
-                                      <div>Expires: {event.properties.expires ? new Date(event.properties.expires).toLocaleString() : "N/A"}</div>
-                                      
-                                    </>
-                                  ) : null}
-                                    
-                                </div>
-                              </div>
-                            ))}
-                          
-                          </div>
-                          ) : (
-                            <div className="events-placeholder">
-                              {/* Display this message when no events are selected */}
-                              <p style={{color:'white',}}>No event selected. Please select an event to view details.</p>
-                            </div>
-                          )}
+                                                <div className="no-event-selected">
+                                                {displayEvents.length > 0 ?(
+                                                  <div className="events-container">
+                                                      {displayEvents.map((event) => (
+                                                    
+                                                      <div key={event.id} className="event-card" onClick={() => handleEventSelect(event)}>
+                                                        {event.type === 'earthquake' && <FaExclamationTriangle className="iconearth" />}
+                                                        {event.type === 'fire' && <FaFire className="icon" />}
+                                                        {event.type === 'weather' && <FaCloud className="iconweather" />} {/* Display an icon for weather events */}
+                                                        <div className="event-info">
+                                                          <h2 style={{ color: 'white' }}>{event.type.charAt(0).toUpperCase() + event.type.slice(1)} 
+                                                          <p style={{ marginLeft:'140px', right:'0', color:'white',   fontSize:'18px',}}>ⓘ</p></h2>
+                                                          {event.type === 'earthquake' ? (
+                                                            <>
+                                                              <div>Location: {event.properties.place}</div>
+                                                              <div>Magnitude: {event.properties.mag}</div>
+                                                              <div>Time: {new Date(event.date).toLocaleString()}</div>
+                                                            </>
+                                                          ) : event.type === 'fire' ? (
+                                                            <>
+                                                              <div>Event ID: {event.event_id}</div>
+                                                              <div>Status: {event.status}</div>
+                                                              <div>Start Date: {new Date(event.date).toLocaleString()}</div>
+                                                            </>
+                                                          ) : event.type === 'weather' ? (
+                                                            <>
+                                                              {/* Display additional info specific to weather events */}
+                                                              <div>Event: {event.properties.event}</div>
+                                                            
+                                                              <div>Effective: {new Date(event.properties.effective).toLocaleString()}</div>
+                                                              <div>Expires: {event.properties.expires ? new Date(event.properties.expires).toLocaleString() : "N/A"}</div>
+                                                              
+                                                            </>
+                                                          ) : null}
+                                                            
+                                                        </div>
+                                                      </div>
+                                                    ))}
+                                                  
+                                                  </div>
+
+                                                                  
+                                          ) : (
+                                            <div className="events-placeholder">
+                                              {/* Display this message when no events are selected */}
+                                              <p style={{color:'white',}}>No event selected. Please select an event to view details.</p>
+                                            </div>
+                                          )}
 
 
                         </div>
