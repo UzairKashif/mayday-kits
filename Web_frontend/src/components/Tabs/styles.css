@@ -498,6 +498,7 @@ input[type="checkbox"] {
 }
 
 /* Rest of your CSS code */
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
 /* Rest of your CSS code */
@@ -517,3 +518,5 @@ input[type="checkbox"] {
   object-fit: contain; /* Keep the aspect ratio of the icon */
   margin-right: 8px; /* Space between icon and text */
 }
+=======
+>>>>>>> parent of b7ded9a (icons)

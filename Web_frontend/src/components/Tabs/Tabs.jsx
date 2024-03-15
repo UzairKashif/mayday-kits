@@ -76,70 +76,6 @@ const getIconForEvent = (eventType) => {
   return eventToIconMap[eventType] || eventToIconMap["default"];
 };
 
-
-
-
-// Import icons
-import icon911 from '../assets/weather_icons/911.png';
-import iconEarthquake from '../assets/weather_icons/earthquake.png';
-import iconFire from '../assets/weather_icons/fire.png';
-import iconFlood from '../assets/weather_icons/flood.png';
-import iconTsunami from '../assets/weather_icons/tsunami.png';
-import iconVolcano from '../assets/weather_icons/volcano.png';
-import iconWildfire from '../assets/weather_icons/wildfire.png';
-import iconEnvironmentPollution from '../assets/weather_icons/environment-pollution.png';
-import iconExplosion from '../assets/weather_icons/explosion.png';
-import iconHazmat from '../assets/weather_icons/hazmat.png';
-import iconLandslide from '../assets/weather_icons/landslide.png';
-import iconNuclear from '../assets/weather_icons/nuclear.png';
-import iconSnow from '../assets/weather_icons/snow.png';
-import iconHurricane from '../assets/weather_icons/hurricane.png';
-import iconTornodo from '../assets/weather_icons/tornado.png';
-import iconDrought from '../assets/weather_icons/drought.png';
-import iconAvalanche from '../assets/weather_icons/avalanche.png';
-import iconAirQuality from '../assets/weather_icons/airquality.png';
-import iconStorm from '../assets/weather_icons/storm.svg';
-
-
-
-const eventToIconMap = {
-  "earthquake": iconEarthquake,
-  "Earthquake Warning": iconEarthquake,
-  "fire": iconFire,
-  "Extreme Fire Danger": iconFire,
-  "Fire Warning": iconFire,
-  "flood": iconFlood,
-  "Flash Flood Warning": iconFlood,
-  "Flood Warning": iconFlood,
-  "Coastal Flood Warning": iconFlood,
-  "tsunami": iconTsunami,
-  "Tsunami Warning":iconTsunami,
-  "volcano": iconVolcano,
-  "Volcano Warning": iconVolcano,
-  "wildfire": iconWildfire,
-  "environment-pollution": iconEnvironmentPollution,
-  "explosion": iconExplosion,
-  "hazmat": iconHazmat,
-  "landslide": iconLandslide,
-  "nuclear": iconNuclear,
-  "snow": iconSnow,
-  "hurricane": iconHurricane,
-  "tornado": iconTornodo,
-  "Tornado Warning": iconTornodo,
-  "drought": iconDrought,
-  "avalanche": iconAvalanche,
-  "Air Quality Alert": iconAirQuality,
-  "Storm Warning": iconStorm,
-// ... map other valid events to their icons
-"default": icon911, // Default icon
-
-  
-}; 
-
-const getIconForEvent = (eventType) => {
-  return eventToIconMap[eventType] || eventToIconMap["default"];
-};
-
 const TabsDemo = ({ handleMapViewport, handleWeatherEventSelect, onWeatherEventSelect, showFire, showEarthquake,showWeather, selectedEvent,setSelectedEvent, showDetails, setShowDetails,isSidebarOpen,setIsSidebarOpen }) => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -540,10 +476,7 @@ const TabsDemo = ({ handleMapViewport, handleWeatherEventSelect, onWeatherEventS
                                                         {event.type === 'weather' && <FaCloud className="iconweather" />} {/* Display an icon for weather events */}
                                                         {event.type === 'earthquake' && <FaExclamationTriangle className="iconearth" />}
                                                         {event.type === 'fire' && <FaFire className="icon" />}
-                                                        {event.type === 'weather' && (
-            // Use the getIconForEvent function to dynamically select the icon
-            <img src={getIconForEvent(event.properties.event)} alt="Event icon" className="iconweather" />
-          )}
+                                                        {event.type === 'weather' && <FaCloud className="iconweather" />} {/* Display an icon for weather events */}
                                                         <div className="event-info">
                                                           <h2 style={{ color: 'white' }}>{event.type.charAt(0).toUpperCase() + event.type.slice(1)} 
                                                           <p style={{ marginLeft:'140px', right:'0', color:'white',   fontSize:'18px',}}>ⓘ</p></h2>
