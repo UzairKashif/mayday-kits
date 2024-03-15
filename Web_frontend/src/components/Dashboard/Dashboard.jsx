@@ -287,3 +287,4 @@ const updateMapWithEventGeometry = (geoJsonData) => {
 }
 
 export default NextPage;
+
