@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Marker } from 'react-map-gl';
 import { TailSpin } from 'react-loader-spinner';
-import fireActiveIcon from '../assets/weather_icons/fire_active.png';
-import fireInactiveIcon from '../assets/weather_icons/fire_inactive.png';
-import firePendingIcon from '../assets/weather_icons/fire_pending.png';
 
 const FireMarkersComponent = ({ mapRef, onMarkerClick }) => {
       const [markersData, setMarkersData] = useState([]);
@@ -33,22 +30,15 @@ const FireMarkersComponent = ({ mapRef, onMarkerClick }) => {
           {
           markersData.map((marker, index) => 
           (
-<Marker key={index} latitude={parseFloat(marker.lat)} longitude={parseFloat(marker.lon)}>
-  <div className="marker-container" onClick={() => onMarkerClick(marker.lat, marker.lon, { ...marker, type: 'fire' })}>
-    <img 
-      src={
-        marker.status.trim() === 'Active' ? fireActiveIcon :
-        marker.status.trim() === 'Inactive' ? fireInactiveIcon :
-        firePendingIcon
-      }
-      alt="Fire Status Icon"
-      style={{
-        width: '30px', // Adjust size as needed
-        height: '30px' // Adjust size as needed
-      }}
-    />
-  </div>
-</Marker>
+            <Marker key={index} latitude={parseFloat(marker.lat)} longitude={parseFloat(marker.lon)} >
+              
+                  <div className="marker-container">
+                      <div className="simple-marker" />
+                          <div className="clickable-center" onClick={() => onMarkerClick(marker.lat, marker.lon, { ...marker, type: 'fire' })}>
+                          </div>
+                      </div>
+
+            </Marker>
           ))
           }
 
