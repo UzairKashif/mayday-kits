@@ -17,7 +17,7 @@ import EarthquakeMarkersComponent from '../MarkersComponents/EarthquakeMarkersCo
 import { useMarkerClickHandler} from '../Hooks/useMarkerClickHandler'; // Ensure this path is correct
 import FireMap from '../Firms/firms'; // Update the import path as necessary
 
-
+import * as turf from '@turf/turf';
 
 function NextPage() {
   const [viewport, setViewport] = useState({
@@ -113,6 +113,68 @@ const handleMarkerClick = async (lat, lon, event) => {
 
 };
 
+const handleWeatherEventSelect = async (eventData) => {
+  const affectedZones = eventData.properties.affectedZones;
+  // Assuming affectedZones contains URLs to fetch zone geometries
+
+  const geometries = await Promise.all(
+    affectedZones.map(async (zoneUrl) => {
+      const response = await fetch(zoneUrl);
+      const data = await response.json();
+      return data.geometry;
+    })
+  );
+
+  // Combine geometries into a single GeoJSON FeatureCollection
+  const featureCollection = turf.featureCollection(geometries.map(geo => turf.feature(geo)));
+
+  // Assume mapRef is a ref to your ReactMapGL component
+  const map = mapRef.current.getMap();
+
+  // Remove previous source and layer if exist
+  if (map.getLayer('weather-event-polygon')) {
+    map.removeLayer('weather-event-polygon');
+    map.removeSource('weather-event');
+  }
+
+  // Add new source and layer
+  map.addSource('weather-event', { type: 'geojson', data: featureCollection });
+  map.addLayer({
+    id: 'weather-event-polygon',
+    type: 'fill',
+    source: 'weather-event',
+    layout: {},
+    paint: {
+      'fill-color': '#888',  // Customize the polygon color
+      'fill-opacity': 0.4,
+    },
+  });
+};
+
+// In Dashboard.jsx
+
+// Handler to add/update polygon layer
+const updateMapWithEventGeometry = (geoJsonData) => {
+  const map = mapRef.current.getMap();
+
+  // Check if a source already exists
+  if (map.getSource('weather-event')) {
+    map.removeLayer('weather-event-polygon');
+    map.removeSource('weather-event');
+  }
+
+  // Add new source and layer
+  map.addSource('weather-event', { type: 'geojson', data: geoJsonData });
+  map.addLayer({
+    id: 'weather-event-polygon',
+    type: 'fill',
+    source: 'weather-event',
+    paint: {
+      'fill-color': '#ff0000', // Example color
+      'fill-opacity': 0.5,
+    },
+  });
+};
 
   return (
     <>
@@ -188,6 +250,8 @@ const handleMarkerClick = async (lat, lon, event) => {
           showFire={showFire} 
           showEarthquake={showEarthquake} 
           showWeather={showWeather}
+
+          onWeatherEventSelect={handleWeatherEventSelect}
           />
         </div>
 

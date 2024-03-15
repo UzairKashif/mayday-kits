@@ -7,10 +7,12 @@ import './styles.css';
 import { db } from '../../firebaseConfig'; // Ensure this path is correctly set
 import { TailSpin } from 'react-loader-spinner';
 import { collection, getDocs } from 'firebase/firestore';
-
-const TabsDemo = ({ handleMapViewport, showFire, showEarthquake,showWeather, selectedEvent,setSelectedEvent, showDetails, setShowDetails,isSidebarOpen,setIsSidebarOpen }) => {
+import * as turf from '@turf/turf';
+const TabsDemo = ({ handleMapViewport, onWeatherEventSelect, showFire, showEarthquake,showWeather, selectedEvent,setSelectedEvent, showDetails, setShowDetails,isSidebarOpen,setIsSidebarOpen }) => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [weatherEventFilters, setWeatherEventFilters] = useState({});
+ 
   // const [selectedEvent, setSelectedEvent] = useState(null);
   // const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   // const [showDetails, setShowDetails] = useState(false);
@@ -31,6 +33,7 @@ const TabsDemo = ({ handleMapViewport, showFire, showEarthquake,showWeather, sel
     "Urban And Small Stream Flood Advisory", "Volcano Warning", "Wind Advisory", "Wind Chill Warning",
     "Winter Storm Warning", "Winter Weather Advisory"
   ];
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
     useEffect(() => {
       const fetchEvents = async () => {
         setLoading(true);
@@ -70,6 +73,7 @@ const TabsDemo = ({ handleMapViewport, showFire, showEarthquake,showWeather, sel
           const combinedEvents = [...normalizedFireEvents, ...earthquakeEvents, ...weatherEvents].sort((a, b) => a.date - b.date);
   
           setEvents(combinedEvents);
+          console.log(combinedEvents)
         } catch (error) {
           console.error("Failed to fetch events:", error);
         } finally {
@@ -89,28 +93,36 @@ const TabsDemo = ({ handleMapViewport, showFire, showEarthquake,showWeather, sel
     }, [selectedEvent]);
     
 
-    const visibleEvents = events.filter(event => {
-      if (event.type === 'fire' && showFire) return true;
-      if (event.type === 'earthquake' && showEarthquake) return true;
-      if (event.type === 'weather' && showWeather) return true;
-      return false;
+    const displayEvents = events.filter(event => {
+      const isVisibleType = (event.type === 'fire' && showFire) || 
+                            (event.type === 'earthquake' && showEarthquake) || 
+                            (event.type === 'weather' && showWeather);
+      const passesWeatherFilter = event.type !== 'weather' || weatherEventFilters[event.properties.event];
+      return isVisibleType && passesWeatherFilter;
     });
+    
 
       const handleEventSelect = (event) => {
       setSelectedEvent(event);
       setShowDetails(true); // Show details
       
-
-      // Fly to the event location
-      handleMapViewport({
-        latitude: parseFloat(event.lat || event.geometry.coordinates[1]),
-        longitude: parseFloat(event.lon || event.geometry.coordinates[0]),
-        zoom: 10, // Adjust zoom level as needed
-        pitch: 60,
-        bearing: 30,
-        speed: 1.2,
-      });
-  };
+      if (event.type === 'weather') {
+        // Call the function passed from Dashboard
+        onWeatherEventSelect(event);
+      } else {
+        // Handle other event types as before
+        handleMapViewport({
+          latitude: parseFloat(event.lat || event.geometry.coordinates[1]),
+          longitude: parseFloat(event.lon || event.geometry.coordinates[0]),
+          zoom: 10,
+          pitch: 60,
+          bearing: 30,
+          speed: 1.2,
+        });
+      }
+    };
+  
+ 
 
         const handleBack = () => {
           setShowDetails(false); // Hide details and show list of events
@@ -133,13 +145,59 @@ const TabsDemo = ({ handleMapViewport, showFire, showEarthquake,showWeather, sel
         const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
         console.log(selectedEvent);
 
+       
+        
+        const handleWeatherFilterChange = (event) => {
+          const { name, checked } = event.target;
+          setWeatherEventFilters(prevFilters => {
+            const updatedFilters = { ...prevFilters, [name]: checked };
+            console.log('Updated Filters:', updatedFilters);
+            return updatedFilters;
+          });
+        };
+        useEffect(() => {
+          console.log('Current Weather Event Filters:', weatherEventFilters);
+        }, [weatherEventFilters]); // Add weatherEventFilters to dependency array to log whenever it changes
+                
+        
+
+  // Filtered events based on selected weather event types
+  const filteredEvents = events.filter((event) => {
+    return event.type !== 'weather' || weatherEventFilters[event.properties.event];
+  });
+  const isFilterApplied = Object.values(weatherEventFilters).some(value => value === false);
+
+// Define displayEvents based on whether a filter is applied
+// Assuming visibleEvents already filters based on showFire, showEarthquake, showWeather
   
   return (
     <>
       <button className={`SidebarToggle ${isSidebarOpen ? 'open' : ''}`} onClick={toggleSidebar}>
         <FiChevronRight className="ToggleIcon" />
       </button>
+      <div className="filter-dropdown">
+              <button onClick={() => setIsDropdownVisible(!isDropdownVisible)} className="filter-dropdown-button">
+    Filter Events
+  </button>
+  {isDropdownVisible && (
+    <div className="filter-container">
+  {validEvents.map((eventType) => (
+    <label key={eventType} className="filter-option">
+    <input
+  type="checkbox"
+  id={`checkbox-${eventType}`}
+  name={eventType}
+  checked={!!weatherEventFilters[eventType]}
+  onChange={handleWeatherFilterChange}
+/>
 
+      {eventType}
+    </label>
+  ))}
+</div>
+
+  )}
+</div>
 
       <div className={`TabsContainer ${isSidebarOpen ? 'open' : 'closed'}`}>
         <Tabs.Root className="TabsRoot" defaultValue="tab1">
@@ -316,16 +374,17 @@ const TabsDemo = ({ handleMapViewport, showFire, showEarthquake,showWeather, sel
                         </div>
                       ): (
                         <div className="no-event-selected">
-                        {visibleEvents.length > 0 ? (
+                        {displayEvents.length > 0 ?(
                           <div className="events-container">
-                            {visibleEvents.map((event) => (
+                             {displayEvents.map((event) => (
+                           
                               <div key={event.id} className="event-card" onClick={() => handleEventSelect(event)}>
                                 {event.type === 'earthquake' && <FaExclamationTriangle className="iconearth" />}
                                 {event.type === 'fire' && <FaFire className="icon" />}
                                 {event.type === 'weather' && <FaCloud className="iconweather" />} {/* Display an icon for weather events */}
                                 <div className="event-info">
                                   <h2 style={{ color: 'white' }}>{event.type.charAt(0).toUpperCase() + event.type.slice(1)} 
-                                  <p style={{ marginLeft:'120px', right:'0', color:'white',   fontSize:'8px',}}>click to see details</p></h2>
+                                  <p style={{ marginLeft:'140px', right:'0', color:'white',   fontSize:'18px',}}>ⓘ</p></h2>
                                   {event.type === 'earthquake' ? (
                                     <>
                                       <div>Location: {event.properties.place}</div>

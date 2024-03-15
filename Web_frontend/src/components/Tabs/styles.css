@@ -11,11 +11,7 @@ body {
   padding: 0;
 }
 
-button,
-fieldset,
-input {
-  all: unset;
-}
+
 .TabsRoot {
   display: flex;
   flex-direction: column;
