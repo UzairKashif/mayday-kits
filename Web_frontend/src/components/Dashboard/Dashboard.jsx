@@ -250,7 +250,7 @@ const updateMapWithEventGeometry = (geoJsonData) => {
           showFire={showFire} 
           showEarthquake={showEarthquake} 
           showWeather={showWeather}
-          handleWeatherEventSelect={handleWeatherEventSelect}
+
           onWeatherEventSelect={handleWeatherEventSelect}
           />
         </div>
