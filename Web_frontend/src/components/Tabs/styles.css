@@ -498,3 +498,18 @@ input[type="checkbox"] {
 }
 
 /* Rest of your CSS code */
+.iconweather {
+  width: 24px; /* Adjust width as needed */
+  height: 24px; /* Adjust height as needed */
+  object-fit: contain; /* Keep the aspect ratio of the icon */
+  margin-right: 8px; /* Space between icon and text */
+  /* You can add additional styles specific to weather icons here */
+}
+
+/* Adjust styles for earthquake and fire icons as well if needed */
+.iconearth, .icon {
+  width: 24px; /* Adjust width as needed */
+  height: 24px; /* Adjust height as needed */
+  object-fit: contain; /* Keep the aspect ratio of the icon */
+  margin-right: 8px; /* Space between icon and text */
+}
