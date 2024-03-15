@@ -133,10 +133,23 @@ const handleWeatherEventSelect = async (eventData) => {
     }
   }
 
-  // Optionally, combine geometries into a single FeatureCollection
   const featureCollection = turf.featureCollection(geometries.map(geo => turf.feature(geo)));
-  setSelectedEventGeometry(featureCollection); // Update the state with the new geometry
+  setSelectedEventGeometry(featureCollection);
+
+  // Calculate the bounding box of the featureCollection
+  const bbox = turf.bbox(featureCollection);
+
+  // Now that you have the bounding box, adjust the map viewport
+  // Note: This assumes mapRef is a ref to your ReactMapGL instance
+  const map = mapRef.current.getMap();
+  map.fitBounds([
+    [bbox[0], bbox[1]], // southwest coordinates
+    [bbox[2], bbox[3]]  // northeast coordinates
+  ], {
+    padding: 100 // Optional: Adjust the padding as needed
+  });
 };
+
 
 // In Dashboard.jsx
 

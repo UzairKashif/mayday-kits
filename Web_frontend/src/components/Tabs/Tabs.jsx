@@ -148,6 +148,7 @@ const TabsDemo = ({ handleMapViewport, handleWeatherEventSelect, onWeatherEventS
             zoom: 1.5,
             
           });
+          
         };
         const getGroupsPkPart = (groupsPk) => {
           const parts = groupsPk.split('_');
