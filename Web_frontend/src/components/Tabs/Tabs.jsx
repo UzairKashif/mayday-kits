@@ -463,20 +463,30 @@ const TabsDemo = ({ handleMapViewport, handleWeatherEventSelect, onWeatherEventS
                                                       <div key={event.id} className="event-card" onClick={() => handleEventSelect(event)}>
                                                         
                                                         
-                                                        {event.type === 'earthquake' ? ( <FaExclamationTriangle className="iconearth" /> ) : ( 
-                                  <img src={
-                                    event.status === 'Active    ' ? fireActiveIcon :
-                                    event.status === 'Inactive  ' ? fireInactiveIcon :
-                                    event.status === 'Pending   '? firePendingIcon : undefined
-                                  
-                                  } alt="Fire Status Icon" className="icon" /> )}
+                                                       {/* Conditional rendering for earthquake events */}
+          {event.type === 'earthquake' && <FaExclamationTriangle className="iconearth" />}
+          {/* Conditional rendering for fire events */}
+          {event.type === 'fire' && (
+            <img
+              src={
+                event.status.trim() === 'Active' ? fireActiveIcon :
+                event.status.trim() === 'Inactive' ? fireInactiveIcon :
+                event.status.trim() === 'Pending' ? firePendingIcon :
+                undefined
+              }
+              alt="Fire Status Icon"
+              className="icon"
+            />
+          )}
+          {/* Conditional rendering for weather events */}
+          {event.type === 'weather' && (
+            <img
+              src={getIconForEvent(event.properties.event)}
+              alt="Event icon"
+              className="iconweather"
+            />
+          )}
 
-
-                                                      
-                                                        {event.type === 'weather' && <FaCloud className="iconweather" />} {/* Display an icon for weather events */}
-                                                        {event.type === 'earthquake' && <FaExclamationTriangle className="iconearth" />}
-                                                        {event.type === 'fire' && <FaFire className="icon" />}
-                                                        {event.type === 'weather' && <FaCloud className="iconweather" />} {/* Display an icon for weather events */}
                                                         <div className="event-info">
                                                           <h2 style={{ color: 'white' }}>{event.type.charAt(0).toUpperCase() + event.type.slice(1)} 
                                                           <p style={{ marginLeft:'140px', right:'0', color:'white',   fontSize:'18px',}}>ⓘ</p></h2>
