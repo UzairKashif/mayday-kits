@@ -195,8 +195,7 @@ const updateMapWithEventGeometry = (geoJsonData) => {
       >
         {showFire &&  <FireMarkersComponent mapRef={mapRef} onMarkerClick={(lat, lon, event) => handleMarkerClick(lat, lon, event)} />}
         {showEarthquake && <EarthquakeMarkersComponent mapRef={mapRef} onMarkerClick={(lat, lon, event) => handleMarkerClick(lat, lon, event)} />}
-        {showURT && <FireMap showURT={showURT} setShowURT={setShowURT} />}
-        {showNRT && <FireMap showNRT={showNRT} setShowNRT={setShowNRT} />}
+       
         {fireEventPixels.map((pixel, index) => (
           <Marker key={index} latitude={parseFloat(pixel.lat)} longitude={parseFloat(pixel.lon)}>
             <div className="fire-event-pixel" />
@@ -215,16 +214,7 @@ const updateMapWithEventGeometry = (geoJsonData) => {
             <div style={{ position: 'relative', height: '100vh' }}>
                 <div id="map" style={{ width: '100%', height: '100%' }} />
                     <div style={{ position: 'absolute', top: 0, right: 0, margin: '20px', zIndex: 1 }}>
-                        <ToggleSwitch
-                          isOn={showURT}
-                          handleToggle={() => setShowURT(!showURT)}
-                          label="URT"
-                        />
-                        <ToggleSwitch
-                          isOn={showNRT}
-                          handleToggle={() => setShowNRT(!showNRT)}
-                          label="NRT"
-                        />
+                     
                     </div>
               </div>
         </div>

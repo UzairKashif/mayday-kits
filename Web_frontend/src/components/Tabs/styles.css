@@ -513,3 +513,10 @@ input[type="checkbox"] {
   object-fit: contain; /* Keep the aspect ratio of the icon */
   margin-right: 8px; /* Space between icon and text */
 }
+/* styles.css */
+
+
+.flex {
+  display: flex;
+  align-items: center;
+}

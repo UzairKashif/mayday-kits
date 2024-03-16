@@ -284,7 +284,7 @@ const TabsDemo = ({ handleMapViewport, handleWeatherEventSelect, onWeatherEventS
           </div>
         )}
 
-{showWeather && (
+{showWeather && !showDetails && (
               <div className="filter-dropdown">
                 <button onClick={() => setIsDropdownVisible(!isDropdownVisible)} className="filter-dropdown-button">
                 ☁ ‎ Filter Events‎ ‎ ‎ ⮟
@@ -311,7 +311,7 @@ const TabsDemo = ({ handleMapViewport, handleWeatherEventSelect, onWeatherEventS
                       
                         // Event details view
                         <div className="event-details-container">
-                            <button style={{fontSize:'19px',  color:'white'}} onClick={handleBack}>⤺</button> {/* Back button */}
+                         
                           
                           <div className="marker-details">
                               <div className="marker-info">
@@ -320,11 +320,14 @@ const TabsDemo = ({ handleMapViewport, handleWeatherEventSelect, onWeatherEventS
                               {selectedEvent.type === 'fire' && (
                                     <>
                                       <Tabs.Root defaultValue="details">
+                                        <div style={{}} className="flex">
+                                      <button style={{fontSize:'19px',  color:'white'}} onClick={handleBack}>⤺</button> {/* Back button */}
                                         <Tabs.List  className='innertabs' aria-label="Fire Event Details">
+                                        
                                           <Tabs.Trigger value="details"><FiInfo className="TabIcon" /> Details</Tabs.Trigger>
                                           <Tabs.Trigger value="cameras"><FiCamera className="TabIcon" /> Cameras & Videos</Tabs.Trigger>
                                         </Tabs.List>
-
+                                        </div>
                                         <Tabs.Content value="details" className="TabsContent">
                                           {/* Fire event detailed information here */}
                                           <div className="detail-box">
@@ -385,6 +388,7 @@ const TabsDemo = ({ handleMapViewport, handleWeatherEventSelect, onWeatherEventS
 
                                 {selectedEvent.type === 'weather' && (
                                   <>
+                                    <button style={{fontSize:'19px',  color:'white'}} onClick={handleBack}>⤺</button> {/* Back button */}
                                     <div className="detail-box">
                                       <h4>Event</h4>
                                       <p>{selectedEvent.properties.event}</p>
@@ -421,6 +425,7 @@ const TabsDemo = ({ handleMapViewport, handleWeatherEventSelect, onWeatherEventS
 
                                     {selectedEvent.type === 'earthquake' && (
                                          <>
+                                           <button style={{fontSize:'19px',  color:'white'}} onClick={handleBack}>⤺</button> {/* Back button */}
                                               <div className="detail-box">
                                                 <h4>Place</h4>
                                                 <p>{selectedEvent.properties.place}</p>
