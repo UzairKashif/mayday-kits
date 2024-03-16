@@ -1,15 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
 import classNames from 'classnames';
 import { CaretDownIcon } from '@radix-ui/react-icons';
 import './stylesdrop.css';
 import fireicon from '../assets/fire.png';
 import '@radix-ui/themes/styles.css';
+import * as HoverCard from '@radix-ui/react-hover-card';
 
 
 
-const NavigationMenuDemo = () => {
+const NavigationMenuDemo = ({ showFire, setShowFire, showEarthquake, setShowEarthquake, showWeather,setShowWeather}) => {
+
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+
+  const togglePopup = () => {
+    setIsPopupVisible(!isPopupVisible);
+  };
+
+  const popupStyle = {
+    position: 'fixed',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '80%',
+    height: '80%',
+    backgroundColor: '#010001',
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
+    borderRadius: '30px',
+    padding: '20px',
+    zIndex: 9999,
+  };
+
+
+
+
   return (
+    <>
     <NavigationMenu.Root className="NavigationMenuRoot">
       <NavigationMenu.List className="NavigationMenuList">
         <NavigationMenu.Item>
@@ -18,26 +44,96 @@ const NavigationMenuDemo = () => {
           </NavigationMenu.Trigger>
           <NavigationMenu.Content className="NavigationMenuContent">
             <ul className="List one">
-              <li style={{ gridRow: 'span 3' }}>
+              <li style={{ gridRow: 'span 4' }}>
+
+             
+
+
                 <NavigationMenu.Link asChild>
-                  <a className="Callout" href="/nextpage">
+                  <a className="Callout" href="">
                    
                     <img src={fireicon} alt="" className="icon-small" />
                     <div className="CalloutHeading">Mayday Fire Events</div>
                     <p className="CalloutText">AI fire detections</p>
+                    <li>
+                    <label class="checkbox-container">
+  <input type="checkbox" id="fireCheckbox" checked={showFire} onChange={(e) => setShowFire(e.target.checked)} />
+  <span class="checkbox-label" for="fireCheckbox"></span>
+</label>
+
+
+          </li>
                   </a>
                 </NavigationMenu.Link>
               </li>
 
-              <ListItem href="/test" title="Earthquakes">
+              <ListItem href="" title="Earthquakes">
                USGS Earthquakes detections
+               
+          {/* Earthquakes Checkbox */}
+          <li>
+            <label className="checkbox-container">
+              <input
+                type="checkbox"
+                checked={showEarthquake}
+                onChange={(e) => setShowEarthquake(e.target.checked)}
+              />
+            
+  <span className="checkbox-label"></span>
+            </label>
+          </li>
               </ListItem>
               <ListItem href="/firms" title="FIRMS fire events">
                 NASA worldwide fire detections
               </ListItem>
-              <ListItem href="/weather" title="Extreme Weather Alerts">
-                NWS alerts for US
+             
+             
+              <HoverCard.Root>
+                  <HoverCard.Trigger asChild>
+                    <li>
+                   
+                      <ListItem href="/weather" title="Extreme Weather Alerts">
               </ListItem>
+                        <li>
+                        <label className="checkbox-container">
+                            <input
+                              type="checkbox"
+                              checked={showWeather}
+                              onChange={(e) => setShowWeather(e.target.checked)}
+                            />
+                            <span className="checkbox-label"></span>
+                        </label>
+                    </li>
+                     
+                    </li>
+                  </HoverCard.Trigger>
+                  <HoverCard.Portal>
+        <HoverCard.Content   style={{zIndex:'1000',}}>
+          {/* Place filter dropdown UI here
+          
+<div className="filter-container">
+  {validEvents.map((eventType) => (
+    <div key={eventType} className="filter-option">
+      <label>
+        <input
+          type="checkbox"
+          name={eventType}
+          checked={weatherEventFilters[eventType]}
+          onChange={onWeatherFilterChange}
+        />
+        {eventType}
+      </label>
+    </div>
+  ))}
+</div>
+ */}
+
+        </HoverCard.Content>
+      </HoverCard.Portal>
+                </HoverCard.Root>
+             <ListItem href="#!" title="Satellite View" onClick={togglePopup}>
+                  Global Satellite Video
+                </ListItem>
             </ul>
           </NavigationMenu.Content>
         </NavigationMenu.Item>
@@ -85,15 +181,24 @@ const NavigationMenuDemo = () => {
         <NavigationMenu.Viewport className="NavigationMenuViewport" />
       </div>
     </NavigationMenu.Root>
-
+    {isPopupVisible && (
+        <div style={popupStyle}>
+          <button style={{color:'white',}} onClick={() => setIsPopupVisible(false)}>Close</button>
+          <video style={{ width: '100%', height: '100%' }} controls>
+            <source src="https://geos-stat1.s3.us-east-2.amazonaws.com/G16/FULL/terra/Last24hrs.mp4" type="video/mp4" controls autoPlay muted loop />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      )}
+    </>
 
   );
 };
 
-const ListItem = React.forwardRef(({ className, children, title, ...props }, forwardedRef) => (
+const ListItem = React.forwardRef(({ className, children, title, onClick, ...props }, forwardedRef) => (
   <li>
     <NavigationMenu.Link asChild>
-      <a className={classNames('ListItemLink', className)} {...props} ref={forwardedRef}>
+      <a className={classNames('ListItemLink', className)} {...props} ref={forwardedRef} onClick={onClick}>
         <div className="ListItemHeading">{title}</div>
         <p className="ListItemText">{children}</p>
       </a>

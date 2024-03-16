@@ -117,3 +117,125 @@ body, html, #root {
 }
 
 
+.overlay-container {
+  pointer-events: none;
+}
+
+.overlay-container * {
+  pointer-events: auto;
+}
+
+
+
+
+.toggle-container {
+  position: absolute;
+  top: 20px;
+  right: 60px;
+  padding: 10px;
+  background-color: #ffffff00;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  border-radius: 8px;
+  display: flex;
+  z-index: 200;
+  
+}
+
+.toggle-option {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.toggle-checkbox {
+  height: 0;
+  width: 0;
+  visibility: hidden;
+}
+
+.toggle-label {
+  cursor: pointer;
+  text-indent: -9999px;
+  width: 50px;
+  height: 25px;
+  background: grey;
+  display: block;
+  border-radius: 100px;
+  position: relative;
+}
+
+.toggle-label:after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 21px;
+  height: 21px;
+  background: #fff;
+  border-radius: 90px;
+  transition: 0.3s;
+}
+
+.toggle-checkbox:checked + .toggle-label {
+  background: #4BD763;
+}
+
+.toggle-checkbox:checked + .toggle-label:after {
+  left: calc(100% - 2px);
+  transform: translateX(-100%);
+}
+
+.toggle-label:active:after {
+  width: 28px;
+}
+
+/* nextpage.css */
+
+.toggle-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 60px;
+  height: 34px;
+  background-color: #ccc; /* Off state background */
+  border-radius: 34px;
+  transition: background-color 0.4s ease-in-out;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+}
+
+.toggle-switch.on {
+  background-color: #2196F3; /* On state background */
+}
+
+.toggle-slider {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 30px;
+  height: 30px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  transition: transform 0.4s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-switch.on .toggle-slider {
+  transform: translateX(26px); /* Move slider to the right */
+}
+
+/* Label style (Optional) */
+.toggle-label {
+  margin-left: 75px;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.fire-event-pixel {
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+  position: 'absolute';
+  transform: translate(-50%, -50%);
+}

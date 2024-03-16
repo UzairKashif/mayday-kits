@@ -1,0 +1,18 @@
+.dropdown input[type="checkbox"] {
+    margin-right: 8px;
+    background-color: red;
+    display: inline-block;
+    visibility: visible;
+    width: 20px; /* Width of the checkbox */
+    height: 20px; /* Height of the checkbox */
+    cursor: pointer; /* Mouse pointer changes to hand icon */
+    accent-color: #fff; /* This is for modern browsers to set the checkbox color */
+    -webkit-appearance: checkbox; /* For Safari and older browsers */
+    appearance: checkbox;
+  }
+  
+  .dropdown label {
+    display: inline; /* Change from block to inline or inline-block */
+    margin-right: 10px; /* Ensure each label is on a new line */
+    margin-bottom: 5px; /* Space out the checkboxes */
+  }

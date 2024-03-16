@@ -1,9 +1,9 @@
 import './App.css';
 import LoginSignup from './components/LoginSignup/LoginSignup';
-import NextPage from './components/NextPage/NextPage';
-import Test from './components/NextPage/Test';
-import Weather from './components/Tabs/weather';
-import Firms from './components/Tabs/firms';
+import Dashboard from './components/Dashboard/Dashboard';
+import FirebaseAuth from './components/FirebaseAuth';
+import Weather from './components/Weather/weather';
+import Firms from './components/Firms/firms';
 import '@radix-ui/themes/styles.css';
 import {BrowserRouter, Routes, Route} from "react-router-dom"
 // App.js
@@ -14,8 +14,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/LoginSignup' element={<LoginSignup />}></Route>
-        <Route path='/NextPage' element={<NextPage />}></Route>
-        <Route path='/Test' element={<Test />}></Route>
+        <Route path='/Dashboard' element={<Dashboard />}></Route>
+        <Route path='/auth' element={<FirebaseAuth/>}></Route>
         <Route path='/Weather' element={<Weather />}></Route>
         <Route path='/firms' element={<Firms/>}></Route>
 
