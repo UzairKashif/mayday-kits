@@ -402,7 +402,7 @@ body {
 }
 
 .filter-dropdown-button {
-  background-color: #1F1513;
+  background-color: #000000;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -520,3 +520,58 @@ input[type="checkbox"] {
   display: flex;
   align-items: center;
 }
+
+
+
+.flex-container {
+  display: flex;
+  align-items: center; /* Aligns items vertically in the center */
+  gap: 10px; /* Adds some space between the button and the tabs list */
+}
+.back-button {
+  font-size: 19px; /* Or your preferred size */
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center; /* Center the icon inside the button */
+  justify-content: center;
+  height: 40px; /* Adjust based on your design */
+}
+
+.TabIcon {
+  margin-right: 5px;
+  align-self: center; /* This ensures the icon is centered vertically within its container */
+}
+
+/* Ensure text alignment in tabs, if necessary */
+.innertabs a {
+  display: flex;
+  align-items: center;
+}
+
+.back-button {
+  transform: translateY(-9px); /* Slightly move up the back button */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

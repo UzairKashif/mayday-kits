@@ -320,14 +320,17 @@ const TabsDemo = ({ handleMapViewport, handleWeatherEventSelect, onWeatherEventS
                               {selectedEvent.type === 'fire' && (
                                     <>
                                       <Tabs.Root defaultValue="details">
-                                        <div style={{}} className="flex">
-                                      <button style={{fontSize:'19px',  color:'white'}} onClick={handleBack}>⤺</button> {/* Back button */}
-                                        <Tabs.List  className='innertabs' aria-label="Fire Event Details">
-                                        
-                                          <Tabs.Trigger value="details"><FiInfo className="TabIcon" /> Details</Tabs.Trigger>
-                                          <Tabs.Trigger value="cameras"><FiCamera className="TabIcon" /> Cameras & Videos</Tabs.Trigger>
-                                        </Tabs.List>
-                                        </div>
+                                      <div className="flex-container">
+    <button className="back-button" onClick={handleBack}>
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6.85355 3.14645C7.04882 3.34171 7.04882 3.65829 6.85355 3.85355L3.70711 7H12.5C12.7761 7 13 7.22386 13 7.5C13 7.77614 12.7761 8 12.5 8H3.70711L6.85355 11.1464C7.04882 11.3417 7.04882 11.6583 6.85355 11.8536C6.65829 12.0488 6.34171 12.0488 6.14645 11.8536L2.14645 7.85355C1.95118 7.65829 1.95118 7.34171 2.14645 7.14645L6.14645 3.14645C6.34171 2.95118 6.65829 2.95118 6.85355 3.14645Z" fill="currentColor"></path>
+      </svg>
+    </button>
+    <Tabs.List className="innertabs" aria-label="Fire Event Details">
+      <Tabs.Trigger value="details"><FiInfo className="TabIcon" /> Details</Tabs.Trigger>
+      <Tabs.Trigger value="cameras"><FiCamera className="TabIcon" /> Cameras & Videos</Tabs.Trigger>
+    </Tabs.List>
+  </div>
                                         <Tabs.Content value="details" className="TabsContent">
                                           {/* Fire event detailed information here */}
                                           <div className="detail-box">
@@ -388,7 +391,9 @@ const TabsDemo = ({ handleMapViewport, handleWeatherEventSelect, onWeatherEventS
 
                                 {selectedEvent.type === 'weather' && (
                                   <>
-                                    <button style={{fontSize:'19px',  color:'white'}} onClick={handleBack}>⤺</button> {/* Back button */}
+                                    <button style={{fontSize:'19px',  color:'white'}} onClick={handleBack}> <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6.85355 3.14645C7.04882 3.34171 7.04882 3.65829 6.85355 3.85355L3.70711 7H12.5C12.7761 7 13 7.22386 13 7.5C13 7.77614 12.7761 8 12.5 8H3.70711L6.85355 11.1464C7.04882 11.3417 7.04882 11.6583 6.85355 11.8536C6.65829 12.0488 6.34171 12.0488 6.14645 11.8536L2.14645 7.85355C1.95118 7.65829 1.95118 7.34171 2.14645 7.14645L6.14645 3.14645C6.34171 2.95118 6.65829 2.95118 6.85355 3.14645Z" fill="currentColor"></path>
+      </svg></button> {/* Back button */}
                                     <div className="detail-box">
                                       <h4>Event</h4>
                                       <p>{selectedEvent.properties.event}</p>
@@ -425,7 +430,9 @@ const TabsDemo = ({ handleMapViewport, handleWeatherEventSelect, onWeatherEventS
 
                                     {selectedEvent.type === 'earthquake' && (
                                          <>
-                                           <button style={{fontSize:'19px',  color:'white'}} onClick={handleBack}>⤺</button> {/* Back button */}
+                                           <button style={{fontSize:'19px',  color:'white'}} onClick={handleBack}> <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6.85355 3.14645C7.04882 3.34171 7.04882 3.65829 6.85355 3.85355L3.70711 7H12.5C12.7761 7 13 7.22386 13 7.5C13 7.77614 12.7761 8 12.5 8H3.70711L6.85355 11.1464C7.04882 11.3417 7.04882 11.6583 6.85355 11.8536C6.65829 12.0488 6.34171 12.0488 6.14645 11.8536L2.14645 7.85355C1.95118 7.65829 1.95118 7.34171 2.14645 7.14645L6.14645 3.14645C6.34171 2.95118 6.65829 2.95118 6.85355 3.14645Z" fill="currentColor"></path>
+      </svg></button> {/* Back button */}
                                               <div className="detail-box">
                                                 <h4>Place</h4>
                                                 <p>{selectedEvent.properties.place}</p>
