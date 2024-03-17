@@ -402,7 +402,7 @@ body {
 }
 
 .filter-dropdown-button {
-  background-color: #000000;
+  background-color: #050505;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -411,9 +411,7 @@ body {
   font-size: 16px;
 }
 
-.filter-dropdown-button:hover, .filter-dropdown-button:focus {
-  background-color: #1F1513;
-}
+
 
 .filter-container {
   display: flex;
@@ -568,6 +566,13 @@ input[type="checkbox"] {
 
 
 
+.filter-search-input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
 
 
 

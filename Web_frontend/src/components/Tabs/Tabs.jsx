@@ -101,6 +101,17 @@ const TabsDemo = ({ handleMapViewport, handleWeatherEventSelect, onWeatherEventS
     "Urban And Small Stream Flood Advisory", "Volcano Warning", "Wind Advisory", "Wind Chill Warning",
     "Winter Storm Warning", "Winter Weather Advisory"
   ];
+  const [searchTerm, setSearchTerm] = useState('');
+
+// Handle search input change
+const handleSearchChange = (event) => {
+  setSearchTerm(event.target.value.toLowerCase());
+};
+
+// Filter validEvents based on search term
+const filteredEvents = searchTerm
+  ? validEvents.filter(eventType => eventType.toLowerCase().includes(searchTerm))
+  : validEvents;
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
     useEffect(() => {
       const fetchEvents = async () => {
@@ -243,10 +254,10 @@ const TabsDemo = ({ handleMapViewport, handleWeatherEventSelect, onWeatherEventS
                 
         
 
-  // Filtered events based on selected weather event types
-  const filteredEvents = events.filter((event) => {
-    return event.type !== 'weather' || weatherEventFilters[event.properties.event];
-  });
+  // // Filtered events based on selected weather event types
+  // const filteredEvents = events.filter((event) => {
+  //   return event.type !== 'weather' || weatherEventFilters[event.properties.event];
+  // });
   const isFilterApplied = Object.values(weatherEventFilters).some(value => value === false);
 
 // Define displayEvents based on whether a filter is applied
@@ -290,23 +301,30 @@ const TabsDemo = ({ handleMapViewport, handleWeatherEventSelect, onWeatherEventS
                 ☁ ‎ Filter Events‎ ‎ ‎ ⮟
                 </button>
                 {isDropdownVisible && (
-                  <div className="filter-container">
-                    {validEvents.map(eventType => (
-                      <label key={eventType} className="filter-option">
-                        <input
-                          type="checkbox"
-                          id={`checkbox-${eventType}`}
-                          name={eventType}
-                          checked={!!weatherEventFilters[eventType]}
-                          onChange={handleWeatherFilterChange}
-                        />
-                        {eventType}
-                      </label>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
+          <div className="filter-container">
+            {/* Search input field */}
+            <input
+              type="text"
+              placeholder="Search events..."
+              onChange={handleSearchChange}
+              className="filter-search-input" // Add CSS for this
+            />
+            {filteredEvents.map(eventType => (
+              <label key={eventType} className="filter-option">
+                <input
+                  type="checkbox"
+                  id={`checkbox-${eventType}`}
+                  name={eventType}
+                  checked={!!weatherEventFilters[eventType]}
+                  onChange={handleWeatherFilterChange}
+                />
+                {eventType}
+              </label>
+            ))}
+          </div>
+        )}
+      </div>
+    )}
                     {showDetails && selectedEvent ?(
                       
                         // Event details view
