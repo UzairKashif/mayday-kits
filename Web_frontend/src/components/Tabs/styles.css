@@ -9,6 +9,7 @@ body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
+  
 }
 
 
@@ -17,10 +18,10 @@ body {
   flex-direction: column;
   width: 89%;
   min-width: 400px;
-  
-  min-height: 100vh;
+
+  height: 100vh;
   margin: 0;
-  margin-bottom: 60px;
+ 
   border-radius: 10px;
   box-shadow: 0 2px 10px var(--black-a4);
   overflow-y: auto; 
@@ -85,7 +86,7 @@ body {
   border-bottom-right-radius: 10px;
   outline: none;
   overflow-y: auto; /* Enable vertical scrolling */
-  max-height: calc(100vh - 16vh); /* Set max height to viewport height minus the height of the tab triggers */
+  max-height: calc(100vh ); /* Set max height to viewport height minus the height of the tab triggers */
   box-sizing: border-box; /* Add this line */
   max-width: 400px;
 }
@@ -562,10 +563,3 @@ input[type="checkbox"] {
   border: 1px solid #ccc;
   border-radius: 5px;
 }
-
-
-
-
-
-
-
