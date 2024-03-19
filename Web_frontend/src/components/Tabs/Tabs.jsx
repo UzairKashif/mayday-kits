@@ -113,55 +113,60 @@ const filteredEvents = searchTerm
   ? validEvents.filter(eventType => eventType.toLowerCase().includes(searchTerm))
   : validEvents;
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-    useEffect(() => {
-      const fetchEvents = async () => {
-        setLoading(true);
-        try {
-          // Combine all fetch operations into a single async function
-          const fireEventsPromise = fetch('http://localhost:3000/api/fire-events').then(res => res.json());
-          const earthquakeEventsPromise = getDocs(collection(db, "earthquakes"));
-          const weatherEventsPromise = getDocs(collection(db, "weatherAlerts"));
+
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      setLoading(true);
+      try {
+        // API Endpoints
+        const fireEventsUrl = 'http://localhost:3000/api/fire-events'; // Adjust with the correct endpoint
+        const weatherApiUrl = "https://api.weather.gov/alerts/active";
+        const earthquakeApiUrl = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2024-01-01&endtime=2024-02-02&minmagnitude=3";
+        
+        // Fetching data from all three APIs concurrently
+        const [fireResponse, weatherResponse, earthquakeResponse] = await Promise.all([
+          fetch(fireEventsUrl).then(res => res.json()),
+          fetch(weatherApiUrl).then(res => res.json()),
+          fetch(earthquakeApiUrl).then(res => res.json()),
+        ]);
+        
+        // Process fire events data
+        const fireEvents = fireResponse.map(event => ({
+          ...event,
+          type: 'fire',
+          date: new Date(event.event_start_since).getTime(), // Adjust based on actual property path
+        }));
+        
+        // Process weather data
+        const weatherEvents = weatherResponse.features.map(eventData => ({
+          ...eventData,
+          type: 'weather',
+          date: eventData.date ? new Date(eventData.date).getTime() : null
+        })).filter(event => validEvents.includes(event.properties.event));
+        
+        // Process earthquake data
+        const earthquakeEvents = earthquakeResponse.features.map(feature => ({
+          ...feature,
+          type: 'earthquake',
+          date: new Date(feature.properties.time).getTime(), // Adjust based on actual property path
+        }));
+        
+        // Combine and sort events by date
+        const combinedEvents = [...fireEvents, ...weatherEvents, ...earthquakeEvents]
+          .sort((a, b) => a.date - b.date);
   
-          const [fireEvents, earthquakeSnapshot, weatherSnapshot] = await Promise.all([fireEventsPromise, earthquakeEventsPromise, weatherEventsPromise]);
+        setEvents(combinedEvents);
+      } catch (error) {
+        console.error("Failed to fetch events:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
   
-          const normalizedFireEvents = fireEvents.map(event => ({
-            ...event,
-            type: 'fire',
-            date: new Date(event.event_start_since).getTime(),
-          }));
+    fetchEvents();
+  }, []);
   
-          const earthquakeEvents = earthquakeSnapshot.docs.map(doc => ({
-            ...doc.data(),
-            id: doc.id,
-            type: 'earthquake',
-            date: new Date(doc.data().properties.time).getTime(),
-          }));
-  
-         
-          const weatherEvents = weatherSnapshot.docs.map(doc => {
-            const eventData = doc.data();
-            return {
-              ...eventData,
-              id: doc.id,
-              type: 'weather',
-              date: eventData.date ? new Date(eventData.date).getTime() : null
-            };
-          }).filter(event => validEvents.includes(event.properties.event));
-  
-          // Combine all events and sort by date
-          const combinedEvents = [...normalizedFireEvents, ...earthquakeEvents, ...weatherEvents].sort((a, b) => a.date - b.date);
-  
-          setEvents(combinedEvents);
-          console.log(combinedEvents)
-        } catch (error) {
-          console.error("Failed to fetch events:", error);
-        } finally {
-          setLoading(false);
-        }
-      };
-  
-      fetchEvents();
-    }, []);
 
  
     useEffect(() => {

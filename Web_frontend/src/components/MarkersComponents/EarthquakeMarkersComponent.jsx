@@ -17,7 +17,7 @@ const EarthquakeMarkersComponent = ({ mapRef, onMarkerClick }) => {
           format: 'geojson',
     starttime: '2024-01-01',
     endtime: '2024-02-02',
-    minmagnitude: '5',
+    minmagnitude: '3',
         });
   
         const response = await fetch(url);
@@ -49,7 +49,8 @@ const EarthquakeMarkersComponent = ({ mapRef, onMarkerClick }) => {
     <>
       {earthquakeData.map((earthquake, index) => (
         <Marker key={index} latitude={parseFloat(earthquake.latitude)} longitude={parseFloat(earthquake.longitude)}>
-          <div onClick={() => onMarkerClick(earthquake.latitude, earthquake.longitude, { ...earthquake, type: 'earthquake' })} style={{ cursor: 'pointer' }}>
+         <div onClick={() => onMarkerClick(earthquake.latitude, earthquake.longitude, { properties: {...earthquake}, type: 'earthquake' })} style={{ cursor: 'pointer' }}>
+
             ⚠️
           </div>
         </Marker>

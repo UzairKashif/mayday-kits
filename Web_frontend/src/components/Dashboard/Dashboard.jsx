@@ -92,6 +92,7 @@ const handleLoad = () => {
 
   
 const handleMarkerClick = async (lat, lon, event) => {
+  
   // console.log("Clicked marker event:", event); // Log the event object
   setSelectedEvent(event); // Update selectedEvent with the clicked event
   setShowDetails(true); // Show the event details
