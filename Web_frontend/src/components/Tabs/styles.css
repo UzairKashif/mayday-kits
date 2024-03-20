@@ -9,6 +9,7 @@ body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
+  
 }
 
 
@@ -17,10 +18,10 @@ body {
   flex-direction: column;
   width: 89%;
   min-width: 400px;
-  
-  min-height: 100vh;
+
+  height: 100vh;
   margin: 0;
-  margin-bottom: 60px;
+ 
   border-radius: 10px;
   box-shadow: 0 2px 10px var(--black-a4);
   overflow-y: auto; 
@@ -85,7 +86,7 @@ body {
   border-bottom-right-radius: 10px;
   outline: none;
   overflow-y: auto; /* Enable vertical scrolling */
-  max-height: calc(100vh - 16vh); /* Set max height to viewport height minus the height of the tab triggers */
+  max-height: calc(100vh ); /* Set max height to viewport height minus the height of the tab triggers */
   box-sizing: border-box; /* Add this line */
   max-width: 400px;
 }
@@ -402,7 +403,7 @@ body {
 }
 
 .filter-dropdown-button {
-  background-color: #1F1513;
+  background-color: #050505;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -411,9 +412,7 @@ body {
   font-size: 16px;
 }
 
-.filter-dropdown-button:hover, .filter-dropdown-button:focus {
-  background-color: #1F1513;
-}
+
 
 .filter-container {
   display: flex;
@@ -512,4 +511,55 @@ input[type="checkbox"] {
   height: 24px; /* Adjust height as needed */
   object-fit: contain; /* Keep the aspect ratio of the icon */
   margin-right: 8px; /* Space between icon and text */
+}
+/* styles.css */
+
+
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+
+
+.flex-container {
+  display: flex;
+  align-items: center; /* Aligns items vertically in the center */
+  gap: 10px; /* Adds some space between the button and the tabs list */
+}
+.back-button {
+  font-size: 19px; /* Or your preferred size */
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center; /* Center the icon inside the button */
+  justify-content: center;
+  height: 40px; /* Adjust based on your design */
+}
+
+.TabIcon {
+  margin-right: 5px;
+  align-self: center; /* This ensures the icon is centered vertically within its container */
+}
+
+/* Ensure text alignment in tabs, if necessary */
+.innertabs a {
+  display: flex;
+  align-items: center;
+}
+
+.back-button {
+  transform: translateY(-9px); /* Slightly move up the back button */
+}
+
+
+.filter-search-input {
+  width: 90%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }

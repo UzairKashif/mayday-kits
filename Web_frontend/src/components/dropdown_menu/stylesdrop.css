@@ -16,6 +16,8 @@ p {
   justify-content: center;
   width: 100vw;
   z-index: 1;
+  margin-left: 50px;
+  
 }
 
 .NavigationMenuList {

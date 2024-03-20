@@ -18,8 +18,9 @@ import EarthquakeMarkersComponent from '../MarkersComponents/EarthquakeMarkersCo
 import { useMarkerClickHandler} from '../Hooks/useMarkerClickHandler'; // Ensure this path is correct
 import FireMap from '../Firms/firms'; // Update the import path as necessary
 import  { Source, Layer } from 'react-map-gl';
-
 import * as turf from '@turf/turf';
+
+
 
 function NextPage() {
   const [viewport, setViewport] = useState({
@@ -91,6 +92,7 @@ const handleLoad = () => {
 
   
 const handleMarkerClick = async (lat, lon, event) => {
+  
   // console.log("Clicked marker event:", event); // Log the event object
   setSelectedEvent(event); // Update selectedEvent with the clicked event
   setShowDetails(true); // Show the event details
@@ -195,8 +197,7 @@ const updateMapWithEventGeometry = (geoJsonData) => {
       >
         {showFire &&  <FireMarkersComponent mapRef={mapRef} onMarkerClick={(lat, lon, event) => handleMarkerClick(lat, lon, event)} />}
         {showEarthquake && <EarthquakeMarkersComponent mapRef={mapRef} onMarkerClick={(lat, lon, event) => handleMarkerClick(lat, lon, event)} />}
-        {showURT && <FireMap showURT={showURT} setShowURT={setShowURT} />}
-        {showNRT && <FireMap showNRT={showNRT} setShowNRT={setShowNRT} />}
+       
         {fireEventPixels.map((pixel, index) => (
           <Marker key={index} latitude={parseFloat(pixel.lat)} longitude={parseFloat(pixel.lon)}>
             <div className="fire-event-pixel" />
@@ -215,21 +216,12 @@ const updateMapWithEventGeometry = (geoJsonData) => {
             <div style={{ position: 'relative', height: '100vh' }}>
                 <div id="map" style={{ width: '100%', height: '100%' }} />
                     <div style={{ position: 'absolute', top: 0, right: 0, margin: '20px', zIndex: 1 }}>
-                        <ToggleSwitch
-                          isOn={showURT}
-                          handleToggle={() => setShowURT(!showURT)}
-                          label="URT"
-                        />
-                        <ToggleSwitch
-                          isOn={showNRT}
-                          handleToggle={() => setShowNRT(!showNRT)}
-                          label="NRT"
-                        />
+                     
                     </div>
               </div>
         </div>
 
-
+        <div style={{ position: 'absolute', top: 10, left: 0, zIndex: 0 , width:'50'}} >
         <Dropdown 
           showFire={showFire} 
           setShowFire={setShowFire} 
@@ -237,7 +229,10 @@ const updateMapWithEventGeometry = (geoJsonData) => {
           setShowEarthquake={setShowEarthquake}
           showWeather={showWeather}
           setShowWeather={setShowWeather}
+        
+         
         />
+</div>
         <div id="geocoder" className="custom-geocoder" style={{ position: 'absolute', zIndex: 100000, top: 10, right: 30 }}>
         </div>
         
@@ -256,6 +251,7 @@ const updateMapWithEventGeometry = (geoJsonData) => {
           showWeather={showWeather}
           handleWeatherEventSelect={handleWeatherEventSelect}
           onWeatherEventSelect={handleWeatherEventSelect}
+          style={{ height: '100vh' }} 
           />
         </div>
 
