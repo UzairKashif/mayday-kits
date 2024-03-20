@@ -4,7 +4,7 @@ import firePendingIcon from '../assets/weather_icons/fire_pending.png';
 import React, { useEffect, useState } from 'react';
 import * as Tabs from '@radix-ui/react-tabs';
 import { FiInfo, FiCamera, FiChevronRight } from 'react-icons/fi';
-import { FaFire,FaHome, FaExclamationTriangle, FaGlobe, FaInfoCircle, FaUserCircle } from 'react-icons/fa';
+import { FaFire,FaSignOutAlt,FaHome, FaExclamationTriangle, FaGlobe, FaInfoCircle, FaUserCircle } from 'react-icons/fa';
 import { FaCloud } from 'react-icons/fa';
 import './styles.css';
 import { db } from '../../firebaseConfig'; // Ensure this path is correctly set
@@ -12,7 +12,7 @@ import { TailSpin } from 'react-loader-spinner';
 import { collection, getDocs } from 'firebase/firestore';
 import * as turf from '@turf/turf';
 import logoImage from '../assets/bg.webp'; // Adjust the path accordingly
-
+import SignOut from '../signout/signout';
 
 
 
@@ -269,18 +269,25 @@ const filteredEvents = searchTerm
 // Define displayEvents based on whether a filter is applied
 // Assuming visibleEvents already filters based on showFire, showEarthquake, showWeather
 const [isModalVisible, setIsModalVisible] = useState(false);
+const [info, setinfoVisible] = useState(false);
 const handleOpenModal = () => {
- 
-  {isSidebarOpen &&
     setIsModalVisible(true);
-  }
-  {!isSidebarOpen &&
-    toggleSidebar();
-  }
+    setinfoVisible(false);
 };
 
 const handleCloseModal = () => {
   setIsModalVisible(false);
+ 
+};
+const handleinfo = () => {
+ 
+  setinfoVisible(true); 
+  setIsModalVisible(false);
+};
+
+const handleinfoclose = () => {
+
+setinfoVisible(false);
 };
 
   return (
@@ -299,7 +306,7 @@ const handleCloseModal = () => {
   {showWeather &&
   <FaCloud className="ThinSidebarIcon" onClick={handleOpenModal}  />
 }
-  <FaUserCircle className="ThinSidebarIcon" onClick={() => {/* Handle user profile icon click */}} />
+  <FaUserCircle className="ThinSidebarIcon" onClick={handleinfo} />
 </div>
       {/* <button className={`SidebarToggle ${isSidebarOpen ? 'open' : ''}`} onClick={toggleSidebar}>
         <FiChevronRight className="ToggleIcon" />
@@ -372,6 +379,38 @@ const handleCloseModal = () => {
      }
    </div>
     )}
+
+
+{info && (
+        <div className="info-overlay" onClick={handleinfoclose}>
+    <div className="modal" onClick={e => e.stopPropagation()}>
+      <div className="modal-header">
+        <h4 className="modal-title">User Profile</h4>
+        <button onClick={handleinfoclose} className="close-modal-button">×</button>
+      </div>
+      <div className="info-body">
+      <div className="profile-content">
+  <FaUserCircle alt="User" className="profile-picture" />
+  <h3 className="profile-name">Nazar Hussain</h3>
+  <p className="profile-detail"><strong>Country:</strong>
+  <img src="https://cdn.jsdelivr.net/npm/twemoji@latest/2/svg/1f1f5-1f1f0.svg" alt="Pakistan Flag" style={{width: '1em', height: '1em', verticalAlign: '-0.1em'}} />
+  Pakistan
+</p>
+  <br />
+  <p className="profile-detail"><strong>Email:</strong>nazarhussain786@hotmail.com</p>
+  <br />
+  <p className="profile-detail"><strong>Details:</strong>Premium User </p>
+  <button className="signout-button">
+    <FaSignOutAlt /> Sign out
+  </button>
+</div>
+
+      </div>
+    </div>
+  </div>
+)}
+   
+   
                     {showDetails && selectedEvent ?(
 
                         // Event details view
