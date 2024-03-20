@@ -133,23 +133,37 @@ body {
 }
 
 .detail-box {
-  border: 1px solid #853A2D;
-  padding: 20px;
-  border-radius: 8px;
+  background-color: #181111; /* Dark background for contrast */
+  color: white; /* White text color for readability */
+  padding: 16px; /* Spacing inside the box */
+  margin-bottom: 4px;
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
 }
+
 .detail-box h4 {
- 
-  
-  margin-right: 30px;
-  margin-top: -34px;
- background-color: #1F1513;
- white-space: nowrap; 
- width: 27%;
-  
+  font-size: 14px; /* Smaller font size for headings */
+  margin-bottom: 4px; /* Small gap between heading and paragraph */
+  font-weight: bold; /* Bold font weight for headings */
+  color: #ff977d; /* Accent color for the headings */
 }
 
 .detail-box p {
-  margin: 0;
+  font-size: 13px; /* Slightly smaller font size for content */
+  margin: 0; /* No additional margin for paragraphs */
+  color: #ffffff; /* White text color for readability */
+  line-height: 1.4; /* Spacing between lines */
+}
+
+.detail-box .label {
+  display: inline-block; /* Allows the background to wrap content */
+  background-color: #ff977d; /* Accent color for labels */
+  color: #242424; /* Dark text color for contrast */
+  padding: 4px 8px; /* Spacing inside the label */
+  border-radius: 4px; /* Rounded corners for labels */
+  font-size: 12px; /* Smaller font size for labels */
+  margin-right: 8px; /* Spacing between labels and next element */
+  font-weight: bold; /* Bold font weight for labels */
 }
 
 /* Animation */
@@ -340,6 +354,9 @@ body {
   cursor: pointer;
   padding: 10px;
   border-radius: 0 5px 5px 0;
+  color: #FBD3CB;
+  cursor: pointer;
+  font-size: 1.5rem;
 }
 
 /* Adjust the container's open and closed states */
@@ -562,4 +579,203 @@ input[type="checkbox"] {
   margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
+}
+
+/* Thin sidebar styles */
+.ThinSidebar {
+  position: fixed;
+  top: 0;
+  left: 40px;
+  width: 40px; /* Use the same variable as before */
+  height: 100vh;
+  background: #181111; /* Match the background color of your main sidebar */
+  z-index: 10000000000000; /* Ensure it's above other elements */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Adjust this to control the spacing of icons from the top */
+  padding-top: 50px; /* Space from the top */
+  gap: 20px; /* Space between icons */
+  transform: translateX(-100%); /* Initially move it out of view */
+  transition: transform 0.3s ease; /* Smooth transition for moving in/out */
+}
+
+/* Show the thin sidebar when the main sidebar is collapsed */
+.TabsContainer.closed + .ThinSidebar {
+  transform: translateX(0); /* Move into view */
+}
+
+/* Style the icons inside the thin sidebar */
+.ThinSidebarIcon {
+  color: #FBD3CB;
+  cursor: pointer;
+  font-size: 1.5rem; /* Adjust the size of your icons */
+}
+
+/* Rotate the toggle icon when sidebar is open */
+.SidebarToggle.open .ToggleIcon {
+  transform: rotate(180deg);
+}
+
+
+.ThinSidebarLogo {
+  padding: 10px; /* Adjust the padding to your preference */
+  display: flex;
+  justify-content: center; /* Center the logo horizontally */
+ 
+}
+
+.ThinSidebarIcons {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the icons horizontally */
+}
+
+.ThinSidebarIcons .ThinSidebarLogo:hover {
+  transform: scale(1.2);
+
+}
+.ThinSidebarLogo {
+ top: 0;
+ max-width: 90PX; /* Ensures the logo is responsive and fits within the sidebar */
+  height: auto;
+  display: flex;
+  justify-content: center; /* Centers logo horizontally */
+}
+
+.LogoIcon {
+  max-width: 27PX;
+  top: 0;
+  /* Ensures the logo is responsive and fits within the sidebar */
+  height: auto; 
+  border-color: #eeff00;/* Keeps the aspect ratio of the logo */
+}
+
+
+
+
+/* The modal background overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* The modal container itself */
+.modal {
+  background: #1F1513;
+  color: white;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 600px;
+  width: 100%;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 1001;
+}
+
+/* The modal header */
+.modal-header {
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  color: #ffffff;
+}
+
+/* Close button on the top right of the modal */
+.close-modal-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* The search input styling */
+.modal-search-input {
+  width: 80%;
+  padding: 10px 15px;
+  font-size: 1rem;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Style for the filter options list */
+.filter-options-list {
+  list-style-type: none;
+}
+
+/* Individual filter option line item */
+.filter-option {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* Custom toggle switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+  margin-right: 10px;
+}
+
+/* Hide the default checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 24px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+/* Checked state for the slider */
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+/* The filter option label text */
+.filter-label {
+  user-select: none;
 }

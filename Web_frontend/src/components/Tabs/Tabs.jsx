@@ -4,18 +4,19 @@ import firePendingIcon from '../assets/weather_icons/fire_pending.png';
 import React, { useEffect, useState } from 'react';
 import * as Tabs from '@radix-ui/react-tabs';
 import { FiInfo, FiCamera, FiChevronRight } from 'react-icons/fi';
-import { FaExclamationTriangle, FaFire } from 'react-icons/fa';
+import { FaFire,FaHome, FaExclamationTriangle, FaGlobe, FaInfoCircle, FaUserCircle } from 'react-icons/fa';
 import { FaCloud } from 'react-icons/fa';
 import './styles.css';
 import { db } from '../../firebaseConfig'; // Ensure this path is correctly set
 import { TailSpin } from 'react-loader-spinner';
 import { collection, getDocs } from 'firebase/firestore';
 import * as turf from '@turf/turf';
+import logoImage from '../assets/bg.webp'; // Adjust the path accordingly
 
 
 
 
-// Import icons
+
 import icon911 from '../assets/weather_icons/911.png';
 import iconEarthquake from '../assets/weather_icons/earthquake.png';
 import iconFire from '../assets/weather_icons/fire.png';
@@ -69,8 +70,8 @@ const eventToIconMap = {
 // ... map other valid events to their icons
 "default": icon911, // Default icon
 
-  
-}; 
+
+};
 
 const getIconForEvent = (eventType) => {
   return eventToIconMap[eventType] || eventToIconMap["default"];
@@ -80,7 +81,7 @@ const TabsDemo = ({ handleMapViewport, handleWeatherEventSelect, onWeatherEventS
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [weatherEventFilters, setWeatherEventFilters] = useState({});
- 
+
   // const [selectedEvent, setSelectedEvent] = useState(null);
   // const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   // const [showDetails, setShowDetails] = useState(false);
@@ -123,39 +124,39 @@ const filteredEvents = searchTerm
         const fireEventsUrl = 'http://localhost:3000/api/fire-events'; // Adjust with the correct endpoint
         const weatherApiUrl = "https://api.weather.gov/alerts/active";
         const earthquakeApiUrl = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2024-01-01&endtime=2024-02-02&minmagnitude=3";
-        
+
         // Fetching data from all three APIs concurrently
         const [fireResponse, weatherResponse, earthquakeResponse] = await Promise.all([
           fetch(fireEventsUrl).then(res => res.json()),
           fetch(weatherApiUrl).then(res => res.json()),
           fetch(earthquakeApiUrl).then(res => res.json()),
         ]);
-        
+
         // Process fire events data
         const fireEvents = fireResponse.map(event => ({
           ...event,
           type: 'fire',
           date: new Date(event.event_start_since).getTime(), // Adjust based on actual property path
         }));
-        
+
         // Process weather data
         const weatherEvents = weatherResponse.features.map(eventData => ({
           ...eventData,
           type: 'weather',
           date: eventData.date ? new Date(eventData.date).getTime() : null
         })).filter(event => validEvents.includes(event.properties.event));
-        
+
         // Process earthquake data
         const earthquakeEvents = earthquakeResponse.features.map(feature => ({
           ...feature,
           type: 'earthquake',
           date: new Date(feature.properties.time).getTime(), // Adjust based on actual property path
         }));
-        
+
         // Combine and sort events by date
         const combinedEvents = [...fireEvents, ...weatherEvents, ...earthquakeEvents]
           .sort((a, b) => a.date - b.date);
-  
+
         setEvents(combinedEvents);
       } catch (error) {
         console.error("Failed to fetch events:", error);
@@ -163,28 +164,28 @@ const filteredEvents = searchTerm
         setLoading(false);
       }
     };
-  
+
     fetchEvents();
   }, []);
-  
 
- 
+
+
     useEffect(() => {
       if (selectedEvent) {
         console.log("Selected event in TabsDemo:", selectedEvent);
         setShowDetails(true);
       }
     }, [selectedEvent]);
-    
+
 
     const displayEvents = events.filter(event => {
-      const isVisibleType = (event.type === 'fire' && showFire) || 
-                            (event.type === 'earthquake' && showEarthquake) || 
+      const isVisibleType = (event.type === 'fire' && showFire) ||
+                            (event.type === 'earthquake' && showEarthquake) ||
                             (event.type === 'weather' && showWeather);
       const passesWeatherFilter = event.type !== 'weather' || weatherEventFilters[event.properties.event];
       return isVisibleType && passesWeatherFilter;
     });
-    
+
 
     const handleEventSelect = async (event) => {
       setSelectedEvent(event);
@@ -219,7 +220,7 @@ const filteredEvents = searchTerm
         });
       }
     };
-    
+
 
         const handleBack = () => {
           setShowDetails(false); // Hide details and show list of events
@@ -229,9 +230,9 @@ const filteredEvents = searchTerm
             latitude: -14.2350,
             longitude: -51.9253,
             zoom: 1.5,
-            
+
           });
-          
+
         };
         const getGroupsPkPart = (groupsPk) => {
           const parts = groupsPk.split('_');
@@ -243,8 +244,8 @@ const filteredEvents = searchTerm
         const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
         console.log(selectedEvent);
 
-       
-        
+
+
         const handleWeatherFilterChange = (event) => {
           const { name, checked } = event.target;
           setWeatherEventFilters(prevFilters => {
@@ -256,8 +257,8 @@ const filteredEvents = searchTerm
         useEffect(() => {
           console.log('Current Weather Event Filters:', weatherEventFilters);
         }, [weatherEventFilters]); // Add weatherEventFilters to dependency array to log whenever it changes
-                
-        
+
+
 
   // // Filtered events based on selected weather event types
   // const filteredEvents = events.filter((event) => {
@@ -267,13 +268,42 @@ const filteredEvents = searchTerm
 
 // Define displayEvents based on whether a filter is applied
 // Assuming visibleEvents already filters based on showFire, showEarthquake, showWeather
-  
+const [isModalVisible, setIsModalVisible] = useState(false);
+const handleOpenModal = () => {
+ 
+  {isSidebarOpen &&
+    setIsModalVisible(true);
+  }
+  {!isSidebarOpen &&
+    toggleSidebar();
+  }
+};
+
+const handleCloseModal = () => {
+  setIsModalVisible(false);
+};
+
   return (
     <>
-      <button className={`SidebarToggle ${isSidebarOpen ? 'open' : ''}`} onClick={toggleSidebar}>
+
+    <div className={`ThinSidebar ${!isSidebarOpen ? 'show' : ''}`}>
+    <div className="ThinSidebarLogo">
+    <img src={logoImage} alt="Logo" className="LogoIcon" />
+  </div>
+
+  
+  <FaHome className={`ThinSidebarIcon ${isSidebarOpen ? 'open' : ''}`} onClick={toggleSidebar} />
+  <FaExclamationTriangle className="ThinSidebarIcon" onClick={() => {/* Handle earthquake icon click */}} />
+  <FaGlobe className="ThinSidebarIcon" onClick={() => {/* Handle globe icon click */}} />
+  
+  {showWeather &&
+  <FaCloud className="ThinSidebarIcon" onClick={handleOpenModal}  />
+}
+  <FaUserCircle className="ThinSidebarIcon" onClick={() => {/* Handle user profile icon click */}} />
+</div>
+      {/* <button className={`SidebarToggle ${isSidebarOpen ? 'open' : ''}`} onClick={toggleSidebar}>
         <FiChevronRight className="ToggleIcon" />
-      </button>
-     
+      </button> */}
 
       <div className={`TabsContainer ${isSidebarOpen ? 'open' : 'closed'}`}>
         <Tabs.Root className="TabsRoot" defaultValue="tab1">
@@ -281,10 +311,8 @@ const filteredEvents = searchTerm
                   <Tabs.Trigger className="TabsTrigger" value="tab1">
                       <FiInfo className="TabIcon" /> Events
                   </Tabs.Trigger>
-                  
-                  {/* <Tabs.Trigger className="TabsTrigger" value="tab2">
-                      <FiCamera className="TabIcon" /> Cameras & Videos
-                  </Tabs.Trigger> */}
+
+                 
             </Tabs.List>
 
 
@@ -301,44 +329,58 @@ const filteredEvents = searchTerm
         )}
 
 {showWeather && !showDetails && (
-              <div className="filter-dropdown">
-                <button onClick={() => setIsDropdownVisible(!isDropdownVisible)} className="filter-dropdown-button">
-                ☁ ‎ Filter Events‎ ‎ ‎ ⮟
-                </button>
-                {isDropdownVisible && (
-          <div className="filter-container">
-            {/* Search input field */}
-            <input
-              type="text"
-              placeholder="Search events..."
-              onChange={handleSearchChange}
-              className="filter-search-input" // Add CSS for this
-            />
-            {filteredEvents.map(eventType => (
-              <label key={eventType} className="filter-option">
-                <input
-                  type="checkbox"
-                  id={`checkbox-${eventType}`}
-                  name={eventType}
-                  checked={!!weatherEventFilters[eventType]}
-                  onChange={handleWeatherFilterChange}
-                />
-                {eventType}
-              </label>
-            ))}
-          </div>
-        )}
-      </div>
+     <div className="filter-dropdown">
+     {/* <button onClick={handleOpenModal} className="filter-dropdown-button">
+       ☁ ‎ Filter Events ‎ ‎⮟
+     </button> */}
+     {
+       isModalVisible && (
+         <div className="modal-overlay" onClick={handleCloseModal}>
+           <div className="modal" onClick={e => e.stopPropagation()}>
+             <div className="modal-header">
+               <h4 className="modal-title">Filter Events</h4>
+               <button onClick={handleCloseModal} className="close-modal-button">×</button>
+             </div>
+             <div className="modal-body">
+               <input
+                 type="text"
+                 placeholder="Search events..."
+                 onChange={handleSearchChange}
+                 className="modal-search-input"
+               />
+               <ul className="filter-options-list">
+                 {filteredEvents.map(eventType => (
+                   <li key={eventType} className="filter-option">
+                     <label className="switch">
+                       <input
+                         type="checkbox"
+                         id={`toggle-${eventType}`}
+                         name={eventType}
+                         checked={!!weatherEventFilters[eventType]}
+                         onChange={handleWeatherFilterChange}
+                       />
+                       <span className="slider round"></span>
+                     </label>
+                     <label htmlFor={`toggle-${eventType}`} className="filter-label">{eventType}</label>
+                   </li>
+                 ))}
+               </ul>
+             </div>
+           </div>
+         </div>
+       )
+     }
+   </div>
     )}
                     {showDetails && selectedEvent ?(
-                      
+
                         // Event details view
                         <div className="event-details-container">
-                         
-                          
+
+
                           <div className="marker-details">
                               <div className="marker-info">
-                              
+
 
                               {selectedEvent.type === 'fire' && (
                                     <>
@@ -447,8 +489,10 @@ const filteredEvents = searchTerm
                                     </div>
                                     </>
                                                                           )}
-                                                        
-                                                                    
+
+                                                                          
+
+
 
 
                                     {selectedEvent.type === 'earthquake' && (
@@ -485,7 +529,7 @@ const filteredEvents = searchTerm
                                           </>
                                           )}
 
-                                        
+
                             </div>
                           </div>
                         </div>
@@ -494,10 +538,10 @@ const filteredEvents = searchTerm
                                                 {displayEvents.length > 0 ?(
                                                   <div className="events-container">
                                                       {displayEvents.map((event) => (
-                                                    
+
                                                       <div key={event.id} className="event-card" onClick={() => handleEventSelect(event)}>
-                                                        
-                                                        
+
+
                                                        {/* Conditional rendering for earthquake events */}
           {event.type === 'earthquake' && <FaExclamationTriangle className="iconearth" />}
           {/* Conditional rendering for fire events */}
@@ -523,7 +567,7 @@ const filteredEvents = searchTerm
           )}
 
                                                         <div className="event-info">
-                                                          <h2 style={{ color: 'white' }}>{event.type.charAt(0).toUpperCase() + event.type.slice(1)} 
+                                                          <h2 style={{ color: 'white' }}>{event.type.charAt(0).toUpperCase() + event.type.slice(1)}
                                                           <p style={{ marginLeft:'140px', right:'0', color:'white',   fontSize:'18px',}}>ⓘ</p></h2>
                                                           {event.type === 'earthquake' ? (
                                                             <>
@@ -541,20 +585,20 @@ const filteredEvents = searchTerm
                                                             <>
                                                               {/* Display additional info specific to weather events */}
                                                               <div>Event: {event.properties.event}</div>
-                                                            
+
                                                               <div>Effective: {new Date(event.properties.effective).toLocaleString()}</div>
                                                               <div>Expires: {event.properties.expires ? new Date(event.properties.expires).toLocaleString() : "N/A"}</div>
-                                                              
+
                                                             </>
                                                           ) : null}
-                                                            
+
                                                         </div>
                                                       </div>
                                                     ))}
-                                                  
+
                                                   </div>
 
-                                                                  
+
                                           ) : (
                                             <div className="events-placeholder">
                                               {/* Display this message when no events are selected */}
@@ -567,8 +611,8 @@ const filteredEvents = searchTerm
                       )}
                     </Tabs.Content>
 
-          
-                
+
+
         </Tabs.Root>
       </div>
     </>
