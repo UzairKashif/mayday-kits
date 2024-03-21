@@ -898,3 +898,77 @@ input:checked + .slider:before {
     font-size: 0.9em;
   }
 }
+
+
+
+
+
+.status-container {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Adjust the space between the icon and the text */
+  background: #1F1513; /* Background color of the container */
+  padding: 20px; /* Padding inside the container */
+  border-radius: 5px; /* Rounded corners for the container */
+}
+
+.status-container img.icon1 {
+  width: 50px; /* Adjust the size of the icon */
+  height: 50px;
+  object-fit: contain;
+}
+
+.status-container .status-badge {
+  display: inline-block;
+  padding: 5px 10px; /* Padding inside the badge */
+  border-radius: 15px; /* Rounded corners for the badge */
+  color: #fff; /* Text color */
+  font-weight: bold; /* Bold text */
+  text-align: center;
+  background-color: #7289da; /* Background color of the badge */
+  white-space: nowrap; /* Prevents the text from wrapping */
+}
+
+.status-container p {
+  color: #FBD3CB; /* Text color */
+  margin: 0; /* Remove default margins */
+  font-size: 1em; /* Text size */
+}
+
+/* Customize colors based on status */
+.status-container .status-badge.active {
+  background-color: #28a745; /* Green for active */
+}
+
+.status-container .status-badge.inactive {
+  background-color: #dc3545; /* Red for inactive */
+}
+
+.status-container .status-badge.pending {
+  background-color: #ffc107; /* Yellow for pending */
+}
+.status-badge.test {
+  background-color: #3498db; /* Blue for test status */
+}
+
+.status-badge.actual {
+  background-color: #e74c3c; /* Red for actual status */
+}
+.status-badge.reviewed { 
+  background-color: #ffc107; 
+} /* Yellow for reviewed status */
+.status-badge.automatic { 
+  background-color: #dc3545; 
+} /* Red for automatic status */
+
+/* Optional: responsive adjustments */
+@media (max-width: 768px) {
+  .status-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .status-container .status-badge {
+    margin-top: 5px;
+  }
+}

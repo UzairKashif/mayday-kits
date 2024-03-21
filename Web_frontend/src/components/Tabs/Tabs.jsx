@@ -439,7 +439,25 @@ setinfoVisible(false);
   </div>
                                         <Tabs.Content value="details" className="TabsContent">
                                           {/* Fire event detailed information here */}
+                                          <div className="status-container">
+  <img
+    src={
+      selectedEvent.status.trim() === 'Active' ? fireActiveIcon :
+      selectedEvent.status.trim() === 'Inactive' ? fireInactiveIcon :
+      selectedEvent.status.trim() === 'Pending' ? firePendingIcon :
+      undefined
+    }
+    alt="Fire Status Icon"
+    className="icon1"
+  />
+  <p>{new Date(selectedEvent.event_start_since).toLocaleDateString()}</p>
+  <span className={`status-badge ${selectedEvent.status.trim().toLowerCase()}`}>
+    {selectedEvent.status}
+  </span>
+</div>
+
                                           <div className="detail-box">
+                                       
                                             <h4>Event ID</h4>
                                             <p>{selectedEvent.event_id}</p>
                                           </div>
@@ -455,21 +473,19 @@ setinfoVisible(false);
                                                 <h4>Height</h4>
                                                 <p>{selectedEvent.height}</p>
                                               </div>
-                                              <div className="detail-box">
-                                                <h4>Status</h4>
-                                                <p>{selectedEvent.status}</p>
-                                              </div>
+                                             
                                               <div className="detail-box">
                                                 <h4>Update Flag</h4>
                                                 <p>{selectedEvent.update_flag}</p>
                                               </div>
                                               <div className="detail-box">
                                                 <h4>Event Start Since</h4>
-                                                <p>{selectedEvent.event_start_since}</p>
+                                                <p>{new Date(selectedEvent.event_start_since).toLocaleDateString()}</p>
                                               </div>
                                               <div className="detail-box">
                                                 <h4>Event Last Seen</h4>
-                                                <p>{selectedEvent.event_last_seen}</p>
+                                                <p>{new Date(selectedEvent.event_last_seen).toLocaleDateString()}
+                                                </p>
                                               </div>
                                         </Tabs.Content>
 
@@ -500,6 +516,19 @@ setinfoVisible(false);
                                     <button style={{fontSize:'19px',  color:'white'}} onClick={handleBack}> <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M6.85355 3.14645C7.04882 3.34171 7.04882 3.65829 6.85355 3.85355L3.70711 7H12.5C12.7761 7 13 7.22386 13 7.5C13 7.77614 12.7761 8 12.5 8H3.70711L6.85355 11.1464C7.04882 11.3417 7.04882 11.6583 6.85355 11.8536C6.65829 12.0488 6.34171 12.0488 6.14645 11.8536L2.14645 7.85355C1.95118 7.65829 1.95118 7.34171 2.14645 7.14645L6.14645 3.14645C6.34171 2.95118 6.65829 2.95118 6.85355 3.14645Z" fill="currentColor"></path>
       </svg></button> {/* Back button */}
+
+      <div className="status-container">
+      <img
+              src={getIconForEvent(selectedEvent.properties.event)}
+              alt="Event icon"
+              className="iconweather"
+            />
+  <p>{new Date(selectedEvent.properties.effective).toLocaleDateString()}</p>
+  <span className={`status-badge ${selectedEvent.properties.status.toLowerCase().replace(/\s/g, '-')}`}>
+  {selectedEvent.properties.status}
+</span>
+
+</div>
                                     <div className="detail-box">
                                       <h4>Event</h4>
                                       <p>{selectedEvent.properties.event}</p>
@@ -541,6 +570,15 @@ setinfoVisible(false);
                                            <button style={{fontSize:'19px',  color:'white'}} onClick={handleBack}> <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M6.85355 3.14645C7.04882 3.34171 7.04882 3.65829 6.85355 3.85355L3.70711 7H12.5C12.7761 7 13 7.22386 13 7.5C13 7.77614 12.7761 8 12.5 8H3.70711L6.85355 11.1464C7.04882 11.3417 7.04882 11.6583 6.85355 11.8536C6.65829 12.0488 6.34171 12.0488 6.14645 11.8536L2.14645 7.85355C1.95118 7.65829 1.95118 7.34171 2.14645 7.14645L6.14645 3.14645C6.34171 2.95118 6.65829 2.95118 6.85355 3.14645Z" fill="currentColor"></path>
       </svg></button> {/* Back button */}
+
+      <div className="status-container">
+      <FaExclamationTriangle className="iconearth" />
+  <p>{new Date(selectedEvent.date).toLocaleDateString()}</p>
+  <span className={`status-badge ${selectedEvent.properties.status.toLowerCase().replace(/\s/g, '-')}`}>
+  {selectedEvent.properties.status}
+</span>
+
+</div>
                                               <div className="detail-box">
                                                 <h4>Place</h4>
                                                 <p>{selectedEvent.properties.place}</p>
@@ -554,10 +592,7 @@ setinfoVisible(false);
                                                 <p>{new Date(selectedEvent.date).toLocaleString()}</p>
                                               </div>
                                               {/* Add more earthquake details here */}
-                                              <div className="detail-box">
-                                                <h4>Status</h4>
-                                                <p>{selectedEvent.properties.status}</p>
-                                              </div>
+                                              
 
                                               <div className="detail-box">
                                                 <h4>Tsunami</h4>
