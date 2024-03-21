@@ -238,7 +238,7 @@ const updateMapWithEventGeometry = (geoJsonData) => {
         <div id="geocoder" className="custom-geocoder" style={{ position: 'absolute', zIndex: 100000, top: 10, right: 30 }}>
         </div>
         
-        <div style={{ position: 'absolute', top: 0, left: '40px', zIndex: 1 }} className="overlay-container">
+        <div style={{ position: 'absolute', top: 0, left: '40px', zIndex: 100 }} className="overlay-container">
           <TabsDemo 
           selectedEvent={selectedEvent} 
           setSelectedEvent={setSelectedEvent}

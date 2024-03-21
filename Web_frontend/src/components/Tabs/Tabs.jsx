@@ -119,6 +119,31 @@ const toggleAllCheckboxes = () => {
     return acc;
   }, {}));
 };
+const [manualToggle, setManualToggle] = useState(false); // Track manual toggling
+const prevConditionsRef = useRef({ showFire, showEarthquake, showWeather });
+  // Automatically open the sidebar based on certain conditions
+  useEffect(() => {
+    const prevConditions = prevConditionsRef.current;
+    const anyPreviousFalse = !prevConditions.showFire && !prevConditions.showEarthquake && !prevConditions.showWeather;
+    const anyCurrentTrue = showFire || showEarthquake || showWeather;
+
+    if (anyCurrentTrue && anyPreviousFalse && !manualToggle) {
+      setIsSidebarOpen(true);
+      setManualToggle(false); // Reset manualToggle when conditions change as expected
+    } else if (!anyCurrentTrue) {
+      // When all conditions are false, allow automatic behavior again
+      setManualToggle(false);
+    }
+
+    // Update the ref with the current conditions for the next effect run
+    prevConditionsRef.current = { showFire, showEarthquake, showWeather };
+  }, [showFire, showEarthquake, showWeather, manualToggle]);
+
+  // Function to manually toggle the sidebar
+  const toggleSidebarManually = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+    setManualToggle(true); // Indicate the sidebar was toggled manually
+  };
 
 // Filter validEvents based on search term
 const filteredEvents = searchTerm
@@ -260,7 +285,9 @@ const filteredEvents = searchTerm
         const isFireEvent = selectedEvent && selectedEvent.type === 'fire';
         const visUrl = isFireEvent ? `https://geos-stat1.s3.us-east-2.amazonaws.com/G16/thumb/${selectedEvent.event_id}/ABI/F16/VIS/${getGroupsPkPart(selectedEvent.groups_pk ?? '')}.mp4` : '';
         const irUrl = isFireEvent ? `https://geos-stat1.s3.us-east-2.amazonaws.com/G16/thumb/${selectedEvent.event_id}/ABI/F16/IR/${getGroupsPkPart(selectedEvent.groups_pk ?? '')}.mp4` : '';
-        const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+       
+        
+        
         console.log(selectedEvent);
 
 
@@ -331,7 +358,8 @@ setSearchTerm('');
   <FaCloud className="ThinSidebarIcon" onClick={handleOpenModal}  />
 }
   <FaUserCircle className="ThinSidebarIcon" onClick={handleinfo} />
-  <button style={{zIndex:'100'}} className={`SidebarToggle ${isSidebarOpen ? 'open' : ''}`} onClick={toggleSidebar}>
+  
+  <button style={{ zIndex: '100' }} className={`SidebarToggle ${isSidebarOpen ? 'Close Sidebar' : 'Open Sidebar'}`} onClick={toggleSidebarManually}>
         <FiChevronRight className="ToggleIcon" />
       </button>
 </div>
