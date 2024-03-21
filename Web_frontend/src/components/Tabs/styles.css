@@ -937,11 +937,11 @@ input:checked + .slider:before {
 
 /* Customize colors based on status */
 .status-container .status-badge.active {
-  background-color: #28a745; /* Green for active */
+  background-color: #E14B4B; /* Green for active */
 }
 
 .status-container .status-badge.inactive {
-  background-color: #dc3545; /* Red for inactive */
+  background-color: #3C78D8; /* Red for inactive */
 }
 
 .status-container .status-badge.pending {
