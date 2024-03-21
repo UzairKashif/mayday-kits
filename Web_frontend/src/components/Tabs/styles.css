@@ -573,6 +573,11 @@ input[type="checkbox"] {
   justify-content: center;
   height: 40px; /* Adjust based on your design */
 }
+.back-button:hover {
+  background: none; /* Reset any background changes */
+  color: white; /* Keep the text color consistent */
+  border: none; /* Reset any border changes */
+}
 
 .TabIcon {
   margin-right: 5px;

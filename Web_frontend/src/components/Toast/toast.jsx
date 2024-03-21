@@ -18,9 +18,9 @@ const ToastDemo = ({ open, setOpen }) => {
         <Toast.Description >
         <p className='descip'>To see Event List. Click ☁️ icon. </p>
         <br />
-          <time className="ToastDescription" dateTime={eventDateRef.current.toISOString()}>
+          {/* <time className="ToastDescription" dateTime={eventDateRef.current.toISOString()}>
             {prettyDate(eventDateRef.current)}
-          </time>
+          </time> */}
         
         </Toast.Description>
         <Toast.Action className="ToastAction" asChild altText="Goto schedule to undo">
