@@ -75,14 +75,13 @@ body, html, #root {
   /* Example: Add some padding around the geocoder */
   padding: 1px;
 
-
   /* Any other styles you want for the container */
 }
 
 /* Style the geocoder input field */
 .mapboxgl-ctrl-geocoder {
 
-  background-color: #0D141F;
+  background-color: #181111;
 
 
   z-index: 1;
@@ -91,35 +90,30 @@ body, html, #root {
 }
 .mapboxgl-ctrl-geocoder--input {
    /* fallback */
-  color: #fff;
+  color: #FBD3CB;
+}
 
-}
-.mapboxgl-ctrl-geocoder--input:focus { /* fallback */
-  color: #fff;
-  outline: 0;
-  box-shadow: none;
-}
 
 .mapboxgl-ctrl-geocoder .suggestions {
-  background-color:#0D141F;
+  background-color:#181111;
   
 }
 .mapboxgl-ctrl-geocoder .suggestions > li > a {
-  color: #Fff;
+  color: #FBD3CB;
 }
 .mapboxgl-ctrl-geocoder .suggestions > .active > a,
 .mapboxgl-ctrl-geocoder .suggestions > li > a:hover {
-  color: #C2F3FF;
-  background-color:#111A27;
+  color: #FF977D;
+  background-color:#391714;
 }
 .mapboxgl-ctrl-geocoder--icon {
-  fill:#ffffff;
+  fill:#FBD3CB;
 }
 .mapboxgl-ctrl-geocoder--button {
-  background:#0D141F;
+  background:#181111;
 }
 .mapboxgl-ctrl-geocoder--button:hover .mapboxgl-ctrl-geocoder--icon-close {
-  fill: #ffffff;
+  fill: #FF977D;
 }
 
 
@@ -131,7 +125,7 @@ body, html, #root {
   pointer-events: auto;
 }
 
-/* ALL TOGGLE ARE THE TOGGLE BUTTONS INSIDE THE CENTER NAV BAR */
+
 
 
 .toggle-container {
@@ -233,15 +227,15 @@ body, html, #root {
 /* Label style (Optional) */
 .toggle-label {
   margin-left: 75px;
-  color: #ff44ff;
+  color: #ffffff;
   font-weight: bold;
 }
 
 .fire-event-pixel {
   width: 10px;
   height: 10px;
-  background-color: #ff3341;
+  background-color: red;
   border-radius: 50%;
   position: 'absolute';
-
+  transform: translate(-50%, -50%);
 }
