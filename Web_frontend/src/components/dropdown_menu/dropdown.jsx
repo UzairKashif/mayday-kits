@@ -9,10 +9,14 @@ import * as HoverCard from '@radix-ui/react-hover-card';
 
 
 
-const NavigationMenuDemo = ({ showFire, setShowFire, showEarthquake, setShowEarthquake, showWeather,setShowWeather}) => {
+const NavigationMenuDemo = ({ showFire, setShowFire, showEarthquake, setShowEarthquake, showWeather,setShowWeather, toggleWeatherAndToastVisibility }) => {
 
   const [isPopupVisible, setIsPopupVisible] = useState(false);
-
+  const handleToggleWeatherVisibility = () => {
+    const newShowWeatherState = !showWeather;
+    setShowWeather(newShowWeatherState);  // Toggles the weather display
+    setIsToastVisible(newShowWeatherState);  // Toggles the toast visibility
+  };
   const togglePopup = () => {
     setIsPopupVisible(!isPopupVisible);
   };
@@ -96,11 +100,11 @@ const NavigationMenuDemo = ({ showFire, setShowFire, showEarthquake, setShowEart
               </ListItem>
                         <li>
                         <label className="checkbox-container">
-                            <input
-                              type="checkbox"
-                              checked={showWeather}
-                              onChange={(e) => setShowWeather(e.target.checked)}
-                            />
+                        <input
+    type="checkbox"
+    checked={showWeather}
+    onChange={toggleWeatherAndToastVisibility} // Adjusted here
+  />
                             <span className="checkbox-label"></span>
                         </label>
                     </li>
