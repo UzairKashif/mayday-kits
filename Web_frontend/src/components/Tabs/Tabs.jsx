@@ -437,7 +437,7 @@ setinfoVisible(false);
       <Tabs.Trigger value="cameras"><FiCamera className="TabIcon" /> Cameras & Videos</Tabs.Trigger>
     </Tabs.List>
   </div>
-                                        <Tabs.Content value="details" className="TabsContent"
+                                        <Tabs.Content value="details" 
                                        className="no-scrollbar">
                                           {/* Fire event detailed information here */}
                                           <div className="status-container">
