@@ -294,6 +294,7 @@ setinfoVisible(false);
     <>
 
     <div className={`ThinSidebar ${!isSidebarOpen ? 'show' : ''}`}>
+   
     <div className="ThinSidebarLogo">
     <img src={logoImage} alt="Logo" className="LogoIcon" />
   </div>
@@ -307,10 +308,11 @@ setinfoVisible(false);
   <FaCloud className="ThinSidebarIcon" onClick={handleOpenModal}  />
 }
   <FaUserCircle className="ThinSidebarIcon" onClick={handleinfo} />
-</div>
-      {/* <button className={`SidebarToggle ${isSidebarOpen ? 'open' : ''}`} onClick={toggleSidebar}>
+  <button style={{zIndex:'100'}} className={`SidebarToggle ${isSidebarOpen ? 'open' : ''}`} onClick={toggleSidebar}>
         <FiChevronRight className="ToggleIcon" />
-      </button> */}
+      </button>
+</div>
+      
 
       <div className={`TabsContainer ${isSidebarOpen ? 'open' : 'closed'}`}>
         <Tabs.Root className="TabsRoot" defaultValue="tab1">
