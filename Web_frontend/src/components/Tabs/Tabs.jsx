@@ -531,7 +531,7 @@ setinfoVisible(false);
       <img
               src={getIconForEvent(selectedEvent.properties.event)}
               alt="Event icon"
-              className="iconweather"
+              className="iconweather12"
             />
   <p>{new Date(selectedEvent.properties.effective).toLocaleDateString()}</p>
   <span className={`status-badge ${selectedEvent.properties.status.toLowerCase().replace(/\s/g, '-')}`}>
@@ -582,7 +582,7 @@ setinfoVisible(false);
       </svg></button> {/* Back button */}
 
       <div className="status-container">
-      <FaExclamationTriangle className="iconearth" />
+      <FaExclamationTriangle className="iconearth1" />
   <p>{new Date(selectedEvent.date).toLocaleDateString()}</p>
   <span className={`status-badge ${selectedEvent.properties.status.toLowerCase().replace(/\s/g, '-')}`}>
   {selectedEvent.properties.status}
@@ -658,12 +658,12 @@ setinfoVisible(false);
                                                           {event.type === 'earthquake' ? (
                                                             <>
                                                               <div>Location: {event.properties.place}</div>
-                                                              <div>Magnitude: {event.properties.mag}</div>
+                                                              
                                                               <div>Time: {new Date(event.date).toLocaleString()}</div>
                                                             </>
                                                           ) : event.type === 'fire' ? (
                                                             <>
-                                                              <div>Event ID: {event.event_id}</div>
+                                                            
                                                               <div>Status: {event.status}</div>
                                                               <div>Start Date: {new Date(event.date).toLocaleString()}</div>
                                                             </>
@@ -673,7 +673,7 @@ setinfoVisible(false);
                                                               <div>Event: {event.properties.event}</div>
 
                                                               <div>Effective: {new Date(event.properties.effective).toLocaleString()}</div>
-                                                              <div>Expires: {event.properties.expires ? new Date(event.properties.expires).toLocaleString() : "N/A"}</div>
+                                                          
 
                                                             </>
                                                           ) : null}
