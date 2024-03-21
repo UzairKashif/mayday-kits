@@ -3,7 +3,7 @@ const router = express.Router();
 const { fetchWeatherData } = require('../models/weather');
 const cors = require('cors');
 
-router.get('/weather-events', cors(), async (req, res) => {
+router.get('/weatherevent', cors(), async (req, res) => {
   try {
     const data = await fetchWeatherData();
     res.json(data);

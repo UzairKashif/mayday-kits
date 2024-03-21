@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { getEarthquakeEvents } = require('../models/earthquake');
 
-router.get('/earthquake-events', async (req, res) => {
+router.get('/earthquakeevent', async (req, res) => {
   try {
     const earthquakeData = await getEarthquakeEvents();
     res.json(earthquakeData);
