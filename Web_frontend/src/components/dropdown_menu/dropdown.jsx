@@ -6,6 +6,7 @@ import './stylesdrop.css';
 import fireicon from '../assets/fire.png';
 import '@radix-ui/themes/styles.css';
 import * as HoverCard from '@radix-ui/react-hover-card';
+import './check.scss'
 
 
 
@@ -42,101 +43,148 @@ const NavigationMenuDemo = ({ showFire, setShowFire, showEarthquake, setShowEart
           <NavigationMenu.Trigger className="NavigationMenuTrigger">
             Events <CaretDownIcon className="CaretDown" aria-hidden />
           </NavigationMenu.Trigger>
-          <NavigationMenu.Content className="NavigationMenuContent">
-            <ul className="List one">
-              <li style={{ gridRow: 'span 4' }}>
-
-             
 
 
-                <NavigationMenu.Link asChild>
-                  <a className="Callout" href="">
-                   
-                    <img src={fireicon} alt="" className="icon-small" />
-                    <div className="CalloutHeading">Mayday Fire Events</div>
-                    <p className="CalloutText">AI fire detections</p>
-                    <li>
-                    <label class="checkbox-container">
-  <input type="checkbox" id="fireCheckbox" checked={showFire} onChange={(e) => setShowFire(e.target.checked)} />
-  <span class="checkbox-label" for="fireCheckbox"></span>
-</label>
+          <NavigationMenu.Content className="NavigationMenuContentf">
+              <ul className="List one">
+                
+                  
+                  <div className="checkbox">
+                    <label className="checkbox-wrapper">
+                      <input
+                        type="checkbox"
+                        className="checkbox-input"
+                        id="fireCheckbox"
+                        checked={showFire}
+                        onChange={(e) => setShowFire(e.target.checked)}
+                      />
+                      <span className="checkbox-tile">
+                        <span className="checkbox-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" fill="currentColor" viewBox="0 0 256 256">
+                          <rect width="256" height="256" fill="none"></rect>
+                          <circle cx="128" cy="128" r="96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></circle>
+                          <path d="M71.0247,205.27116a159.91145,159.91145,0,0,1,136.98116-77.27311q8.09514,0,15.99054.78906" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></path>
+                          <path d="M188.0294,53.09083A159.68573,159.68573,0,0,1,64.00586,111.99805a160.8502,160.8502,0,0,1-30.15138-2.83671" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></path>
+                          <path d="M85.93041,41.68508a159.92755,159.92755,0,0,1,78.99267,138.00723,160.35189,160.35189,0,0,1-4.73107,38.77687" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></path>
+                        </svg>
+                        </span>
+                        <span className="checkbox-label">Display Fire Events</span>
+                      </span>
+                    </label>
+                  </div>
 
 
-          </li>
-                  </a>
-                </NavigationMenu.Link>
-              </li>
-
-              <ListItem href="" title="Earthquakes">
-               USGS Earthquakes detections
-               
-          {/* Earthquakes Checkbox */}
-          <li>
-            <label className="checkbox-container">
-              <input
-                type="checkbox"
-                checked={showEarthquake}
-                onChange={(e) => setShowEarthquake(e.target.checked)}
-              />
-            
-  <span className="checkbox-label"></span>
-            </label>
-          </li>
-              </ListItem>
-              <ListItem href="/firms" title="FIRMS fire events">
-                NASA worldwide fire detections
-              </ListItem>
-             
-             
-              <HoverCard.Root>
-                  <HoverCard.Trigger asChild>
-                    <li>
-                   
-                      <ListItem href="/weather" title="Extreme Weather Alerts">
-              </ListItem>
-                        <li>
-                        <label className="checkbox-container">
-                            <input
+                  {/* The Weather Selector */}
+                  <div className="checkbox">
+                    <label className="checkbox-wrapper">
+                    <input
                               type="checkbox"
+                              className="checkbox-input"
                               checked={showWeather}
                               onChange={(e) => setShowWeather(e.target.checked)}
-                            />
-                            <span className="checkbox-label"></span>
-                        </label>
-                    </li>
-                     
-                    </li>
-                  </HoverCard.Trigger>
-                  <HoverCard.Portal>
-        <HoverCard.Content   style={{zIndex:'1000',}}>
-          {/* Place filter dropdown UI here
-          
-<div className="filter-container">
-  {validEvents.map((eventType) => (
-    <div key={eventType} className="filter-option">
-      <label>
-        <input
-          type="checkbox"
-          name={eventType}
-          checked={weatherEventFilters[eventType]}
-          onChange={onWeatherFilterChange}
-        />
-        {eventType}
-      </label>
-    </div>
-  ))}
-</div>
- */}
+                    />
+                      <span className="checkbox-tile">
+                        <span className="checkbox-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" fill="currentColor" viewBox="0 0 256 256">
+                          <rect width="256" height="256" fill="none"></rect>
+                          <circle cx="128" cy="128" r="96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></circle>
+                          <path d="M71.0247,205.27116a159.91145,159.91145,0,0,1,136.98116-77.27311q8.09514,0,15.99054.78906" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></path>
+                          <path d="M188.0294,53.09083A159.68573,159.68573,0,0,1,64.00586,111.99805a160.8502,160.8502,0,0,1-30.15138-2.83671" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></path>
+                          <path d="M85.93041,41.68508a159.92755,159.92755,0,0,1,78.99267,138.00723,160.35189,160.35189,0,0,1-4.73107,38.77687" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></path>
+                        </svg>
+                        </span>
+                        <span className="checkbox-label">Weather</span>
+                      </span>
+                    </label>
+                  </div>
 
-        </HoverCard.Content>
-      </HoverCard.Portal>
-                </HoverCard.Root>
-             <ListItem href="#!" title="Satellite View" onClick={togglePopup}>
-                  Global Satellite Video
-                </ListItem>
-            </ul>
-          </NavigationMenu.Content>
-        </NavigationMenu.Item>
+
+
+
+
+                   {/* The Earthquake Selector */}
+                   <div className="checkbox">
+                    <label className="checkbox-wrapper">
+                    <input
+                      type="checkbox"
+                      checked={showEarthquake}
+                      className="checkbox-input"
+                      onChange={(e) => setShowEarthquake(e.target.checked)}
+                    />
+                      <span className="checkbox-tile">
+                        <span className="checkbox-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" fill="currentColor" viewBox="0 0 256 256">
+                          <rect width="256" height="256" fill="none"></rect>
+                          <circle cx="128" cy="128" r="96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></circle>
+                          <path d="M71.0247,205.27116a159.91145,159.91145,0,0,1,136.98116-77.27311q8.09514,0,15.99054.78906" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></path>
+                          <path d="M188.0294,53.09083A159.68573,159.68573,0,0,1,64.00586,111.99805a160.8502,160.8502,0,0,1-30.15138-2.83671" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></path>
+                          <path d="M85.93041,41.68508a159.92755,159.92755,0,0,1,78.99267,138.00723,160.35189,160.35189,0,0,1-4.73107,38.77687" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></path>
+                        </svg>
+                        </span>
+                        <span className="checkbox-label">Weather</span>
+                      </span>
+                    </label>
+                  </div>
+
+
+
+                  {/* The Earthquake Selector */}
+                  <div className="checkbox">
+                    <label className="checkbox-wrapper">
+                    <input
+                      type="checkbox"
+                      checked={showEarthquake}
+                      className="checkbox-input"
+                      onChange={(e) => setShowEarthquake(e.target.checked)}
+                    />
+                      <span className="checkbox-tile">
+                        <span className="checkbox-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" fill="currentColor" viewBox="0 0 256 256">
+                          <rect width="256" height="256" fill="none"></rect>
+                          <circle cx="128" cy="128" r="96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></circle>
+                          <path d="M71.0247,205.27116a159.91145,159.91145,0,0,1,136.98116-77.27311q8.09514,0,15.99054.78906" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></path>
+                          <path d="M188.0294,53.09083A159.68573,159.68573,0,0,1,64.00586,111.99805a160.8502,160.8502,0,0,1-30.15138-2.83671" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></path>
+                          <path d="M85.93041,41.68508a159.92755,159.92755,0,0,1,78.99267,138.00723,160.35189,160.35189,0,0,1-4.73107,38.77687" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></path>
+                        </svg>
+                        </span>
+                        <span className="checkbox-label">Weather</span>
+                      </span>
+                    </label>
+                  </div>
+
+
+                  {/* The Earthquake Selector */}
+                  <div className="checkbox">
+                    <label className="checkbox-wrapper">
+                    <input
+                      type="checkbox"
+                      checked={showEarthquake}
+                      className="checkbox-input"
+                      onChange={(e) => setShowEarthquake(e.target.checked)}
+                    />
+                      <span className="checkbox-tile">
+                        <span className="checkbox-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" fill="currentColor" viewBox="0 0 256 256">
+                          <rect width="256" height="256" fill="none"></rect>
+                          <circle cx="128" cy="128" r="96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></circle>
+                          <path d="M71.0247,205.27116a159.91145,159.91145,0,0,1,136.98116-77.27311q8.09514,0,15.99054.78906" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></path>
+                          <path d="M188.0294,53.09083A159.68573,159.68573,0,0,1,64.00586,111.99805a160.8502,160.8502,0,0,1-30.15138-2.83671" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></path>
+                          <path d="M85.93041,41.68508a159.92755,159.92755,0,0,1,78.99267,138.00723,160.35189,160.35189,0,0,1-4.73107,38.77687" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></path>
+                        </svg>
+                        </span>
+                        <span className="checkbox-label">Weather</span>
+                      </span>
+                    </label>
+                  </div>
+            
+              </ul>
+</NavigationMenu.Content>
+
+
+
+
+          
+</NavigationMenu.Item>
 
         <NavigationMenu.Item>
           <NavigationMenu.Trigger className="NavigationMenuTrigger">
