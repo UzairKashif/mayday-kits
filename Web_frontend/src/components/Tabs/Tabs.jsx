@@ -401,7 +401,7 @@ setinfoVisible(false);
   <br />
   <p className="profile-detail"><strong>Details:</strong>Premium User </p>
   <button className="signout-button">
-    <FaSignOutAlt /> Sign out
+  <SignOut /> <FaSignOutAlt /> 
   </button>
 </div>
 
