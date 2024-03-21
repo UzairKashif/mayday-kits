@@ -1,4 +1,3 @@
-import SignOut from '../signout/signout';
 import React, { useState, useRef } from 'react';
 import ReactMapGL, {
   NavigationControl,
@@ -181,9 +180,7 @@ const updateMapWithEventGeometry = (geoJsonData) => {
 
   return (
     <>
-    <div style={{ backgroundColor: "#ccc", position: 'absolute', top: 50, right: 49, zIndex: 10 }}>
-      <SignOut />
-    </div>
+    
       <ReactMapGL
         ref={mapRef}
         {...viewport}
@@ -236,7 +233,7 @@ const updateMapWithEventGeometry = (geoJsonData) => {
         <div id="geocoder" className="custom-geocoder" style={{ position: 'absolute', zIndex: 100000, top: 10, right: 30 }}>
         </div>
         
-        <div style={{ position: 'absolute', top: 10, left: 0, zIndex: 1 }} className="overlay-container">
+        <div style={{ position: 'absolute', top: 0, left: '40px', zIndex: 1 }} className="overlay-container">
           <TabsDemo 
           selectedEvent={selectedEvent} 
           setSelectedEvent={setSelectedEvent}
