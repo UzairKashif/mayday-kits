@@ -81,6 +81,8 @@ const TabsDemo = ({ handleMapViewport, handleWeatherEventSelect, onWeatherEventS
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [weatherEventFilters, setWeatherEventFilters] = useState({});
+  const [areAllChecked, setAreAllChecked] = useState(false);
+
   const detailsPanelRef = useRef(null);
 
   // const [selectedEvent, setSelectedEvent] = useState(null);
@@ -108,6 +110,14 @@ const TabsDemo = ({ handleMapViewport, handleWeatherEventSelect, onWeatherEventS
 // Handle search input change
 const handleSearchChange = (event) => {
   setSearchTerm(event.target.value.toLowerCase());
+};
+const toggleAllCheckboxes = () => {
+  const newState = !areAllChecked;
+  setAreAllChecked(newState);
+  setWeatherEventFilters(validEvents.reduce((acc, eventType) => {
+    acc[eventType] = newState;
+    return acc;
+  }, {}));
 };
 
 // Filter validEvents based on search term
@@ -358,14 +368,20 @@ setinfoVisible(false);
              <div className="modal-header">
                <h4 className="modal-title">Filter Events</h4>
                <button onClick={handleCloseModal} className="close-modal-button">×</button>
+             
+
              </div>
              <div className="modal-body">
+             
                <input
                  type="text"
                  placeholder="Search events..."
                  onChange={handleSearchChange}
                  className="modal-search-input"
                />
+                 <button onClick={toggleAllCheckboxes} className="toggle-all-button">
+  {areAllChecked ? 'Uncheck All' : 'Check All'}
+</button>
                <ul className="filter-options-list">
                  {filteredEvents.map(eventType => (
                    <li key={eventType} className="filter-option">
