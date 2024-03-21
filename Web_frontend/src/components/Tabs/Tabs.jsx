@@ -13,7 +13,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import * as turf from '@turf/turf';
 import logoImage from '../assets/bg.webp'; // Adjust the path accordingly
 import SignOut from '../signout/signout';
-
+import { HiOutlineLocationMarker } from "react-icons/hi";
 
 
 
@@ -292,21 +292,27 @@ const [info, setinfoVisible] = useState(false);
 const handleOpenModal = () => {
     setIsModalVisible(true);
     setinfoVisible(false);
+    setSearchTerm('');
 };
 
 const handleCloseModal = () => {
   setIsModalVisible(false);
- 
+  setinfoVisible(false);
+  setSearchTerm('');
 };
 const handleinfo = () => {
  
   setinfoVisible(true); 
   setIsModalVisible(false);
+  setSearchTerm('');
+
 };
 
 const handleinfoclose = () => {
-
+ 
 setinfoVisible(false);
+handleCloseModal();
+setSearchTerm('');
 };
 
   return (
@@ -319,9 +325,7 @@ setinfoVisible(false);
   </div>
 
   
-  <FaHome className={`ThinSidebarIcon ${isSidebarOpen ? 'open' : ''}`} onClick={toggleSidebar} />
-  <FaExclamationTriangle className="ThinSidebarIcon" onClick={() => {/* Handle earthquake icon click */}} />
-  <FaGlobe className="ThinSidebarIcon" onClick={() => {/* Handle globe icon click */}} />
+  <HiOutlineLocationMarker className={`ThinSidebarIcon ${isSidebarOpen ? 'open' : ''}`}   onClick={handleCloseModal}/>
   
   {showWeather &&
   <FaCloud className="ThinSidebarIcon" onClick={handleOpenModal}  />
@@ -367,7 +371,7 @@ setinfoVisible(false);
            <div className="modal" onClick={e => e.stopPropagation()}>
              <div className="modal-header">
                <h4 className="modal-title">Filter Events</h4>
-               <button onClick={handleCloseModal} className="close-modal-button">×</button>
+               <button onClick={handleCloseModal} className="close-modal-button"></button>
              
 
              </div>
@@ -409,11 +413,11 @@ setinfoVisible(false);
 
 
 {info && (
-        <div className="info-overlay" onClick={handleinfoclose}>
+        <div className="info-overlay" onClick={handleCloseModal}>
     <div className="modal" onClick={e => e.stopPropagation()}>
       <div className="modal-header">
         <h4 className="modal-title">User Profile</h4>
-        <button onClick={handleinfoclose} className="close-modal-button">×</button>
+        <button onClick={handleinfoclose} className="close-modal-button"></button>
       </div>
       <div className="info-body">
       <div className="profile-content">
