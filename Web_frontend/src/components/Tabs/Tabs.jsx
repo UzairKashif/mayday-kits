@@ -602,7 +602,7 @@ setSearchTerm('');
       </svg></button> {/* Back button */}
 
       <div className="status-container">
-      <FaExclamationTriangle className="iconearth1" />
+      <FaExclamationTriangle className="iconearth" />
   <p>{new Date(selectedEvent.date).toLocaleDateString()}</p>
   <span className={`status-badge ${selectedEvent.properties.status.toLowerCase().replace(/\s/g, '-')}`}>
   {selectedEvent.properties.status}
