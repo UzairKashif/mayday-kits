@@ -339,14 +339,23 @@ height: auto;
 
 /* //-/This is to control how each checkbox appear in the center nav bar/- */
 
-.NavigationMenuContentf .List {
+.NavigationMenuContent .List.one {
   display: flex;
-  flex-wrap: wrap; /* Adjust this if you want to control wrapping */
-  gap: 5px; /* This sets the gap between items */
-  justify-content: flex-start; /* Adjust this to control the alignment */
+  flex-wrap: wrap;
+  flex-direction: column; /* Allows items to wrap onto the next line */
+  gap: 5px; /* Sets the gap between items */
+  justify-content: flex-start; /* Aligns items to the start of the container */
 }
 
-.NavigationMenuContentf .checkbox {
-  flex: 1; /* This allows items to grow and take available space */
-  min-width: 100px; /* Adjust this based on your design */
+.NavigationMenuContent .checkbox {
+  flex: 1; /* This will allow the items to grow and take available space, up to their maximum width */
+  min-width: 150px; /* Adjust this to be the minimum width for your checkboxes */
+  /* max-width: 250px; This prevents the boxes from growing too large */
+}
+
+.checkbox-description {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+
 }
