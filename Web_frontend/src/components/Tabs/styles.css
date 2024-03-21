@@ -972,3 +972,12 @@ input:checked + .slider:before {
     margin-top: 5px;
   }
 }
+/* In your CSS file */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}

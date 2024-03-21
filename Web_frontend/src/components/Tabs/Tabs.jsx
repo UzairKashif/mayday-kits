@@ -1,7 +1,7 @@
 import fireActiveIcon from '../assets/weather_icons/fire_active.png';
 import fireInactiveIcon from '../assets/weather_icons/fire_inactive.png';
 import firePendingIcon from '../assets/weather_icons/fire_pending.png';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState ,useRef} from 'react';
 import * as Tabs from '@radix-ui/react-tabs';
 import { FiInfo, FiCamera, FiChevronRight } from 'react-icons/fi';
 import { FaFire,FaSignOutAlt,FaHome, FaExclamationTriangle, FaGlobe, FaInfoCircle, FaUserCircle } from 'react-icons/fa';
@@ -81,6 +81,7 @@ const TabsDemo = ({ handleMapViewport, handleWeatherEventSelect, onWeatherEventS
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [weatherEventFilters, setWeatherEventFilters] = useState({});
+  const detailsPanelRef = useRef(null);
 
   // const [selectedEvent, setSelectedEvent] = useState(null);
   // const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -219,6 +220,14 @@ const filteredEvents = searchTerm
           speed: 1.2,
         });
       }
+
+      const detailsPanel = document.querySelector('.details-panel');
+  if (detailsPanel) {
+    detailsPanel.scrollTop = 0;
+  }
+  if (detailsPanelRef.current) {
+    detailsPanelRef.current.scrollTop = 0;
+  }
     };
 
 
@@ -325,7 +334,7 @@ setinfoVisible(false);
             </Tabs.List>
 
 
-          <Tabs.Content value="tab1" className="TabsContent">
+          <Tabs.Content value="tab1" className="TabsContent" ref={detailsPanelRef}>
           {
         loading && (
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
@@ -425,7 +434,7 @@ setinfoVisible(false);
 
                               {selectedEvent.type === 'fire' && (
                                     <>
-                                      <Tabs.Root defaultValue="details">
+                                    <Tabs.Root defaultValue="details"className="no-scrollbar">
                                       <div className="flex-container">
     <button className="back-button" onClick={handleBack}>
       <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -437,7 +446,8 @@ setinfoVisible(false);
       <Tabs.Trigger value="cameras"><FiCamera className="TabIcon" /> Cameras & Videos</Tabs.Trigger>
     </Tabs.List>
   </div>
-                                        <Tabs.Content value="details" className="TabsContent">
+                                        <Tabs.Content value="details" 
+                                       className="no-scrollbar">
                                           {/* Fire event detailed information here */}
                                           <div className="status-container">
   <img

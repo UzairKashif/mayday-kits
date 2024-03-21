@@ -18,7 +18,7 @@ import { useMarkerClickHandler} from '../Hooks/useMarkerClickHandler'; // Ensure
 import FireMap from '../Firms/firms'; // Update the import path as necessary
 import  { Source, Layer } from 'react-map-gl';
 import * as turf from '@turf/turf';
-
+import ToastDemo from '../../components/Toast/toast';
 
 
 function NextPage() {
@@ -33,6 +33,11 @@ function NextPage() {
   const [showURT, setShowURT] = useState(false);
   const [showNRT, setShowNRT] = useState(false);
   const [selectedEventGeometry, setSelectedEventGeometry] = useState([]);
+  const [isToastVisible, setIsToastVisible] = useState(false);
+  const toggleWeatherAndToastVisibility = () => {
+    setShowWeather((prev) => !prev); // Toggle weather visibility
+    setIsToastVisible((prev) => !prev); // Toggle toast visibility concurrently
+  };
   
 
 const ToggleSwitch = ({ isOn, handleToggle, label }) => (
@@ -194,7 +199,7 @@ const updateMapWithEventGeometry = (geoJsonData) => {
       >
         {showFire &&  <FireMarkersComponent mapRef={mapRef} onMarkerClick={(lat, lon, event) => handleMarkerClick(lat, lon, event)} />}
         {showEarthquake && <EarthquakeMarkersComponent mapRef={mapRef} onMarkerClick={(lat, lon, event) => handleMarkerClick(lat, lon, event)} />}
-       
+        <ToastDemo open={isToastVisible} setOpen={setIsToastVisible} />
         {fireEventPixels.map((pixel, index) => (
           <Marker key={index} latitude={parseFloat(pixel.lat)} longitude={parseFloat(pixel.lon)}>
             <div className="fire-event-pixel" />
@@ -226,7 +231,7 @@ const updateMapWithEventGeometry = (geoJsonData) => {
           setShowEarthquake={setShowEarthquake}
           showWeather={showWeather}
           setShowWeather={setShowWeather}
-        
+          toggleWeatherAndToastVisibility={toggleWeatherAndToastVisibility}
          
         />
 </div>
