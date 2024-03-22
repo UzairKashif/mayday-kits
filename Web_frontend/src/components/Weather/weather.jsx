@@ -211,15 +211,14 @@ const NextPageWeather = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const querySnapshot = await getDocs(collection(db, "weatherAlerts"));
-      const data = querySnapshot.docs
-        .map(doc => ({ ...doc.data(), id: doc.id }))
-        .filter(event => validEvents.includes(event.properties.event));
-      setWeatherData(data);
-    };
-
-    fetchData();
+    fetch('http://localhost:3000/api/weather-evens')
+      .then(response => response.json())
+      .then(data => {
+        setWeatherEvents(data);
+      })
+      .catch(error => {
+        console.error('Error fetching weather events:', error);
+      });
   }, []);
 
   const toggleEventSelection = (eventType) => {

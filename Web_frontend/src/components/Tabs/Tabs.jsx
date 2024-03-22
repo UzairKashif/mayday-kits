@@ -156,53 +156,97 @@ const filteredEvents = searchTerm
     const fetchEvents = async () => {
       setLoading(true);
       try {
-        // API Endpoints
-        const fireEventsUrl = 'http://localhost:3000/api/fire-events'; // Adjust with the correct endpoint
-        const weatherApiUrl = "https://api.weather.gov/alerts/active";
-        const earthquakeApiUrl = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2024-01-01&endtime=2024-02-02&minmagnitude=3";
-
-        // Fetching data from all three APIs concurrently
-        const [fireResponse, weatherResponse, earthquakeResponse] = await Promise.all([
-          fetch(fireEventsUrl).then(res => res.json()),
+        const weatherApiUrl = "http://localhost:3000/api/weather-events";
+        const fireEventsUrl = 'http://localhost:3000/api/fire-events';
+        const earthquakeApiUrl = "http://localhost:3000/api/earthquake-events";
+  
+        const [weatherApiResponse, fireResponse, earthquakeResponse] = await Promise.all([
           fetch(weatherApiUrl).then(res => res.json()),
+          fetch(fireEventsUrl).then(res => res.json()),
           fetch(earthquakeApiUrl).then(res => res.json()),
         ]);
-
-        // Process fire events data
+        console.log("weather:",weatherApiResponse);
+        console.log("fire: ",fireResponse);
+        console.log("earthquake: ",earthquakeResponse);
+  
+        const weatherEvents = weatherApiResponse.map(item => ({
+          ...item.data,
+          type: 'weather',
+          date: new Date(item.data.properties.sent || item.data.properties.effective).getTime(),
+        }));
+  
         const fireEvents = fireResponse.map(event => ({
           ...event,
           type: 'fire',
-          date: new Date(event.event_start_since).getTime(), // Adjust based on actual property path
+          date: new Date(event.event_start_since).getTime(),
         }));
+  
+        const parseEarthquakeEventData = (xmlString) => {
+          try {
+            // Remove namespaces for simplicity if they're not needed
+            const cleanedXmlString = xmlString.replace(/xmlns(:\w+)?="[^"]*"/g, '').replace(/(\w+):(\w+)/g, '$2');
+        
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(cleanedXmlString, "text/xml");
+        
+            if (xmlDoc.querySelector("parsererror")) {
+              console.error("Error parsing XML:", xmlDoc.querySelector("parsererror").textContent);
+              return null;
+            }
+        
+            const lat = xmlDoc.querySelector("latitude value")?.textContent;
+            const lon = xmlDoc.querySelector("longitude value")?.textContent;
+            const depthValue = xmlDoc.querySelector("depth value")?.textContent;
+            const magnitudeValue = xmlDoc.querySelector("magnitude mag value")?.textContent;
+            const time = xmlDoc.querySelector("origin time value")?.textContent;
+            const place = xmlDoc.querySelector("description text")?.textContent;
+        
+            if (!lat || !lon || !time) {
+              console.error("Missing essential earthquake data in XML:", cleanedXmlString);
+              return null;
+            }
+        
+            return {
+              type: 'earthquake',
+              latitude: parseFloat(lat),
+              longitude: parseFloat(lon),
+              depth: depthValue ? parseFloat(depthValue) : null,
+              magnitude: magnitudeValue ? parseFloat(magnitudeValue) : null,
+              time: time ? new Date(time).getTime() : null,
+              place: place || "Unknown location",
+            };
+          } catch (error) {
+            console.error("Failed to parse earthquake event data:", error);
+            return null;
+          }
+        };
+        
+        
+  
+        const earthquakeEvents = earthquakeResponse.map(item => parseEarthquakeEventData(item.data)).filter(event => event.latitude && event.longitude);
 
-        // Process weather data
-        const weatherEvents = weatherResponse.features.map(eventData => ({
-          ...eventData,
-          type: 'weather',
-          date: eventData.date ? new Date(eventData.date).getTime() : null
-        })).filter(event => validEvents.includes(event.properties.event));
+        console.log("weather after: ",weatherEvents);
+        console.log("fire after: ",fireEvents);
+        console.log("earthquake after parsing: ",earthquakeEvents);
 
-        // Process earthquake data
-        const earthquakeEvents = earthquakeResponse.features.map(feature => ({
-          ...feature,
-          type: 'earthquake',
-          date: new Date(feature.properties.time).getTime(), // Adjust based on actual property path
-        }));
-
-        // Combine and sort events by date
-        const combinedEvents = [...fireEvents, ...weatherEvents, ...earthquakeEvents]
+        const combinedEvents = [...weatherEvents, ...fireEvents, ...earthquakeEvents]
           .sort((a, b) => a.date - b.date);
-
+        
+  
         setEvents(combinedEvents);
+        console.log("combined: ",combinedEvents);
       } catch (error) {
         console.error("Failed to fetch events:", error);
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchEvents();
   }, []);
+  
+  
+  
 
 
 
@@ -623,45 +667,51 @@ setSearchTerm('');
 
 
 
-                                    {selectedEvent.type === 'earthquake' && (
-                                         <>
-                                           <button style={{fontSize:'19px',  color:'white'}} onClick={handleBack}> <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+{selectedEvent && selectedEvent.type === 'earthquake' && (
+  <>
+    <button style={{ fontSize: '19px', color: 'white' }} onClick={handleBack}>
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M6.85355 3.14645C7.04882 3.34171 7.04882 3.65829 6.85355 3.85355L3.70711 7H12.5C12.7761 7 13 7.22386 13 7.5C13 7.77614 12.7761 8 12.5 8H3.70711L6.85355 11.1464C7.04882 11.3417 7.04882 11.6583 6.85355 11.8536C6.65829 12.0488 6.34171 12.0488 6.14645 11.8536L2.14645 7.85355C1.95118 7.65829 1.95118 7.34171 2.14645 7.14645L6.14645 3.14645C6.34171 2.95118 6.65829 2.95118 6.85355 3.14645Z" fill="currentColor"></path>
-      </svg></button> {/* Back button */}
+      </svg>
+    </button>
+    {/* Back button */}
 
-      <div className="status-container">
+    <div className="status-container">
       <FaExclamationTriangle className="iconearth" />
-  <p>{new Date(selectedEvent.date).toLocaleDateString()}</p>
-  <span className={`status-badge ${selectedEvent.properties.status.toLowerCase().replace(/\s/g, '-')}`}>
-  {selectedEvent.properties.status}
-</span>
+      <p>{selectedEvent.time ? new Date(selectedEvent.time).toLocaleDateString() : 'Unknown'}</p>
+      <span className={`status-badge ${selectedEvent.status ? selectedEvent.status.toLowerCase().replace(/\s/g, '-') : 'unknown'}`}>
+        {selectedEvent.status || 'Unknown Status'}
+      </span>
+    </div>
 
-</div>
-                                              <div className="detail-box">
-                                                <h4>Place</h4>
-                                                <p>{selectedEvent.properties.place}</p>
-                                              </div>
-                                              <div className="detail-box">
-                                                <h4>Magnitude</h4>
-                                                <p>{selectedEvent.properties.mag}</p>
-                                              </div>
-                                              <div className="detail-box">
-                                                <h4>Time</h4>
-                                                <p>{new Date(selectedEvent.date).toLocaleString()}</p>
-                                              </div>
-                                              {/* Add more earthquake details here */}
-                                              
+    <div className="detail-box">
+      <h4>Place</h4>
+      <p>{selectedEvent.place || 'Unknown'}</p>
+    </div>
 
-                                              <div className="detail-box">
-                                                <h4>Tsunami</h4>
-                                                <p>{selectedEvent.properties.tsunami}</p>
-                                                </div>
-                                              <div className="detail-box">
-                                                <h4>Source</h4>
-                                                <p>{selectedEvent.properties.sources}</p>
-                                              </div>
-                                          </>
-                                          )}
+    <div className="detail-box">
+      <h4>Magnitude</h4>
+      <p>{selectedEvent.magnitude !== undefined ? selectedEvent.magnitude.toString() : 'N/A'}</p>
+    </div>
+
+    <div className="detail-box">
+      <h4>Time</h4>
+      <p>{selectedEvent.time ? new Date(selectedEvent.time).toLocaleString() : 'Unknown'}</p>
+    </div>
+
+    <div className="detail-box">
+      <h4>Tsunami</h4>
+      <p>{selectedEvent.tsunami ? 'Yes' : 'No'}</p>
+    </div>
+
+    <div className="detail-box">
+      <h4>Source</h4>
+      <p>{selectedEvent.source || 'Unknown'}</p>
+    </div>
+  </>
+)}
+
+
 
 
                             </div>
@@ -705,9 +755,9 @@ setSearchTerm('');
                                                           <p style={{ marginLeft:'140px', right:'0', color:'white',   fontSize:'18px',}}>ⓘ</p></h2>
                                                           {event.type === 'earthquake' ? (
                                                             <>
-                                                              <div>Location: {event.properties.place}</div>
+                                                              <div>Location: {event.place}</div>
                                                               
-                                                              <div>Time: {new Date(event.date).toLocaleString()}</div>
+                                                              <div>Time: {new Date(event.time).toLocaleString()}</div>
                                                             </>
                                                           ) : event.type === 'fire' ? (
                                                             <>

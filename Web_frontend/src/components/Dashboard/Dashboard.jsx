@@ -48,18 +48,16 @@ const ToggleSwitch = ({ isOn, handleToggle, label }) => (
 );
 
 
-const handleMapViewport = ({ latitude, longitude, zoom }) => {
-  setViewport({ latitude, longitude, zoom });
-
-  if (mapRef.current) {
-    const map = mapRef.current.getMap();
-    map.flyTo({
-      center: [longitude, latitude],
-      zoom,
-      essential: true,
-    });
+const handleMapViewport = ({ latitude, longitude, zoom = 10, pitch = 60, bearing = 30, speed = 1.2 }) => {
+  if (!isNaN(latitude) && !isNaN(longitude)) {
+    // Assuming you have a map reference, adjust the viewport accordingly
+    // This is an example, adapt it to your actual map handling logic
+    mapRef.current?.flyTo({ center: [longitude, latitude], zoom, pitch, bearing, speed });
+  } else {
+    console.error("Invalid latitude or longitude for viewport update:", latitude, longitude);
   }
 };
+
 
 const mapboxAccessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 const mapRef = useRef();
