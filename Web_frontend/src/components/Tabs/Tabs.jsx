@@ -77,11 +77,12 @@ const getIconForEvent = (eventType) => {
   return eventToIconMap[eventType] || eventToIconMap["default"];
 };
 
-const TabsDemo = ({ handleMapViewport, handleWeatherEventSelect, onWeatherEventSelect, showFire, showEarthquake,showWeather, selectedEvent,setSelectedEvent, showDetails, setShowDetails,isSidebarOpen,setIsSidebarOpen }) => {
+const TabsDemo = ({ handleMapViewport, handleWeatherEventSelect, onWeatherEventSelect, showFire, showEarthquake,showWeather, selectedEvent,setSelectedEvent, showDetails, setShowDetails,isSidebarOpen,setIsSidebarOpen,onDrawPolygon }) => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [weatherEventFilters, setWeatherEventFilters] = useState({});
   const [areAllChecked, setAreAllChecked] = useState(false);
+  
 
   const detailsPanelRef = useRef(null);
 
@@ -513,7 +514,12 @@ setSearchTerm('');
     {selectedEvent.status}
   </span>
 </div>
-
+<button
+      className="draw-polygon-button"
+      onClick={() => onDrawPolygon(selectedEvent.event_id)}
+    >
+      Draw Polygon
+    </button>
                                           <div className="detail-box">
                                        
                                             <h4>Event ID</h4>
