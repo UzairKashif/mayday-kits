@@ -244,4 +244,43 @@ body, html, #root {
   border-radius: 50%;
   position: 'absolute';
 
+}#geocoder-container {
+  position: relative;
+  width: 50px; /* Adjust based on the icon size, ensuring it starts compact */
+  height: 50px; /* Adjust based on your layout needs */
+  transition: width 0.3s ease; /* Smooth transition for expanding the container */
+  overflow: hidden; /* Hide the input initially */
+  border-radius: 50px; /* Rounded corners for the container */
+  background-color: #0D141F; /* Background color */
+  box-shadow: 0 1px 5px rgba(0,0,0,0.2); /* Optional: shadow for depth */
+  cursor: pointer; /* Indicate it's clickable */
+  display: flex; /* Flexbox to center contents */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+}
+
+#geocoder-container:hover, #geocoder-container:focus-within {
+  width: 300px; /* Expand width on hover/focus to reveal the input */
+  overflow: visible; /* Show the previously hidden parts */
+}
+
+.mapboxgl-ctrl-geocoder {
+  width: 100%; /* Ensure the geocoder takes up all available space */
+}
+
+.mapboxgl-ctrl-geocoder--input {
+  width: 100%; /* Ensure input uses all the space */
+  border-radius: 20px; /* Rounded corners for the input */
+  padding-left: 35px; /* Make space for the icon */
+}
+
+.mapboxgl-ctrl-geocoder--icon-search {
+  position: absolute;
+  top: 3px;
+  left: 234px; /* Position the search icon inside the input */
+  z-index: 10; /* Ensure icon is above the input field */
+}
+
+.mapboxgl-ctrl-geocoder--button {
+  display: none !important;
 }

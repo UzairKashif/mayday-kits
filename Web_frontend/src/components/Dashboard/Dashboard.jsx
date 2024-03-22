@@ -158,30 +158,6 @@ const handleWeatherEventSelect = async (eventData) => {
 };
 
 
-// In Dashboard.jsx
-
-// Handler to add/update polygon layer
-const updateMapWithEventGeometry = (geoJsonData) => {
-  const map = mapRef.current.getMap();
-
-  // Check if a source already exists
-  if (map.getSource('weather-event')) {
-    map.removeLayer('weather-event-polygon');
-    map.removeSource('weather-event');
-  }
-
-  // Add new source and layer
-  map.addSource('weather-event', { type: 'geojson', data: geoJsonData });
-  map.addLayer({
-    id: 'weather-event-polygon',
-    type: 'fill',
-    source: 'weather-event',
-    paint: {
-      'fill-color': '#ff0000', // Example color
-      'fill-opacity': 0.5,
-    },
-  });
-};
 
   return (
     <>
@@ -192,11 +168,10 @@ const updateMapWithEventGeometry = (geoJsonData) => {
         mapboxApiAccessToken={mapboxAccessToken}
         onMove={evt => setViewport(evt.viewport)}
         mapStyle="mapbox://styles/mapbox/dark-v11"
-        onClick={(evt) => {
-          evt.preventDefault();
-        }}
+        onClick={(evt) => {evt.preventDefault();}}
         onLoad={handleLoad}
-      >
+        >
+
         {showFire &&  <FireMarkersComponent mapRef={mapRef} onMarkerClick={(lat, lon, event) => handleMarkerClick(lat, lon, event)} />}
         {showEarthquake && <EarthquakeMarkersComponent mapRef={mapRef} onMarkerClick={(lat, lon, event) => handleMarkerClick(lat, lon, event)} />}
         <ToastDemo open={isToastVisible} setOpen={setIsToastVisible} />
@@ -235,9 +210,11 @@ const updateMapWithEventGeometry = (geoJsonData) => {
          
         />
 </div>
-        <div id="geocoder" className="custom-geocoder" style={{ position: 'absolute', zIndex: 100000, top: 10, right: 30 }}>
-        </div>
-        
+
+<div id="geocoder-container"  className="custom-geocoder"  style={{ position: 'absolute', zIndex: 100000, top: 10, right: 50 }}>
+  <div id="geocoder"  style={{ position: 'absolute', zIndex: 100000, top: 10, right: 30 }}></div> 
+</div>
+ 
         <div style={{ position: 'absolute', top: 0, left: '40px', zIndex: 100 }} className="overlay-container">
           <TabsDemo 
           selectedEvent={selectedEvent} 

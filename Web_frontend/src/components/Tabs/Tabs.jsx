@@ -360,7 +360,7 @@ setSearchTerm('');
   <FaUserCircle className="ThinSidebarIcon" onClick={handleinfo} />
   
   <button style={{ zIndex: '100' }} className={`SidebarToggle ${isSidebarOpen ? 'Close Sidebar' : 'Open Sidebar'}`} onClick={toggleSidebarManually}>
-        <FiChevronRight className="ToggleIcon" />
+        <FiChevronRight   className="ToggleIcon" />
       </button>
 </div>
       
