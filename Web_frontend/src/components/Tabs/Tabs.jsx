@@ -750,8 +750,10 @@ setSearchTerm('');
                                           ) : (
                                             <div className="events-placeholder">
                                               {/* Display this message when no events are selected */}
+                                              {!loading && 
                                               <p style={{color:'white',}}>No event selected. Please select an event to view details.</p>
-                                            </div>
+                                            }
+                                              </div>
                                           )}
 
 
