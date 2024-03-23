@@ -202,7 +202,7 @@ const filteredEvents = searchTerm
       }
     };
 
-  
+    fetchEvents();
   }, []);
 
 
