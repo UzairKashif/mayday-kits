@@ -14,6 +14,7 @@ import * as turf from '@turf/turf';
 import logoImage from '../assets/bg.webp'; // Adjust the path accordingly
 import SignOut from '../signout/signout';
 import { HiOutlineLocationMarker } from "react-icons/hi";
+import SkeletonLoader from '../Skeleton/SkeletonLoader';
 
 
 
@@ -201,7 +202,7 @@ const filteredEvents = searchTerm
       }
     };
 
-    fetchEvents();
+  
   }, []);
 
 
@@ -379,12 +380,25 @@ setSearchTerm('');
           <Tabs.Content value="tab1" className="TabsContent" ref={detailsPanelRef}>
           {
         loading && (
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-            <TailSpin
-              color="#FF977D"
-              height={40}
-              width={40}
-            />
+          <div >
+         <div className="skeleton-loader-container">
+  <SkeletonLoader />
+</div>
+<div className="skeleton-loader-container">
+  <SkeletonLoader />
+</div>
+<div className="skeleton-loader-container">
+  <SkeletonLoader />
+</div>
+<div className="skeleton-loader-container">
+  <SkeletonLoader />
+</div>
+<div className="skeleton-loader-container">
+  <SkeletonLoader />
+</div>
+<div className="skeleton-loader-container">
+  <SkeletonLoader />
+</div>
           </div>
         )}
 

@@ -997,3 +997,6 @@ input:checked + .slider:before {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+.skeleton-loader-container {
+  margin-bottom: 20px; /* Adjust the bottom margin as needed */
+}
