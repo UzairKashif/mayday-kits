@@ -10,30 +10,23 @@ const EarthquakeMarkersComponent = ({ mapRef, onMarkerClick }) => {
     const fetchEarthquakeData = async () => {
       setLoading(true);
       try {
-        // Example URL with query parameters for the USGS earthquake data API
-        // Adjust the query parameters as needed for your use case
-        const url = new URL('https://earthquake.usgs.gov/fdsnws/event/1/query');
-        url.search = new URLSearchParams({
-          format: 'geojson',
-    starttime: '2024-01-01',
-    endtime: '2024-02-02',
-    minmagnitude: '3',
-        });
-  
+        // Use the new URL for your local API endpoint
+        const url = 'http://localhost:3000/api/earthquake-events';
+    
         const response = await fetch(url);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-  
-        // Assuming data is in GeoJSON format, features is an array of earthquake events
-        const earthquakes = data.features.map(feature => ({
-          ...feature.properties, // properties contain the earthquake data
-          id: feature.id, // Using the feature's id as the earthquake id
-          latitude: feature.geometry.coordinates[1],
-          longitude: feature.geometry.coordinates[0],
+    
+        // Process the data assuming it is structured as provided in your example
+        const earthquakes = data.map(item => ({
+          ...item.data.properties, // properties contain the earthquake data
+          id: item.data.id, // Using the item's id as the earthquake id
+          latitude: item.data.geometry.coordinates[1],
+          longitude: item.data.geometry.coordinates[0],
         }));
-  
+    
         setEarthquakeData(earthquakes);
       } catch (error) {
         console.error("Error fetching earthquake data:", error);
@@ -44,6 +37,7 @@ const EarthquakeMarkersComponent = ({ mapRef, onMarkerClick }) => {
   
     fetchEarthquakeData();
   }, []);
+  
   
   return (
     <>

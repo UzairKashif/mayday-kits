@@ -159,8 +159,8 @@ const filteredEvents = searchTerm
       try {
         // API Endpoints
         const fireEventsUrl = 'http://localhost:3000/api/fire-events'; // Adjust with the correct endpoint
-        const weatherApiUrl = "https://api.weather.gov/alerts/active";
-        const earthquakeApiUrl = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2024-01-01&endtime=2024-02-02&minmagnitude=3";
+        const earthquakeApiUrl = "http://localhost:3000/api/earthquake-events";
+        const weatherApiUrl = "http://localhost:3000/api/weather-events";
 
         // Fetching data from all three APIs concurrently
         const [fireResponse, weatherResponse, earthquakeResponse] = await Promise.all([
@@ -177,17 +177,17 @@ const filteredEvents = searchTerm
         }));
 
         // Process weather data
-        const weatherEvents = weatherResponse.features.map(eventData => ({
-          ...eventData,
+        const weatherEvents = weatherResponse.map(item => ({
+          ...item.data,
           type: 'weather',
-          date: eventData.date ? new Date(eventData.date).getTime() : null
+          date: item.data.properties.sent ? new Date(item.data.properties.sent).getTime() : null
         })).filter(event => validEvents.includes(event.properties.event));
 
         // Process earthquake data
-        const earthquakeEvents = earthquakeResponse.features.map(feature => ({
-          ...feature,
+        const earthquakeEvents = earthquakeResponse.map(item => ({
+          ...item.data,
           type: 'earthquake',
-          date: new Date(feature.properties.time).getTime(), // Adjust based on actual property path
+          date: new Date(item.data.properties.time).getTime(), // Adjust based on the actual property path
         }));
 
         // Combine and sort events by date
