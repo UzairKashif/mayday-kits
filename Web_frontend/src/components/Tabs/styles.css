@@ -703,12 +703,13 @@ input[type="checkbox"] {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 }
 
 .modal-title {
   font-size: 1.5rem;
   color: #ffffff;
+  padding-bottom: 0px;
 }
 
 /* Close button on the top right of the modal */
@@ -722,9 +723,9 @@ input[type="checkbox"] {
 /* The search input styling */
 .modal-search-input {
   width: 80%;
-  padding: 10px 15px;
+  padding: 5px 5px;
   font-size: 1rem;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
@@ -732,13 +733,16 @@ input[type="checkbox"] {
 /* Style for the filter options list */
 .filter-options-list {
   list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
 }
 
 /* Individual filter option line item */
 .filter-option {
   display: flex;
-  align-items: center;
-  margin-bottom: 10px;
+  align-items: left;
+  margin-bottom: 0px;
 }
 
 /* Custom toggle switch */
@@ -798,17 +802,10 @@ input:checked + .slider:before {
 
 .modal-body {
   text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
 }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1005,6 +1002,8 @@ input:checked + .slider:before {
 .toggle-all-button {
   color:#ffffff;
   background-color: #292929;
+  border-radius: 5px;
+  max-width: 100px;
 }
 .toggle-all-button:hover {
   background-color: #CE2C31;
