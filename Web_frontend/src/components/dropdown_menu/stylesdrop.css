@@ -1,9 +1,9 @@
-@import '@radix-ui/colors/black-alpha.css';
-@import '@radix-ui/colors/indigo.css';
-@import '@radix-ui/colors/mauve.css';
-@import '@radix-ui/colors/purple.css';
-@import '@radix-ui/colors/violet.css';
-@import '@radix-ui/colors/tomato.css';
+@import "@radix-ui/colors/black-alpha.css";
+@import "@radix-ui/colors/indigo.css";
+@import "@radix-ui/colors/mauve.css";
+@import "@radix-ui/colors/purple.css";
+@import "@radix-ui/colors/violet.css";
+@import "@radix-ui/colors/tomato.css";
 
 button,
 p {
@@ -17,13 +17,12 @@ p {
   width: 100vw;
   z-index: 1;
   margin-left: 50px;
-  
 }
 
 .NavigationMenuList {
   display: flex;
   justify-content: center;
-  background-color: #0D141F;
+  background-color: #0d141f;
   padding: 4px;
   border-radius: 6px;
   list-style: none;
@@ -44,11 +43,11 @@ p {
 }
 .NavigationMenuTrigger:focus,
 .NavigationMenuLink:focus {
-  box-shadow: 0 0 0 2px #CE2C31;
+  box-shadow: 0 0 0 2px #ce2c31;
 }
 .NavigationMenuTrigger:hover,
 .NavigationMenuLink:hover {
-  background-color: #111A27;
+  background-color: #111a27;
 }
 
 .NavigationMenuTrigger {
@@ -69,23 +68,22 @@ p {
   position: absolute;
   top: 0;
   left: 0;
-  
+
   width: 100%;
-height: auto;
+  height: auto;
   animation-duration: 250ms;
   animation-timing-function: ease;
- 
 }
-.NavigationMenuContent[data-motion='from-start'] {
+.NavigationMenuContent[data-motion="from-start"] {
   animation-name: enterFromLeft;
 }
-.NavigationMenuContent[data-motion='from-end'] {
+.NavigationMenuContent[data-motion="from-end"] {
   animation-name: enterFromRight;
 }
-.NavigationMenuContent[data-motion='to-start'] {
+.NavigationMenuContent[data-motion="to-start"] {
   animation-name: exitToLeft;
 }
-.NavigationMenuContent[data-motion='to-end'] {
+.NavigationMenuContent[data-motion="to-end"] {
   animation-name: exitToRight;
 }
 @media only screen and (min-width: 600px) {
@@ -104,10 +102,10 @@ height: auto;
   z-index: 1;
   transition: width, transform 250ms ease;
 }
-.NavigationMenuIndicator[data-state='visible'] {
+.NavigationMenuIndicator[data-state="visible"] {
   animation: fadeIn 200ms ease;
 }
-.NavigationMenuIndicator[data-state='hidden'] {
+.NavigationMenuIndicator[data-state="hidden"] {
   animation: fadeOut 200ms ease;
 }
 
@@ -116,18 +114,18 @@ height: auto;
   transform-origin: top center;
   margin-top: 10px;
   width: 100%;
-  background-color: #0D141F;
+  background-color: #0d141f;
   border-radius: 6px;
   overflow: hidden;
-  box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+  box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
+    hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
   height: var(--radix-navigation-menu-viewport-height);
   transition: width, height, 300ms ease;
-  
 }
-.NavigationMenuViewport[data-state='open'] {
+.NavigationMenuViewport[data-state="open"] {
   animation: scaleIn 200ms ease;
 }
-.NavigationMenuViewport[data-state='closed'] {
+.NavigationMenuViewport[data-state="closed"] {
   animation: scaleOut 200ms ease;
 }
 @media only screen and (min-width: 600px) {
@@ -169,7 +167,7 @@ height: auto;
   box-shadow: 0 0 0 2px var(--violet-7);
 }
 .ListItemLink:hover {
-  background-color: #111A27;
+  background-color: #111a27;
 }
 
 .ListItemHeading {
@@ -180,14 +178,14 @@ height: auto;
 }
 
 .ListItemText {
-  color: #C2F3FF;
+  color: #c2f3ff;
   line-height: 1.4;
   font-weight: initial;
 }
 .icon-small {
   width: 20%;
   height: 20%;
-  fill: #fff ;
+  fill: #fff;
 }
 
 .Callout {
@@ -195,8 +193,8 @@ height: auto;
   justify-content: flex-end;
   flex-direction: column;
   width: 100%;
- height: 80%;
-  background: linear-gradient(135deg, #E54D2E 0%, #FF977D 100%);
+  height: 80%;
+  background: linear-gradient(135deg, #e54d2e 0%, #ff977d 100%);
   border-radius: 6px;
   padding: 25px;
   text-decoration: none;
@@ -234,18 +232,18 @@ height: auto;
 
 .CaretDown {
   position: relative;
-  color: #C2F3FF;
+  color: #c2f3ff;
   top: 1px;
   transition: transform 250ms ease;
 }
-[data-state='open'] > .CaretDown {
+[data-state="open"] > .CaretDown {
   transform: rotate(-180deg);
 }
 
 .Arrow {
   position: relative;
   top: 70%;
-  background-color: #0D141F;
+  background-color: #0d141f;
   width: 10px;
   height: 10px;
   transform: rotate(45deg);
@@ -336,7 +334,6 @@ height: auto;
   }
 }
 
-
 /* //-/This is to control how each checkbox appear in the center nav bar/- */
 
 .NavigationMenuContent .List.one {
@@ -357,5 +354,4 @@ height: auto;
   position: absolute;
   display: flex;
   justify-content: center;
-
 }
