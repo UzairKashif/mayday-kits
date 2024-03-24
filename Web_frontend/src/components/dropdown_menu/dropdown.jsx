@@ -10,7 +10,7 @@ import './check.scss'
 
 
 
-const NavigationMenuDemo = ({ showFire, setShowFire, showEarthquake, setShowEarthquake, showWeather,setShowWeather}) => {
+const NavigationMenuDemo = ({ showFire, setShowFire, showEarthquake, setShowEarthquake, showWeather,setShowWeather,toggleWeatherAndToastVisibility}) => {
 
   const [isPopupVisible, setIsPopupVisible] = useState(false);
 
@@ -79,7 +79,7 @@ const NavigationMenuDemo = ({ showFire, setShowFire, showEarthquake, setShowEart
                               type="checkbox"
                               className="checkbox-input"
                               checked={showWeather}
-                              onChange={(e) => setShowWeather(e.target.checked)}
+                              onChange={toggleWeatherAndToastVisibility}
                     />
                       <span className="checkbox-tile">
                         <span className="checkbox-icon2">
