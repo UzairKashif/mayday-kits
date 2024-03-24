@@ -2,8 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const eventRoutes = require('./routes/fireEventRoutes');
 const cors = require('cors');
-const earthquakeRoutes = require('./routes/earthquakeEvent');
-const weatherRoutes = require('./routes/weatherEvent');
+const earthquakeRoutes = require('./routes/earthquakeEventRoutes');
+const weatherRoutes = require('./routes/weatherEventRoutes');
 const firmRoutes = require('./routes/firmEventRoutes');
 const eventPixlesRoutes = require('./routes/eventPixelsRoutes');
 

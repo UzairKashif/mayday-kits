@@ -19,70 +19,243 @@ import SkeletonLoader from '../Skeleton/SkeletonLoader';
 
 
 import icon911 from '../assets/weather_icons/911.png';
-import iconEarthquake from '../assets/weather_icons/earthquake.png';
-import iconFire from '../assets/weather_icons/fire.png';
-import iconFlood from '../assets/weather_icons/flood.png';
-import iconTsunami from '../assets/weather_icons/tsunami.png';
-import iconVolcano from '../assets/weather_icons/volcano.png';
-import iconWildfire from '../assets/weather_icons/wildfire.png';
-import iconEnvironmentPollution from '../assets/weather_icons/environment-pollution.png';
+import iconDisaster from '../assets/newicons/icons/disaster.png';
+import iconEarthquake from '../assets/newicons/icons/earthquake.png';
+import iconEnvironmentPollution from '../assets/newicons/icons/env-pollution.png';
 import iconExplosion from '../assets/weather_icons/explosion.png';
-import iconHazmat from '../assets/weather_icons/hazmat.png';
-import iconLandslide from '../assets/weather_icons/landslide.png';
-import iconNuclear from '../assets/weather_icons/nuclear.png';
-import iconSnow from '../assets/weather_icons/snow.png';
-import iconHurricane from '../assets/weather_icons/hurricane.png';
-import iconTornodo from '../assets/weather_icons/tornado.png';
-import iconDrought from '../assets/weather_icons/drought.png';
-import iconAvalanche from '../assets/weather_icons/avalanche.png';
-import iconAirQuality from '../assets/weather_icons/airquality.png';
-import iconStorm from '../assets/weather_icons/storm.svg';
+import iconFire from '../assets/weather_icons/fire.png';
+import iconFlood from '../assets/newicons/icons/flooded-house.png';
+import iconHazmat from '../assets/newicons/icons/biohazard.png';
+import iconLandslide from '../assets/newicons/icons/landslide.png';
+import iconNuclear from '../assets/newicons/icons/nuclear.png';
+import iconSnow from '../assets/newicons/icons/snowflake.png';
+import iconTechnologicalDisaster from '../assets/newicons/icons/breakdown.png';
+import iconTsunami from '../assets/newicons/icons/tsunami.png';
+import iconVolcano from '../assets/newicons/icons/volcano.png';
+import iconWildfire from '../assets/newicons/icons/wildfire.png';
+import iconHurricane from '../assets/newicons/icons/hurricane.png';
+import iconTornado from '../assets/newicons/icons/tornado.png';
+import iconDrought from '../assets/newicons/icons/drought.png';
+import iconAvalanche from '../assets/newicons/icons/snow-avalanche.png';
+import iconAirQualityAlert from '../assets/newicons/icons/air-quality.png';
+import iconAshfallWarning from '../assets/newicons/icons/ash.png';
+import iconAvalancheWarning from '../assets/newicons/icons/snow-avalanche.png';
+import iconBeachHazardsStatement from '../assets/newicons/icons/beach.png';
+import iconCoastalFloodWarning from '../assets/newicons/icons/erosion.png';
+import iconDenseFogAdvisory from '../assets/newicons/icons/fog.png';
+import iconDenseSmokeAdvisory from '../assets/newicons/icons/co2.png';
+import iconEarthquakeWarning from '../assets/newicons/icons/earthquake.png';
+import iconEvacuationImmediate from '../assets/newicons/icons/exit.png';
+import iconExcessiveHeatWarning from '../assets/newicons/icons/heat.png';
+import iconExtremeColdWarning from '../assets/newicons/icons/coldwarning.png';
+import iconExtremeFireDanger from '../assets/newicons/icons/hot.png';
+import iconExtremeWindWarning from '../assets/newicons/icons/wind.png';
+import iconFireWarning from '../assets/newicons/icons/fire-extinguisher.png';
+import iconFireWeatherWatch from '../assets/newicons/icons/firewatch.png';
+import iconFlashFloodWarning from '../assets/newicons/icons/flash-flood.png';
+import iconFloodWarning from '../assets/newicons/icons/natural-disaster.png';
+import iconFreezeWarning from '../assets/newicons/icons/coldwarning.png';
+import iconFreezingFogAdvisory from '../assets/newicons/icons/freezingfog.png';
+import iconFreezingRainAdvisory from '../assets/newicons/icons/raining.png';
+import iconFreezingSprayAdvisory from '../assets/newicons/icons/freezingspray.png';
+import iconFrostAdvisory from '../assets/newicons/icons/frost.png';
+import iconGaleWarning from '../assets/newicons/icons/galewarning.png';
+import iconHardFreezeWarning from '../assets/newicons/icons/frost.png';
+import iconHazardousMaterialsWarning from '../assets/newicons/icons/waste.png';
+import iconHazardousSeasWarning from '../assets/newicons/icons/seawarning.png';
+import iconHazardousWeatherOutlook from '../assets/newicons/icons/weatherlookout.png';
+import iconHeatAdvisory from '../assets/newicons/icons/heatwave.png';
+import iconHighSurfWarning from '../assets/newicons/icons/high-tide.png';
+import iconHighWindWarning from '../assets/newicons/icons/galewarning.png';
+import iconHurricaneForceWindWarning from '../assets/newicons/icons/hurricane.png';
+import iconHurricaneLocalStatement from '../assets/newicons/icons/hurricane.png';
+import iconIceStormWarning from '../assets/newicons/icons/ice.png';
+import iconLakeshoreFloodWarning from '../assets/newicons/icons/erosion.png';
+import iconNuclearPowerPlantWarning from '../assets/newicons/icons/nuclear.png';
+import iconRadiologicalHazardWarning from '../assets/newicons/icons/radioactive.png';
+import iconRedFlagWarning from '../assets/newicons/icons/flag.png';
+import iconRipCurrentStatement from '../assets/newicons/icons/ripcurrent.png';
+import iconSevereThunderstormWarning from '../assets/newicons/icons/severethunder.png';
+import iconSevereWeatherStatement from '../assets/newicons/icons/thunderstorm.png';
+import iconShelterInPlaceWarning from '../assets/newicons/icons/shelter.png';
+import iconStormSurgeWarning from '../assets/newicons/icons/stromsurge.png';
+import iconStormWarning from '../assets/newicons/icons/thunder-warning.png';
+import iconTornadoWarning from '../assets/newicons/icons/tornado-warn.png';
+import iconTsunamiWarning from '../assets/newicons/icons/tsunami-warning.png';
+import iconTyphoonWarning from '../assets/newicons/icons/typhoon.png';
+import iconUrbanAndSmallStreamFloodAdvisory from '../assets/newicons/icons/flood.png';
+import iconVolcanoWarning from '../assets/newicons/icons/volcano.png';
+import iconWindAdvisory from '../assets/newicons/icons/gale.png';
+import iconWindChillWarning from '../assets/newicons/icons/windchill.png';
+import iconWinterStormWarning from '../assets/newicons/icons/winterstrom.png';
+import iconWinterWeatherAdvisory from '../assets/newicons/icons/winterweather.png';
+
+
+
 
 
 
 const eventToIconMap = {
+  "disaster": iconDisaster,
   "earthquake": iconEarthquake,
-  "Earthquake Warning": iconEarthquake,
-  "fire": iconFire,
-  "Extreme Fire Danger": iconFire,
-  "Fire Warning": iconFire,
-  "flood": iconFlood,
-  "Flash Flood Warning": iconFlood,
-  "Flood Warning": iconFlood,
-  "Coastal Flood Warning": iconFlood,
-  "tsunami": iconTsunami,
-  "Tsunami Warning":iconTsunami,
-  "volcano": iconVolcano,
-  "Volcano Warning": iconVolcano,
-  "wildfire": iconWildfire,
   "environment-pollution": iconEnvironmentPollution,
   "explosion": iconExplosion,
+  "fire": iconFire,
+  "flood": iconFlood,
   "hazmat": iconHazmat,
   "landslide": iconLandslide,
   "nuclear": iconNuclear,
   "snow": iconSnow,
+  "technological-disaster": iconTechnologicalDisaster,
+  "tsunami": iconTsunami,
+  "volcano": iconVolcano,
+  "wildfire": iconWildfire,
   "hurricane": iconHurricane,
-  "tornado": iconTornodo,
-  "Tornado Warning": iconTornodo,
+  "tornado": iconTornado,
   "drought": iconDrought,
   "avalanche": iconAvalanche,
-  "Air Quality Alert": iconAirQuality,
-  "Storm Warning": iconStorm,
-// ... map other valid events to their icons
-"default": icon911, // Default icon
-
-
+  "Air Quality Alert": iconAirQualityAlert,
+  "Ashfall Warning": iconAshfallWarning,
+  "Avalanche Warning": iconAvalancheWarning,
+  "Beach Hazards Statement": iconBeachHazardsStatement,
+  "Coastal Flood Warning": iconCoastalFloodWarning,
+  "Dense Fog Advisory": iconDenseFogAdvisory,
+  "Dense Smoke Advisory": iconDenseSmokeAdvisory,
+  "Earthquake Warning": iconEarthquakeWarning,
+  "Evacuation - Immediate": iconEvacuationImmediate,
+  "Excessive Heat Warning": iconExcessiveHeatWarning,
+  "Extreme Cold Warning": iconExtremeColdWarning,
+  "Extreme Fire Danger": iconExtremeFireDanger,
+  "Extreme Wind Warning": iconExtremeWindWarning,
+  "Fire Warning": iconFireWarning,
+  "Fire Weather Watch": iconFireWeatherWatch,
+  "Flash Flood Warning": iconFlashFloodWarning,
+  "Flood Warning": iconFloodWarning,
+  "Freeze Warning": iconFreezeWarning,
+  "Freezing Fog Advisory": iconFreezingFogAdvisory,
+  "Freezing Rain Advisory": iconFreezingRainAdvisory,
+  "Freezing Spray Advisory": iconFreezingSprayAdvisory,
+  "Frost Advisory": iconFrostAdvisory,
+  "Gale Warning": iconGaleWarning,
+  "Hard Freeze Warning": iconHardFreezeWarning,
+  "Hazardous Materials Warning": iconHazardousMaterialsWarning,
+  "Hazardous Seas Warning": iconHazardousSeasWarning,
+  "Hazardous Weather Outlook": iconHazardousWeatherOutlook,
+  "Heat Advisory": iconHeatAdvisory,
+  "High Surf Warning": iconHighSurfWarning,
+  "High Wind Warning": iconHighWindWarning,
+  "Hurricane Force Wind Warning": iconHurricaneForceWindWarning,
+  "Hurricane Local Statement": iconHurricaneLocalStatement,
+  "Ice Storm Warning": iconIceStormWarning,
+  "Lakeshore Flood Warning": iconLakeshoreFloodWarning,
+  "Nuclear Power Plant Warning": iconNuclearPowerPlantWarning,
+  "Radiological Hazard Warning": iconRadiologicalHazardWarning,
+  "Red Flag Warning": iconRedFlagWarning,
+  "Rip Current Statement": iconRipCurrentStatement,
+  "Severe Thunderstorm Warning": iconSevereThunderstormWarning,
+  "Severe Weather Statement": iconSevereWeatherStatement,
+  "Shelter In Place Warning": iconShelterInPlaceWarning,
+  "Storm Surge Warning": iconStormSurgeWarning,
+  "Storm Warning": iconStormWarning,
+  "Tornado Warning": iconTornadoWarning,
+  "Tsunami Warning": iconTsunamiWarning,
+  "Typhoon Warning": iconTyphoonWarning,
+  "Urban And Small Stream Flood Advisory": iconUrbanAndSmallStreamFloodAdvisory,
+  "Volcano Warning": iconVolcanoWarning,
+  "Wind Advisory": iconWindAdvisory,
+  "Wind Chill Warning": iconWindChillWarning,
+  "Winter Storm Warning": iconWinterStormWarning,
+  "Winter Weather Advisory": iconWinterWeatherAdvisory,
+  "default": icon911 // Default icon
 };
+
+
+const eventTypeToColorMap = {
+  "disaster": "#ff6347",
+  "earthquake": "#d2691e",
+  "environment-pollution": "#556b2f",
+  "explosion": "#ff4500",
+  "fire": "#ff0000",
+  "flood": "#1e90ff",
+  "hazmat": "#ff8c00",
+  "landslide": "#8b4513",
+  "nuclear": "#800080",
+  "snow": "#add8e6",
+  "technological-disaster": "#696969",
+  "tsunami": "#0000cd",
+  "volcano": "#b22222",
+  "wildfire": "#b22222",
+  "hurricane": "#4682b4",
+  "tornado": "#778899",
+  "drought": "#f4a460",
+  "avalanche": "#f0f8ff",
+  "Air Quality Alert": "#556b2f",
+  "Ashfall Warning": "#f0f8ff",
+  "Avalanche Warning": "#2e8b57",
+  "Beach Hazards Statement": "#1e90ff",
+  "Coastal Flood Warning": "#708090",
+  "Dense Fog Advisory": "#a9a9a9",
+  "Dense Smoke Advisory": "#d2691e",
+  "Earthquake Warning": "#8b4513",
+  "Evacuation - Immediate": "#ff6347",
+  "Excessive Heat Warning": "#FF4500",
+  "Extreme Cold Warning": "#00bfff",
+  "Extreme Fire Danger": "#ff0000",
+  "Extreme Wind Warning": "#778899",
+  "Fire Warning": "#ff0000",
+  "Fire Weather Watch": "#ff4500",
+  "Flash Flood Warning": "#1e90ff",
+  "Flood Warning": "#1e90ff",
+  "Freeze Warning": "#00bfff",
+  "Freezing Fog Advisory": "#708090",
+  "Freezing Rain Advisory": "#4682b4",
+  "Freezing Spray Advisory": "#add8e6",
+  "Frost Advisory": "#f0f8ff",
+  "Gale Warning": "#778899",
+  "Hard Freeze Warning": "#00bfff",
+  "Hazardous Materials Warning": "#ff8c00",
+  "Hazardous Seas Warning": "#4682b4",
+  "Hazardous Weather Outlook": "#708090",
+  "Heat Advisory": "#ff4500",
+  "High Surf Warning": "#2e8b57",
+  "High Wind Warning": "#778899",
+  "Hurricane Force Wind Warning": "#4682b4",
+  "Hurricane Local Statement": "#4682b4",
+  "Ice Storm Warning": "#add8e6",
+  "Lakeshore Flood Warning": "#1e90ff",
+  "Nuclear Power Plant Warning": "#800080",
+  "Radiological Hazard Warning": "#800080",
+  "Red Flag Warning": "#ff0000",
+  "Rip Current Statement": "#2e8b57",
+  "Severe Thunderstorm Warning": "#ff4500",
+  "Severe Weather Statement": "#ff6347",
+  "Shelter In Place Warning": "#ff6347",
+  "Storm Surge Warning": "#1e90ff",
+  "Storm Warning": "#4682b4",
+  "Tornado Warning": "#778899",
+  "Tsunami Warning": "#0000cd",
+  "Typhoon Warning": "#4682b4",
+  "Urban And Small Stream Flood Advisory": "#1e90ff",
+  "Volcano Warning": "#b22222",
+  "Wind Advisory": "#778899",
+  "Wind Chill Warning": "#00bfff",
+  "Winter Storm Warning": "#add8e6",
+  "Winter Weather Advisory": "#add8e6",
+  "default":"#f7f5f6"
+  // ... any other events you need
+};
+
 
 const getIconForEvent = (eventType) => {
   return eventToIconMap[eventType] || eventToIconMap["default"];
 };
 
-const TabsDemo = ({ handleMapViewport, handleWeatherEventSelect, onWeatherEventSelect, showFire, showEarthquake,showWeather, selectedEvent,setSelectedEvent, showDetails, setShowDetails,isSidebarOpen,setIsSidebarOpen }) => {
+const TabsDemo = ({ handleMapViewport, handleWeatherEventSelect, onWeatherEventSelect, showFire, showEarthquake,showWeather, selectedEvent,setSelectedEvent, showDetails, setShowDetails,isSidebarOpen,setIsSidebarOpen,onDrawPolygon }) => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [weatherEventFilters, setWeatherEventFilters] = useState({});
   const [areAllChecked, setAreAllChecked] = useState(false);
+  
 
   const detailsPanelRef = useRef(null);
 
@@ -159,8 +332,8 @@ const filteredEvents = searchTerm
       try {
         // API Endpoints
         const fireEventsUrl = 'http://localhost:3000/api/fire-events'; // Adjust with the correct endpoint
-        const weatherApiUrl = "https://api.weather.gov/alerts/active";
-        const earthquakeApiUrl = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2024-01-01&endtime=2024-02-02&minmagnitude=3";
+        const earthquakeApiUrl = "http://localhost:3000/api/earthquake-events";
+        const weatherApiUrl = "http://localhost:3000/api/weather-events";
 
         // Fetching data from all three APIs concurrently
         const [fireResponse, weatherResponse, earthquakeResponse] = await Promise.all([
@@ -177,17 +350,17 @@ const filteredEvents = searchTerm
         }));
 
         // Process weather data
-        const weatherEvents = weatherResponse.features.map(eventData => ({
-          ...eventData,
+        const weatherEvents = weatherResponse.map(item => ({
+          ...item.data,
           type: 'weather',
-          date: eventData.date ? new Date(eventData.date).getTime() : null
+          date: item.data.properties.sent ? new Date(item.data.properties.sent).getTime() : null
         })).filter(event => validEvents.includes(event.properties.event));
 
         // Process earthquake data
-        const earthquakeEvents = earthquakeResponse.features.map(feature => ({
-          ...feature,
+        const earthquakeEvents = earthquakeResponse.map(item => ({
+          ...item.data,
           type: 'earthquake',
-          date: new Date(feature.properties.time).getTime(), // Adjust based on actual property path
+          date: new Date(item.data.properties.time).getTime(), // Adjust based on the actual property path
         }));
 
         // Combine and sort events by date
@@ -234,13 +407,20 @@ const filteredEvents = searchTerm
       }
       if (event.type === 'weather') {
         try {
-          // Corrected asynchronous handling
           const geometries = await Promise.all(event.properties.affectedZones.map(async (zoneUrl) => {
             const response = await fetch(zoneUrl);
             const data = await response.json();
-            return data.geometry ? { ...data.geometry, properties: { event: event.properties.event } } : null;
+            if (data.geometry) {
+              // Set the fill color for the geometry based on the event type
+              const color = eventTypeToColorMap[event.properties.event] || eventTypeToColorMap["default"];
+              data.geometry.properties = { ...data.geometry.properties, fill: color };
+              return data.geometry;
+            }
+            return null;
           }));
-          // Assuming onWeatherEventSelect is a prop function passed from Dashboard.jsx that handles weather events
+    
+          // Here we are assuming that onWeatherEventSelect is a function passed as a prop to TabsDemo
+          // and it expects an array of geometries, possibly with their fill colors already set.
           onWeatherEventSelect(geometries.filter(geo => geo !== null));
         } catch (error) {
           console.error('Error fetching zone geometry:', error);
@@ -527,7 +707,12 @@ setSearchTerm('');
     {selectedEvent.status}
   </span>
 </div>
-
+<button
+      className="draw-polygon-button"
+      onClick={() => onDrawPolygon(selectedEvent.event_id)}
+    >
+      Draw Polygon
+    </button>
                                           <div className="detail-box">
                                        
                                             <h4>Event ID</h4>

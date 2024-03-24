@@ -85,79 +85,98 @@ function NextPage() {
       }));
     });
 
-    document.getElementById("geocoder").appendChild(geocoder.onAdd(map));
-  };
+  document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
+};
 
-  const handleMarkerClick = async (lat, lon, event) => {
-    // console.log("Clicked marker event:", event); // Log the event object
-    setSelectedEvent(event); // Update selectedEvent with the clicked event
-    setShowDetails(true); // Show the event details
-    setIsSidebarOpen(true);
-    handleMapViewport({
-      latitude: parseFloat(lat),
-      longitude: parseFloat(lon),
-      zoom: 10,
-      pitch: 60,
-      bearing: 30,
-      speed: 1.2,
-    });
 
-    if (event.type === "fire") {
-      try {
-        const pixelsResponse = await fetch(
-          `http://localhost:3000/api/fire-events/${event.event_id}/pixels`
-        );
-        const pixelsData = await pixelsResponse.json();
-        setFireEventPixels(pixelsData); // Set the state for fire event pixels
-      } catch (error) {
-        console.error("Error fetching fire event pixel data:", error);
-      }
+  
+const handleMarkerClick = async (lat, lon, event) => {
+  
+  // console.log("Clicked marker event:", event); // Log the event object
+  setSelectedEvent(event); // Update selectedEvent with the clicked event
+  setShowDetails(true); // Show the event details
+  setIsSidebarOpen(true);
+  handleMapViewport({
+    latitude: parseFloat(lat),
+    longitude: parseFloat(lon),
+    zoom: 10,
+    pitch: 60,
+    bearing: 30,
+    speed: 1.2,
+  });
+  
+  if (event.type === 'fire') {
+    try {
+      const pixelsResponse = await fetch(`http://localhost:3000/api/fire-events/${event.event_id}/pixels`);
+      const pixelsData = await pixelsResponse.json();
+      setFireEventPixels(pixelsData); // Set the state for fire event pixels
+    } catch (error) {
+      console.error('Error fetching fire event pixel data:', error);
     }
-  };
-  const handleWeatherEventSelect = async (eventData) => {
-    if (
-      !eventData ||
-      !eventData.properties ||
-      !eventData.properties.affectedZones
-    ) {
-      console.error("Invalid event data:", eventData);
-      return; // Exit the function if eventData is not structured as expected.
+  }
+
+};
+const handleWeatherEventSelect = async (eventData) => {
+  if (!eventData || !eventData.properties || !eventData.properties.affectedZones) {
+    console.error('Invalid event data:', eventData);
+    return; // Exit the function if eventData is not structured as expected.
+  }
+  // This example assumes eventData.properties.affectedZones is an array of URLs to fetch geometry data
+  const zoneUrls = eventData.properties.affectedZones;
+  const geometries = [];
+
+  for (const url of zoneUrls) {
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      geometries.push(data.geometry); // Assuming the geometry is directly available under data.geometry
+    } catch (error) {
+      console.error('Failed to fetch zone geometry:', error);
     }
-    // This example assumes eventData.properties.affectedZones is an array of URLs to fetch geometry data
-    const zoneUrls = eventData.properties.affectedZones;
-    const geometries = [];
+  }
 
-    for (const url of zoneUrls) {
-      try {
-        const response = await fetch(url);
-        const data = await response.json();
-        geometries.push(data.geometry); // Assuming the geometry is directly available under data.geometry
-      } catch (error) {
-        console.error("Failed to fetch zone geometry:", error);
-      }
-    }
+  const featureCollection = turf.featureCollection(geometries.map(geo => turf.feature(geo)));
+  setSelectedEventGeometry(featureCollection);
 
-    const featureCollection = turf.featureCollection(
-      geometries.map((geo) => turf.feature(geo))
-    );
-    setSelectedEventGeometry(featureCollection);
+  // Calculate the bounding box of the featureCollection
+  const bbox = turf.bbox(featureCollection);
 
-    // Calculate the bounding box of the featureCollection
-    const bbox = turf.bbox(featureCollection);
+  // Now that you have the bounding box, adjust the map viewport
+  // Note: This assumes mapRef is a ref to your ReactMapGL instance
+  const map = mapRef.current.getMap();
+  map.fitBounds([
+    [bbox[0], bbox[1]], // southwest coordinates
+    [bbox[2], bbox[3]]  // northeast coordinates
+  ], {
+    padding: 100 // Optional: Adjust the padding as needed
+  });
+};
 
-    // Now that you have the bounding box, adjust the map viewport
-    // Note: This assumes mapRef is a ref to your ReactMapGL instance
-    const map = mapRef.current.getMap();
-    map.fitBounds(
-      [
-        [bbox[0], bbox[1]], // southwest coordinates
-        [bbox[2], bbox[3]], // northeast coordinates
-      ],
-      {
-        padding: 100, // Optional: Adjust the padding as needed
-      }
-    );
-  };
+
+// In Dashboard.jsx
+
+// Handler to add/update polygon layer
+const updateMapWithEventGeometry = (geoJsonData) => {
+  const map = mapRef.current.getMap();
+
+  // Check if a source already exists
+  if (map.getSource('weather-event')) {
+    map.removeLayer('weather-event-polygon');
+    map.removeSource('weather-event');
+  }
+
+  // Add new source and layer
+  map.addSource('weather-event', { type: 'geojson', data: geoJsonData });
+  map.addLayer({
+    id: 'weather-event-polygon',
+    type: 'fill',
+    source: 'weather-event',
+    paint: {
+      'fill-color': '#ff0000', // Example color
+      'fill-opacity': 0.5,
+    },
+  });
+};
 
   return (
     <>
@@ -298,23 +317,18 @@ function NextPage() {
             trackUserLocation={true}
           />
         </div>
-        {selectedEventGeometry.features &&
-          selectedEventGeometry.features.length > 0 && (
-            <Source
-              id="event-geometry-source"
-              type="geojson"
-              data={selectedEventGeometry}
-            >
-              <Layer
-                id="event-geometry-layer"
-                type="fill"
-                paint={{
-                  "fill-color": "#f08", // Example fill color
-                  "fill-opacity": 0.4, // Example fill opacity
-                }}
-              />
-            </Source>
-          )}
+        {selectedEventGeometry.features && selectedEventGeometry.features.length > 0 && (
+        <Source id="event-geometry-source" type="geojson" data={selectedEventGeometry}>
+          <Layer
+            id="event-geometry-layer"
+            type="fill"
+            paint={{
+              'fill-color': '#f08', // Example fill color
+              'fill-opacity': 0.4, // Example fill opacity
+            }}
+          />
+        </Source>
+      )}
       </ReactMapGL>
     </>
   );
