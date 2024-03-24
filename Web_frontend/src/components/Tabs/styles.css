@@ -157,7 +157,7 @@ body {
 
 .detail-box .label {
   display: inline-block; /* Allows the background to wrap content */
-  background-color: #ff44ff; /* Accent color for labels */
+  background-color: #ffdd00; /* Accent color for labels */
   color: #242424; /* Dark text color for contrast */
   padding: 4px 8px; /* Spacing inside the label */
   border-radius: 4px; /* Rounded corners for labels */
@@ -189,7 +189,7 @@ body {
 
 
 .icon {
-  color: #ff44ff; /* Brighter shade of red for the icon */
+  color: #CE2C31; /* Brighter shade of red for the icon */
   margin-right: 16px;
   font-size: 1.5rem; /* Larger icon size */
 }
@@ -201,7 +201,7 @@ body {
 }
 
 .iconearth {
-  color: #ffdd00; /* Brighter shade of red for the icon */
+  color: #CE2C31; /* Brighter shade of red for the icon */
   margin-right: 16px;
   font-size: 1.5rem; /* Larger icon size */
 }
@@ -437,7 +437,7 @@ body {
   position: absolute;
   top: 100%;
   left: 20%;
-  background-color: #faf600;
+  background-color: #CE2C31;
   min-width: 260px;
   max-height: 200px; /* Set a maximum height */
   overflow-y: auto; /* Enable vertical scrolling */
@@ -487,7 +487,7 @@ input[type="checkbox"] {
   background-color: transparent;
   border: none;
   border-bottom: 3px solid transparent; /* Invisible border for a consistent box height */
-  color: #ff44ff; /* Text color */
+  color: #CE2C31; /* Text color */
   transition: color 0.2s, background-color 0.2s;
 }
 
@@ -498,7 +498,7 @@ input[type="checkbox"] {
 
 .innertabs .TabsTrigger[data-state='active'] {
   color: #ffffff; /* Bright text for the active tab */
-  border-bottom-color: #ff44ff; /* Highlight color for the active tab */
+  border-bottom-color: #CE2C31; /* Highlight color for the active tab */
 }
 
 .innertabs .TabsTrigger:not([data-state='active']):hover {
@@ -783,7 +783,7 @@ input[type="checkbox"] {
 
 /* Checked state for the slider */
 input:checked + .slider {
-  background-color: #ff44ff;
+  background-color: #CE2C31;
 }
 
 input:checked + .slider:before {
@@ -999,4 +999,12 @@ input:checked + .slider:before {
 }
 .skeleton-loader-container {
   margin-bottom: 20px; /* Adjust the bottom margin as needed */
+}
+
+.toggle-all-button {
+  color:#ffffff;
+  background-color: #292929;
+}
+.toggle-all-button:hover {
+  background-color: #CE2C31;
 }
