@@ -1,3 +1,4 @@
+
 import fireActiveIcon from '../assets/weather_icons/fire_active.png';
 import fireInactiveIcon from '../assets/weather_icons/fire_inactive.png';
 import firePendingIcon from '../assets/weather_icons/fire_pending.png';
@@ -342,28 +343,55 @@ setinfoVisible(false);
 handleCloseModal();
 setSearchTerm('');
 };
+const [activeTab, setActiveTab] = useState(null);
 
   return (
     <>
 
-    <div className={`ThinSidebar ${!isSidebarOpen ? 'show' : ''}`}>
-   
-    <div className="ThinSidebarLogo">
+<div className={`ThinSidebar ${!isSidebarOpen ? 'show' : ''}`}>
+  <div className="ThinSidebarLogo">
     <img src={logoImage} alt="Logo" className="LogoIcon" />
   </div>
-
   
-  <HiOutlineLocationMarker className={`ThinSidebarIcon ${isSidebarOpen ? 'open' : ''}`}   onClick={handleCloseModal}/>
+  {/* Location Icon */}
+  <HiOutlineLocationMarker
+    className={`ThinSidebarIcon ${activeTab === 'location' ? 'active' : ''}`}
+    onClick={() => {
+      handleCloseModal();
+      setActiveTab('location');
+    }}
+  />
   
+  {/* Weather Icon */}
   {showWeather &&
-  <FaCloud className="ThinSidebarIcon" onClick={handleOpenModal}  />
-}
-  <FaUserCircle className="ThinSidebarIcon" onClick={handleinfo} />
+    <FaCloud
+      className={`ThinSidebarIcon ${activeTab === 'weather' ? 'active' : ''}`}
+      onClick={() => {
+        handleOpenModal();
+        setActiveTab('weather');
+      }}
+    />
+  }
   
-  <button style={{ zIndex: '100' }} className={`SidebarToggle ${isSidebarOpen ? 'Close Sidebar' : 'Open Sidebar'}`} onClick={toggleSidebarManually}>
-        <FiChevronRight   className="ToggleIcon" />
-      </button>
+  {/* User Icon */}
+  <FaUserCircle
+    className={`ThinSidebarIcon ${activeTab === 'user' ? 'active' : ''}`}
+    onClick={() => {
+      handleinfo();
+      setActiveTab('user');
+    }}
+  />
+  
+  {/* Sidebar Toggle Button */}
+  <button
+    style={{ zIndex: '100' }}
+    className={`SidebarToggle ${isSidebarOpen ? 'Close Sidebar' : 'Open Sidebar'}`}
+    onClick={toggleSidebarManually}
+  >
+    <FiChevronRight className="ToggleIcon" />
+  </button>
 </div>
+
       
 
       <div className={`TabsContainer ${isSidebarOpen ? 'open' : 'closed'}`}>
@@ -404,9 +432,7 @@ setSearchTerm('');
 
 {showWeather && !showDetails && (
      <div className="filter-dropdown">
-     {/* <button onClick={handleOpenModal} className="filter-dropdown-button">
-       ☁ ‎ Filter Events ‎ ‎⮟
-     </button> */}
+    
      {
        isModalVisible && (
          <div className="modal-overlay" onClick={handleCloseModal}>
