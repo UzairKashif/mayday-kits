@@ -71,6 +71,7 @@ const [selectedEvent, setSelectedEvent] = useState(null);
 const [showDetails, setShowDetails] = useState(false);
 const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 const [fireEventPixels, setFireEventPixels] = useState([]);
+const [firePolygon, setFirePolygon] = useState(null);
 
 
 
@@ -93,7 +94,14 @@ const handleLoad = () => {
   document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
 };
 
+const onDrawPolygon = () => {
+  if (fireEventPixels.length === 0) return;
+  
+  const points = fireEventPixels.map(pixel => [parseFloat(pixel.lon), parseFloat(pixel.lat)]);
+  const polygon = turf.convex(turf.multiPoint(points));
 
+  setFirePolygon(polygon);
+};
   
 const handleMarkerClick = async (lat, lon, event) => {
   
@@ -297,6 +305,19 @@ const updateMapWithEventGeometry = (geoJsonData) => {
         }}
         onLoad={handleLoad}
       >
+
+{firePolygon && (
+  <Source id="fire-event-polygon" type="geojson" data={firePolygon}>
+    <Layer
+      id="fire-event-polygon-layer"
+      type="fill"
+      paint={{
+        'fill-color': '#ff0000', // Customize color
+        'fill-opacity': 0.5,
+      }}
+    />
+  </Source>
+)}
         {showFire &&  <FireMarkersComponent mapRef={mapRef} onMarkerClick={(lat, lon, event) => handleMarkerClick(lat, lon, event)} />}
         {showEarthquake && <EarthquakeMarkersComponent mapRef={mapRef} onMarkerClick={(lat, lon, event) => handleMarkerClick(lat, lon, event)} />}
         <ToastDemo open={isToastVisible} setOpen={setIsToastVisible} />
@@ -353,6 +374,7 @@ const updateMapWithEventGeometry = (geoJsonData) => {
           showWeather={showWeather}
           handleWeatherEventSelect={handleWeatherEventSelect}
           onWeatherEventSelect={handleWeatherEventSelect}
+          onDrawPolygon={onDrawPolygon}
           style={{ height: '100vh' }} 
           />
         </div>
