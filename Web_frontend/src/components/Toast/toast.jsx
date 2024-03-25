@@ -11,19 +11,7 @@ const ToastDemo = ({ open, setOpen }) => {
   }, []);
   return (
     <Toast.Provider swipeDirection="right">
-      <button
-        className="Button large violet"
-        onClick={() => {
-          setOpen(false);
-          window.clearTimeout(timerRef.current);
-          timerRef.current = window.setTimeout(() => {
-            eventDateRef.current = oneWeekAway();
-            setOpen(true);
-          }, 100);
-        }}
-      >
-        Add to calendar
-      </button>
+    
 
       <Toast.Root className="ToastRoot" open={open} onOpenChange={setOpen}>
         <Toast.Title className="ToastTitle">Layer Selected: NWS Weahter Alerts</Toast.Title>

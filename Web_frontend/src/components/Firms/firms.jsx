@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import mapboxgl from 'mapbox-gl';
 
-const FireMap = ({ mapRef }) => {
+const FireMap = ({ mapRef ,isVisible}) => {
   const zoomSwitchLevel = 9; // Define the zoom level for switching between clusters and individual points
 
   const addFireData = async () => {
@@ -100,10 +100,24 @@ const FireMap = ({ mapRef }) => {
   };
 
   useEffect(() => {
-    if (mapRef && mapRef.current && mapRef.current.getMap) {
+    if (mapRef && mapRef.current && mapRef.current.getMap && isVisible) {
       addFireData();
+    } else {
+      // Logic to hide or remove the layers if isVisible is false
+      const map = mapRef.current?.getMap();
+      if (map) {
+        const layersToRemove = ['fire-clusters', 'fire-cluster-count', 'fire-unclustered-point'];
+        layersToRemove.forEach(layer => {
+          if (map.getLayer(layer)) {
+            map.removeLayer(layer);
+          }
+        });
+        if (map.getSource('fire-data')) {
+          map.removeSource('fire-data');
+        }
+      }
     }
-  }, [mapRef]);
+  }, [mapRef, isVisible]);
 
   return null; // No need to return any JSX as this component only manages map layers.
 };
