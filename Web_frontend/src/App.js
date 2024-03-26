@@ -4,6 +4,7 @@ import Dashboard from './components/Dashboard/Dashboard';
 import FirebaseAuth from './components/FirebaseAuth';
 import Weather from './components/Weather/weather';
 import Firms from './components/Firms/firms';
+import WindyMap from './components/WindyMap/windymap';
 import '@radix-ui/themes/styles.css';
 import {BrowserRouter, Routes, Route} from "react-router-dom"
 // App.js
@@ -18,6 +19,7 @@ function App() {
         <Route path='/auth' element={<FirebaseAuth/>}></Route>
         <Route path='/Weather' element={<Weather />}></Route>
         <Route path='/firms' element={<Firms/>}></Route>
+        <Route path='/WindyMap' element={<WindyMap/>}></Route>
 
       </Routes>
     </BrowserRouter>

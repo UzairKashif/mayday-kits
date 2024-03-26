@@ -2,6 +2,7 @@ import fireActiveIcon from "../assets/weather_icons/fire_active.png";
 import fireInactiveIcon from "../assets/weather_icons/fire_inactive.png";
 import firePendingIcon from "../assets/weather_icons/fire_pending.png";
 import React, { useEffect, useState, useRef } from "react";
+import WeatherAccordion from "../windyaccordion/WeatherAccordion";
 import * as Tabs from "@radix-ui/react-tabs";
 import { FiInfo, FiCamera, FiChevronRight } from "react-icons/fi";
 import {
@@ -268,7 +269,30 @@ const TabsDemo = ({
   const [loading, setLoading] = useState(true);
   const [weatherEventFilters, setWeatherEventFilters] = useState({});
   const [areAllChecked, setAreAllChecked] = useState(false);
-
+  const [weatherData, setWeatherData] = useState({});
+  const [isAccordionOpen, setIsAccordionOpen] = useState(false);
+  const fetchWindyData = async (lat, lon) => {
+    const params = {
+      lat: lat,
+      lon: lon,
+      model: 'gfs,arome,iconEu,gfs,gfsWave,namConus,namHawaii,namAlaska,geos5', // Include all models
+      parameters: ['wind', 'temperature'], // Parameters you want to retrieve
+      key: 'UDPVe8gC6B1J8JTwGeB91qEVGlBUWNZW',
+    };
+  
+    try {
+      const response = await fetch(`https://api.windy.com/api/point-forecast/v2?${new URLSearchParams(params)}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch weather data from Windy');
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error:', error.message);
+      throw error;
+    }
+  };
+  
   const detailsPanelRef = useRef(null);
 
   // const [selectedEvent, setSelectedEvent] = useState(null);
@@ -477,6 +501,10 @@ const TabsDemo = ({
   const handleEventSelect = async (event) => {
     setSelectedEvent(event);
     setShowDetails(true);
+    if (event.lat && event.lon) {
+      fetchWindyData(event.lat, event.lon).catch(console.error);
+    }
+
     if (event && event.properties && event.properties.affectedZones) {
       handleWeatherEventSelect(event);
     } else {
@@ -521,6 +549,7 @@ const TabsDemo = ({
       });
     }
 
+    
     const detailsPanel = document.querySelector(".details-panel");
     if (detailsPanel) {
       detailsPanel.scrollTop = 0;
@@ -889,6 +918,7 @@ const TabsDemo = ({
                                 ).toLocaleDateString()}
                               </p>
                             </div>
+                            <WeatherAccordion isOpen={isAccordionOpen} setIsOpen={setIsAccordionOpen} weatherData={weatherData} />
                           </Tabs.Content>
 
                           <Tabs.Content value="cameras" className="TabsContent">
