@@ -15,7 +15,7 @@ import {
 } from "react-icons/fa";
 import { FaCloud } from "react-icons/fa";
 import "./styles.css";
-import { db } from "../../firebaseConfig"; // Ensure this path is correctly set
+import { db } from "../../firebase"; // Ensure this path is correctly set
 import { TailSpin } from "react-loader-spinner";
 import { collection, getDocs } from "firebase/firestore";
 import * as turf from "@turf/turf";

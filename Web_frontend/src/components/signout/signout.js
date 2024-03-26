@@ -1,9 +1,9 @@
 // SignOut.js
 import React from 'react';
-import firebase from '../../firebaseConfig';
+import firebase from '../../firebase';
 
 
-import { auth } from '../../firebaseConfig';
+import { auth } from '../../firebase';
 
 const SignOut = () => {
   const handleSignOut = async () => {

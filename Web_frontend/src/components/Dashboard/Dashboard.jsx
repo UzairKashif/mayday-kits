@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import ReactMapGL, {
   NavigationControl,
   FullscreenControl,
@@ -19,7 +19,8 @@ import FireMap from '../Firms/firms'; // Update the import path as necessary
 import  { Source, Layer } from 'react-map-gl';
 import * as turf from '@turf/turf';
 import ToastDemo from '../../components/Toast/toast';
-
+import { UserAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 function NextPage() {
   const [viewport, setViewport] = useState({
@@ -71,7 +72,20 @@ const [showDetails, setShowDetails] = useState(false);
 const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 const [fireEventPixels, setFireEventPixels] = useState([]);
 const [firePolygon, setFirePolygon] = useState(null);
-
+const {logOut, user} = UserAuth();
+const navigate = useNavigate();
+const handleSignOut = async() => {
+  try{
+      await logOut()
+  } catch (error){
+      console.log(error)
+  }
+}
+useEffect(() => {
+  if (user === null) {
+      navigate('/login');
+  }
+}, [user, navigate]);
 
 
 const handleLoad = () => {
@@ -354,6 +368,11 @@ const updateMapWithEventGeometry = (geoJsonData) => {
         />
 </div>
         <div id="geocoder" className="custom-geocoder" style={{ position: 'absolute', zIndex: 100000, top: 10, right: 30 }}>
+
+        <button onClick={handleSignOut} style={{ color: 'white' }}>LOGOUT</button>
+
+        <p style={{ color: 'white' }}> Welcome, {user?.displayName || 'Guest'}</p>
+
         </div>
         
         <div style={{ position: 'absolute', top: 0, left: '40px', zIndex: 100 }} className="overlay-container">
