@@ -271,20 +271,41 @@ const TabsDemo = ({
   const [areAllChecked, setAreAllChecked] = useState(false);
   const [weatherData, setWeatherData] = useState({});
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
+
   const fetchWindyData = async (lat, lon) => {
-    const params = {
-      lat: lat,
-      lon: lon,
-      model: 'gfs,arome,iconEu,gfs,gfsWave,namConus,namHawaii,namAlaska,geos5', // Include all models
-      parameters: ['wind', 'temperature'], // Parameters you want to retrieve
-      key: 'UDPVe8gC6B1J8JTwGeB91qEVGlBUWNZW',
-    };
+    const url = 'https://api.windy.com/api/point-forecast/v2';
+    const apiKey = 'UDPVe8gC6B1J8JTwGeB91qEVGlBUWNZW'; // Your actual API key
+    
+    // Ensure parameters are properly encoded in the URL query string
+    const queryParams = new URLSearchParams({
+      lat: lat.toString(),
+      lon: lon.toString(),
+      model: 'gfs',
+      parameters: 'wind,temperature', // Parameters as a comma-separated list
+      key: apiKey, // Including the API key in the query string
+    });
+  
+    const fetchUrl = `${url}?${queryParams.toString()}`; // Construct the full URL
   
     try {
-      const response = await fetch(`https://api.windy.com/api/point-forecast/v2?${new URLSearchParams(params)}`);
+      const response = await fetch(fetchUrl, {
+        method: 'POST', // or 'GET' if the documentation specifies
+        headers: {
+          'Content-Type': 'application/json',
+          // Remove Authorization header if the key should be in the query string
+          // 'Authorization': `Bearer ${apiKey}`
+        },
+        // The body is not necessary if all parameters are in the query string
+        // body: JSON.stringify({ ... })
+      });
+  
       if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Fetch URL:', fetchUrl); // Log the URL to debug it
+        console.error('Error Text:', errorText);
         throw new Error('Failed to fetch weather data from Windy');
       }
+  
       const data = await response.json();
       return data;
     } catch (error) {
@@ -293,6 +314,8 @@ const TabsDemo = ({
     }
   };
   
+  
+
   const detailsPanelRef = useRef(null);
 
   // const [selectedEvent, setSelectedEvent] = useState(null);
