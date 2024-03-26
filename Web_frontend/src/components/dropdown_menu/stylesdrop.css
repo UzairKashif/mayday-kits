@@ -336,6 +336,7 @@ p {
 
 /* //-/This is to control how each checkbox appear in the center nav bar/- */
 
+
 .NavigationMenuContent .List.one {
   display: flex;
   flex-wrap: wrap;
@@ -350,8 +351,9 @@ p {
   /* max-width: 250px; This prevents the boxes from growing too large */
 }
 
+
 .checkbox-description {
   position: absolute;
   display: flex;
   justify-content: center;
-}
+
