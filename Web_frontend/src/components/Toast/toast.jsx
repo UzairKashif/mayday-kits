@@ -1,30 +1,37 @@
-import * as React from 'react';
-import * as Toast from '@radix-ui/react-toast';
-import './toast.css';
+import * as React from "react";
+import * as Toast from "@radix-ui/react-toast";
+import "./toast.css";
 
 const ToastDemo = ({ open, setOpen }) => {
-    const eventDateRef = React.useRef(new Date());
-    const timerRef = React.useRef(0);
-  
-    React.useEffect(() => {
-      return () => clearTimeout(timerRef.current);
-    }, []);
+  const eventDateRef = React.useRef(new Date());
+  const timerRef = React.useRef(0);
+
+  React.useEffect(() => {
+    return () => clearTimeout(timerRef.current);
+  }, []);
   return (
     <Toast.Provider swipeDirection="right">
-    
+      <button
+        className="Button large violet"
+        onClick={() => {
+          setOpen(false);
+          window.clearTimeout(timerRef.current);
+          timerRef.current = window.setTimeout(() => {
+            eventDateRef.current = oneWeekAway();
+            setOpen(true);
+          }, 100);
+        }}
+      >
+        Add to calendar
+      </button>
 
       <Toast.Root className="ToastRoot" open={open} onOpenChange={setOpen}>
-        <Toast.Title className="ToastTitle">☁️Weather</Toast.Title>
-        <Toast.Description >
-        <p className='descip'>To see Event List. Click ☁️ icon. </p>
-        <br />
-          <time className="ToastDescription" dateTime={eventDateRef.current.toISOString()}>
-            {prettyDate(eventDateRef.current)}
-          </time>
-        
+        <Toast.Title className="ToastTitle">Layer Selected: NWS Weahter Alerts</Toast.Title>
+        <Toast.Description asChild>
+        <p className='ToastDescription'>To see Event List. Click ☁️ icon. </p>
         </Toast.Description>
         <Toast.Action className="ToastAction" asChild altText="Goto schedule to undo">
-         
+          <button className="Button small">Undo</button>
         </Toast.Action>
       </Toast.Root>
       <Toast.Viewport className="ToastViewport" />
@@ -39,7 +46,10 @@ function oneWeekAway(date) {
 }
 
 function prettyDate(date) {
-  return new Intl.DateTimeFormat('en-US', { dateStyle: 'full', timeStyle: 'short' }).format(date);
+  return new Intl.DateTimeFormat("en-US", {
+    dateStyle: "full",
+    timeStyle: "short",
+  }).format(date);
 }
 
 export default ToastDemo;

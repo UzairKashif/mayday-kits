@@ -48,7 +48,7 @@ body, html, #root {
   .simple-marker {
     position: absolute;
     border-radius: 50%;
-    background-color: rgba(168, 25, 6, 0.7);
+    background-color: #CE2C31;
     width: 100%; /* Adapt to container size */
     height: 100%; /* Adapt to container size */
     animation: growFade 6s infinite;
@@ -75,13 +75,14 @@ body, html, #root {
   /* Example: Add some padding around the geocoder */
   padding: 1px;
 
+
   /* Any other styles you want for the container */
 }
 
 /* Style the geocoder input field */
 .mapboxgl-ctrl-geocoder {
 
-  background-color: #181111;
+  background-color: #0D141F;
 
 
   z-index: 1;
@@ -90,30 +91,35 @@ body, html, #root {
 }
 .mapboxgl-ctrl-geocoder--input {
    /* fallback */
-  color: #FBD3CB;
+  color: #fff;
+
+}
+.mapboxgl-ctrl-geocoder--input:focus { /* fallback */
+  color: #fff;
+  outline: 0;
+  box-shadow: none;
 }
 
-
 .mapboxgl-ctrl-geocoder .suggestions {
-  background-color:#181111;
+  background-color:#0D141F;
   
 }
 .mapboxgl-ctrl-geocoder .suggestions > li > a {
-  color: #FBD3CB;
+  color: #Fff;
 }
 .mapboxgl-ctrl-geocoder .suggestions > .active > a,
 .mapboxgl-ctrl-geocoder .suggestions > li > a:hover {
-  color: #FF977D;
-  background-color:#391714;
+  color: #C2F3FF;
+  background-color:#111A27;
 }
 .mapboxgl-ctrl-geocoder--icon {
-  fill:#FBD3CB;
+  fill:#ffffff;
 }
 .mapboxgl-ctrl-geocoder--button {
-  background:#181111;
+  background:#0D141F;
 }
 .mapboxgl-ctrl-geocoder--button:hover .mapboxgl-ctrl-geocoder--icon-close {
-  fill: #FF977D;
+  fill: #ffffff;
 }
 
 
@@ -125,7 +131,7 @@ body, html, #root {
   pointer-events: auto;
 }
 
-
+/* ALL TOGGLE ARE THE TOGGLE BUTTONS INSIDE THE CENTER NAV BAR */
 
 
 .toggle-container {
@@ -227,15 +233,54 @@ body, html, #root {
 /* Label style (Optional) */
 .toggle-label {
   margin-left: 75px;
-  color: #ffffff;
+  color: #CE2C31;
   font-weight: bold;
 }
 
 .fire-event-pixel {
   width: 10px;
   height: 10px;
-  background-color: red;
+  background-color: #ff3341;
   border-radius: 50%;
   position: 'absolute';
-  transform: translate(-50%, -50%);
+
+}#geocoder-container {
+  position: relative;
+  width: 50px; /* Adjust based on the icon size, ensuring it starts compact */
+  height: 50px; /* Adjust based on your layout needs */
+  transition: width 0.3s ease; /* Smooth transition for expanding the container */
+  overflow: hidden; /* Hide the input initially */
+  border-radius: 50px; /* Rounded corners for the container */
+  background-color: #0D141F; /* Background color */
+  box-shadow: 0 1px 5px rgba(0,0,0,0.2); /* Optional: shadow for depth */
+  cursor: pointer; /* Indicate it's clickable */
+  display: flex; /* Flexbox to center contents */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+}
+
+#geocoder-container:hover, #geocoder-container:focus-within {
+  width: 300px; /* Expand width on hover/focus to reveal the input */
+  overflow: visible; /* Show the previously hidden parts */
+}
+
+.mapboxgl-ctrl-geocoder {
+  width: 100%; /* Ensure the geocoder takes up all available space */
+}
+
+.mapboxgl-ctrl-geocoder--input {
+  width: 100%; /* Ensure input uses all the space */
+  border-radius: 20px; /* Rounded corners for the input */
+  padding-left: 35px; /* Make space for the icon */
+}
+
+.mapboxgl-ctrl-geocoder--icon-search {
+  position: absolute;
+  top: 3px;
+  left: 234px; /* Position the search icon inside the input */
+  z-index: 10; /* Ensure icon is above the input field */
+}
+
+.mapboxgl-ctrl-geocoder--button {
+  display: none !important;
 }

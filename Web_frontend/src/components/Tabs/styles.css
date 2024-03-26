@@ -9,6 +9,7 @@ body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
+  z-index: -1;
   
 }
 
@@ -37,7 +38,7 @@ body {
 
 .TabsTrigger {
   font-family: inherit;
-  background-color: #181111;
+  background-color: #0D141F;
   padding: 0 20px;
   height: 45px;
   flex: 1;
@@ -46,7 +47,7 @@ body {
   justify-content: center;
   font-size: 15px;
   line-height: 1;
-  color: #FBD3CB;
+  color: #C2F3FF;
   user-select: none;
   transition: color 0.3s ease;
   cursor: pointer;
@@ -61,11 +62,11 @@ body {
 }
 
 .TabsTrigger:hover {
-  background-color:#1F1513;
+  background-color:#111A27;
 }
 
 .TabsTrigger[data-state='active'] {
-  color: #FBD3CB;
+  color: #C2F3FF;
   font-weight: bolder;
   border: none;  
 }
@@ -81,7 +82,7 @@ body {
 .TabsContent {
   flex-grow: 1;
   padding: 12px;
-  background-color: #1F1513;
+  background-color: #111A27;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   outline: none;
@@ -118,8 +119,8 @@ body {
   }
 }
 .marker-details {
-  color: #FBD3CB;
-  background-color: #1F1513;
+  color: #ffffff;
+  background-color: #111A27;
 
   border-radius: 8px;
 
@@ -133,7 +134,7 @@ body {
 }
 
 .detail-box {
-  background-color: #181111; /* Dark background for contrast */
+  background-color: #0D141F; /* Dark background for contrast */
   color: white; /* White text color for readability */
   padding: 16px; /* Spacing inside the box */
   margin-bottom: 4px;
@@ -145,7 +146,7 @@ body {
   font-size: 14px; /* Smaller font size for headings */
   margin-bottom: 4px; /* Small gap between heading and paragraph */
   font-weight: bold; /* Bold font weight for headings */
-  color: #ff977d; /* Accent color for the headings */
+  color: #fff; /* Accent color for the headings */
 }
 
 .detail-box p {
@@ -157,7 +158,7 @@ body {
 
 .detail-box .label {
   display: inline-block; /* Allows the background to wrap content */
-  background-color: #ff977d; /* Accent color for labels */
+  background-color: #ffdd00; /* Accent color for labels */
   color: #242424; /* Dark text color for contrast */
   padding: 4px 8px; /* Spacing inside the label */
   border-radius: 4px; /* Rounded corners for labels */
@@ -189,25 +190,25 @@ body {
 
 
 .icon {
-  color: #F56565; /* Brighter shade of red for the icon */
+  color: #CE2C31; /* Brighter shade of red for the icon */
   margin-right: 16px;
   font-size: 1.5rem; /* Larger icon size */
 }
 
 .icon:hover {
-  color: #ff0000; /* Brighter shade of red for the icon */
+  color: #111A27; /* Brighter shade of red for the icon */
   margin-right: 16px;
   font-size: 1.5rem; /* Larger icon size */
 }
 
 .iconearth {
-  color: #ffdd00; /* Brighter shade of red for the icon */
+  color: #CE2C31; /* Brighter shade of red for the icon */
   margin-right: 16px;
   font-size: 1.5rem; /* Larger icon size */
 }
 
 .iconearth:hover {
-  color: #eeff00; /* Brighter shade of red for the icon */
+  color: #0D141F; /* Brighter shade of red for the icon */
   margin-right: 16px;
   font-size: 1.5rem; /* Larger icon size */
 }
@@ -229,12 +230,12 @@ body {
   align-items: center;
   padding: 12px 20px;
   border-radius: 12px;
-  background-color: #181111; /* Lighter, softer red background */
+  background-color: #0D141F; /* Lighter, softer red background */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
   margin-bottom: 10px;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border-left: 4px solid #FF977D; /* Accent border */
+  border-left: 4px solid #7CE2FE; /* Accent border */
 }
 
 .event-card:hover {
@@ -244,7 +245,7 @@ body {
 
 .event-card.selected {
   background-color: #F7FAFC; /* Light neutral background for selected */
-  color: #FBD3CB; /* Darker text color for contrast */
+  color: #C2F3FF; /* Darker text color for contrast */
 }
 
 .event-info {
@@ -255,7 +256,7 @@ body {
 
 .event-info > div {
   margin-bottom: 4px;
-  color: #FBD3CB; /* Dark text for better readability */
+  color: #C2F3FF; /* Dark text for better readability */
   font-weight: 500; /* Medium font weight for text */
 }
 
@@ -269,7 +270,7 @@ body {
 }
 
 .event-card:hover .icon .iconearth, .event-card:hover .event-info > div {
-  color: #FBD3CB; /* Highlight color change on hover */
+  color: #C2F3FF; /* Highlight color change on hover */
 }
 
 
@@ -286,17 +287,17 @@ body {
 
 /* This styles the track (or progress bar) of the scrollbar */
 ::-webkit-scrollbar-track {
-  background: #181111; /* Color of the tracking area */
+  background: #112840; /* Color of the tracking area */
 }
 
 /* This styles the thumb (the draggable part of the scrollbar) */
 ::-webkit-scrollbar-thumb {
-  background: #391714; /* Color of the thumb */
+  background: #111A27; /* Color of the thumb */
 }
 
 /* This styles the thumb when it's being hovered over */
 ::-webkit-scrollbar-thumb:hover {
-  background: #853A2D; /* Darker color on hover */
+  background: #0D141F; /* Darker color on hover */
 }
 
 /* Optional: Style the scrollbar corner (where horizontal and vertical scrollbars meet) */
@@ -348,13 +349,13 @@ body {
   top: 15rem;
   left: 0; /* Adjust this based on your layout */
   
-  background-color: #181111;
-  color: #FBD3CB;
+  background-color: #0D141F;
+  color: #C2F3FF;
   border: none;
   cursor: pointer;
   padding: 10px;
   border-radius: 0 5px 5px 0;
-  color: #FBD3CB;
+  color: #C2F3FF;
   cursor: pointer;
   font-size: 1.5rem;
 }
@@ -383,8 +384,8 @@ body {
   top: 85%; /* Positioned 4% from the top of the viewport */
   /* Remove the left property if you want it to be based on the natural document flow, */
   /* or set it explicitly if you want to align it to a specific position. */
-  background-color: #181111;
-  color: #FBD3CB;
+  background-color: #0D141F;
+  color: #C2F3FF;
   border: none;
   cursor: pointer;
   padding: 10px;
@@ -437,7 +438,7 @@ body {
   position: absolute;
   top: 100%;
   left: 20%;
-  background-color: #f9f9f9;
+  background-color: #CE2C31;
   min-width: 260px;
   max-height: 200px; /* Set a maximum height */
   overflow-y: auto; /* Enable vertical scrolling */
@@ -487,7 +488,7 @@ input[type="checkbox"] {
   background-color: transparent;
   border: none;
   border-bottom: 3px solid transparent; /* Invisible border for a consistent box height */
-  color: #FBD3CB; /* Text color */
+  color: #CE2C31; /* Text color */
   transition: color 0.2s, background-color 0.2s;
 }
 
@@ -498,7 +499,7 @@ input[type="checkbox"] {
 
 .innertabs .TabsTrigger[data-state='active'] {
   color: #ffffff; /* Bright text for the active tab */
-  border-bottom-color: #FBD3CB; /* Highlight color for the active tab */
+  border-bottom-color: #CE2C31; /* Highlight color for the active tab */
 }
 
 .innertabs .TabsTrigger:not([data-state='active']):hover {
@@ -507,19 +508,34 @@ input[type="checkbox"] {
 
 /* Content of the inner tabs */
 .innertabs-content {
-  background-color: #181111; /* Background color of the content area */
-  color: #FBD3CB; /* Text color for the content */
+  background-color: #0D141F; /* Background color of the content area */
+  color: #ff45ff; /* Text color for the content */
   padding: 20px; /* Padding inside the content area */
   border-radius: 4px; /* Rounded corners for the content */
 }
 
 
 .iconweather {
+  width: 35px; /* Adjust width as needed */
+  height: 35px; /* Adjust height as needed */
+  object-fit: contain; /* Keep the aspect ratio of the icon */
+  margin-right: 8px; /* Space between icon and text */
+  /* You can add additional styles specific to weather icons here */
+}
+
+.iconweather12 {
+  width: 50px; /* Adjust width as needed */
+  height: 50px; /* Adjust height as needed */
+  object-fit: contain; /* Keep the aspect ratio of the icon */
+  margin-right: 8px; /* Space between icon and text */
+  /* You can add additional styles specific to weather icons here */
+}
+/* Adjust styles for earthquake and fire icons as well if needed */
+.iconearth, .icon {
   width: 24px; /* Adjust width as needed */
   height: 24px; /* Adjust height as needed */
   object-fit: contain; /* Keep the aspect ratio of the icon */
   margin-right: 8px; /* Space between icon and text */
-  /* You can add additional styles specific to weather icons here */
 }
 
 /* Adjust styles for earthquake and fire icons as well if needed */
@@ -588,7 +604,7 @@ input[type="checkbox"] {
   left: 40px;
   width: 40px; /* Use the same variable as before */
   height: 100vh;
-  background: #181111; /* Match the background color of your main sidebar */
+  background: #0d181f; /* Match the background color of your main sidebar */
   z-index: 10000000000000; /* Ensure it's above other elements */
   display: flex;
   flex-direction: column;
@@ -607,7 +623,7 @@ input[type="checkbox"] {
 
 /* Style the icons inside the thin sidebar */
 .ThinSidebarIcon {
-  color: #FBD3CB;
+  color: #ffffff;
   cursor: pointer;
   font-size: 1.5rem; /* Adjust the size of your icons */
 }
@@ -648,7 +664,7 @@ input[type="checkbox"] {
   top: 0;
   /* Ensures the logo is responsive and fits within the sidebar */
   height: auto; 
-  border-color: #eeff00;/* Keeps the aspect ratio of the logo */
+  border-color: #0D141F;/* Keeps the aspect ratio of the logo */
 }
 
 
@@ -670,7 +686,7 @@ input[type="checkbox"] {
 
 /* The modal container itself */
 .modal {
-  background: #1F1513;
+  background: #111A27;
   color: white;
   border-radius: 8px;
   padding: 20px;
@@ -687,12 +703,13 @@ input[type="checkbox"] {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 }
 
 .modal-title {
   font-size: 1.5rem;
   color: #ffffff;
+  padding-bottom: 0px;
 }
 
 /* Close button on the top right of the modal */
@@ -706,9 +723,9 @@ input[type="checkbox"] {
 /* The search input styling */
 .modal-search-input {
   width: 80%;
-  padding: 10px 15px;
+  padding: 5px 5px;
   font-size: 1rem;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
@@ -716,13 +733,16 @@ input[type="checkbox"] {
 /* Style for the filter options list */
 .filter-options-list {
   list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
 }
 
 /* Individual filter option line item */
 .filter-option {
   display: flex;
-  align-items: center;
-  margin-bottom: 10px;
+  align-items: left;
+  margin-bottom: 0px;
 }
 
 /* Custom toggle switch */
@@ -768,7 +788,7 @@ input[type="checkbox"] {
 
 /* Checked state for the slider */
 input:checked + .slider {
-  background-color: #2196F3;
+  background-color: #CE2C31;
 }
 
 input:checked + .slider:before {
@@ -782,17 +802,10 @@ input:checked + .slider:before {
 
 .modal-body {
   text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
 }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -814,7 +827,7 @@ input:checked + .slider:before {
 
 /* Modal Body */
 .info-body {
-  background: #1F1513;
+  background: #0D141F;
   border-radius: 8px;
   padding: 25px;
   width: 30%;
@@ -836,7 +849,7 @@ input:checked + .slider:before {
 
 .profile-picture {
   font-size: 80px;
-  color: #FBD3CB;
+  color: #C2F3FF;
   margin-bottom: 20px;
 }
 
@@ -854,7 +867,7 @@ input:checked + .slider:before {
 }
 
 .profile-detail strong {
-  color: #FBD3CB;
+  color: #C2F3FF;
 }
 
 /* Sign-out Button */
@@ -862,7 +875,7 @@ input:checked + .slider:before {
   position: absolute;
   top: -4rem;
   right: -80px;
-  background: #FBD3CB;
+  background: #C2F3FF;
   border: none;
   color: #000000;
   cursor: pointer;
@@ -873,7 +886,7 @@ input:checked + .slider:before {
 }
 
 .signout-button:hover {
-  background: #5B6EAE;
+  background: #3B1219;
   transform: translateY(-2px);
 }
 /* Responsive Adjustments */
@@ -905,9 +918,10 @@ input:checked + .slider:before {
 
 .status-container {
   display: flex;
+  flex-direction: row;
   align-items: center;
   gap: 10px; /* Adjust the space between the icon and the text */
-  background: #1F1513; /* Background color of the container */
+  background: #111A27; /* Background color of the container */
   padding: 20px; /* Padding inside the container */
   border-radius: 5px; /* Rounded corners for the container */
 }
@@ -925,12 +939,12 @@ input:checked + .slider:before {
   color: #fff; /* Text color */
   font-weight: bold; /* Bold text */
   text-align: center;
-  background-color: #7289da; /* Background color of the badge */
+  background-color: #ff45ff; /* Background color of the badge */
   white-space: nowrap; /* Prevents the text from wrapping */
 }
 
 .status-container p {
-  color: #FBD3CB; /* Text color */
+  color: #fff; /* Text color */
   margin: 0; /* Remove default margins */
   font-size: 1em; /* Text size */
 }
@@ -945,7 +959,7 @@ input:checked + .slider:before {
 }
 
 .status-container .status-badge.pending {
-  background-color: #ffc107; /* Yellow for pending */
+  background-color: #f1c232; /* Yellow for pending */
 }
 .status-badge.test {
   background-color: #3498db; /* Blue for test status */
@@ -955,7 +969,7 @@ input:checked + .slider:before {
   background-color: #e74c3c; /* Red for actual status */
 }
 .status-badge.reviewed { 
-  background-color: #ffc107; 
+  background-color: #0D141F; 
 } /* Yellow for reviewed status */
 .status-badge.automatic { 
   background-color: #dc3545; 
@@ -980,4 +994,17 @@ input:checked + .slider:before {
 .no-scrollbar {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+}
+.skeleton-loader-container {
+  margin-bottom: 20px; /* Adjust the bottom margin as needed */
+}
+
+.toggle-all-button {
+  color:#ffffff;
+  background-color: #292929;
+  border-radius: 5px;
+  max-width: 100px;
+}
+.toggle-all-button:hover {
+  background-color: #CE2C31;
 }

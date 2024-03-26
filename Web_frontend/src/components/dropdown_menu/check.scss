@@ -56,23 +56,30 @@ body {
 	width: 1px;
 
 	&:checked + .checkbox-tile {
-		border-color: #FF977D;
+
+		border-color: #CE2C31;
 		box-shadow: 0 5px 10px rgba(#000, 0.1);
 		color: #ffff00;
 		&:before {
 			transform: scale(1);
 			opacity: 1;
-			background-color: #1f1513;
-			border-color: #FF977D;
+
+			background-color: #111A27;
+			border-color: #CE2C31;
 		}
 		
 		.checkbox-icon, .checkbox-label {
-			color: #FF977D;
+			color: #ffffff;
+			font-size: 15px;
+			font-weight: 600;
+
 		}
 	}
 	
 	&:focus + .checkbox-tile {
-		border-color: #FF977D;
+
+		border-color: #CE2C31;
+
 		// box-shadow: 0 5px 10px rgba(#000, 0.1), 0 0 0 4px #391714;
 		&:before {
 			transform: scale(1);
@@ -83,16 +90,21 @@ body {
 
 .checkbox-tile {
     font-size: 14px;
-    font-weight: 600;
+
+    font-weight: 200;
 	display: flex;
 	flex-direction: row;
+	gap: 10px;
+
 	align-items: center;
 	justify-content: center;
 	width: 100%;
 	min-height: 4rem;
 	border-radius: 0.5rem;
-	border: 2px solid #391714;
-	background-color: #1F1513;
+
+	border: 2px solid #112840;
+	background-color: #111A27;
+
 	box-shadow: 0 5px 10px rgba(#000, 0.1);
 	transition: 0.15s ease;
 	cursor: pointer;
@@ -105,7 +117,7 @@ body {
 		width: 1.25rem;
 		height: 1.25rem;
 		border: 2px solid #e54d2e;
-		background-color: #1F1513;
+		background-color: #0D141F;
 		border-radius: 50%;
 		top: 0.25rem;
 		left: 0.25rem;
@@ -119,7 +131,8 @@ body {
 	}
 
 	&:hover {
-		border-color: #E54D2E;
+
+		border-color: #CE2C31;
 		&:before {
 			transform: scale(1);
 			opacity: 1;
@@ -132,25 +145,42 @@ body {
 	}
 }
 
-.checkbox-icon {
+
+.checkbox-icon1 {
 	transition: .375s ease;
-	color: #181111;
+	color: #C2F3FF;
 	svg {
-		width: 3rem;
-		height: 3rem;
+		width: 1.8rem;
+		height: 1.8rem;
 	}
+
+}
+.checkbox-icon2 {
+	transition: .375s ease;
+	color: #C2F3FF;
+	svg {
+		width: 2rem;
+		height: 2rem;
+	}
+
+}
+.checkbox-icon3 {
+	transition: .375s ease;
+	color: #C2F3FF;
+	svg {
+		width: 2rem;
+		height: 2rem;
+	}
+
 }
 
 .checkbox-label {
-	color: #353535;
+	color: #C2F3FF;
 	transition: .375s ease;
 	text-align: center;
 }
 
 
-.checkbox {
-    /* ... your existing styles ... */
-  }
   
   .checkbox-wrapper {
     display: flex;
@@ -160,19 +190,12 @@ body {
   
   .checkbox-content {
     display: flex;
-    flex-direction: column; /* Stack content vertically */
+
+    flex-direction: row; /* Stack content vertically */
     justify-content: center; /* Center content vertically */
     align-items: flex-start; /* Align content to the start (left) */
   }
-  
-//   .checkbox-icon {
-//     /* Styles for your icon */
-//   }
-  
-//   .checkbox-details {
-//     /* Container for text details, if needed */
-//   }
-  
+
   .checkbox-title {
     font-weight: bold; /* Example style */
   }
