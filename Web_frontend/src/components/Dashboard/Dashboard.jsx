@@ -30,8 +30,7 @@ function NextPage() {
     zoom: 1.5,
   });
 
-  const [showURT, setShowURT] = useState(false);
-  const [showNRT, setShowNRT] = useState(false);
+
   const [selectedEventGeometry, setSelectedEventGeometry] = useState([]);
   const [isToastVisible, setIsToastVisible] = useState(false);
   const toggleWeatherAndToastVisibility = () => {
@@ -328,11 +327,9 @@ const updateMapWithEventGeometry = (geoJsonData) => {
         ))}
     
         <FireMap 
-        showURT={showURT}
-        setShowURT={setShowURT}
-        showNRT={showNRT}
-        setShowNRT={setShowNRT}
-        mapRef={mapRef} // Pass the mapRef down to the FireMap component
+       
+        mapRef={mapRef}
+        isVisible={showFire} // Pass the mapRef down to the FireMap component
         />
  
         <div style={{ position: 'absolute', top: 30, right: 50, margin: '20px', zIndex: 1 }}>
