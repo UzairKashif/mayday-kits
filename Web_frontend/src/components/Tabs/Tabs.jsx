@@ -2,7 +2,7 @@ import fireActiveIcon from "../assets/weather_icons/fire_active.png";
 import fireInactiveIcon from "../assets/weather_icons/fire_inactive.png";
 import firePendingIcon from "../assets/weather_icons/fire_pending.png";
 import React, { useEffect, useState, useRef } from "react";
-import WeatherAccordion from "../windyaccordion/WeatherAccordion";
+import AccordionDemo from "../windyaccordion/WeatherAccordion";
 import * as Tabs from "@radix-ui/react-tabs";
 import { FiInfo, FiCamera, FiChevronRight } from "react-icons/fi";
 import {
@@ -275,52 +275,42 @@ const TabsDemo = ({
   const [loading, setLoading] = useState(true);
   const [weatherEventFilters, setWeatherEventFilters] = useState({});
   const [areAllChecked, setAreAllChecked] = useState(false);
-  const [weatherData, setWeatherData] = useState({});
+
+
+
+
+
+
+
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
 
-  const fetchWindyData = async (lat, lon) => {
-    const url = 'https://api.windy.com/api/point-forecast/v2';
-    const apiKey = 'UDPVe8gC6B1J8JTwGeB91qEVGlBUWNZW'; // Your actual API key
-    
-    // Ensure parameters are properly encoded in the URL query string
-    const queryParams = new URLSearchParams({
-      lat: lat.toString(),
-      lon: lon.toString(),
-      model: 'gfs',
-      parameters: 'wind,temperature', // Parameters as a comma-separated list
-      key: apiKey, // Including the API key in the query string
-    });
-  
-    const fetchUrl = `${url}?${queryParams.toString()}`; // Construct the full URL
-  
-    try {
-      const response = await fetch(fetchUrl, {
-        method: 'POST', // or 'GET' if the documentation specifies
-        headers: {
-          'Content-Type': 'application/json',
-          // Remove Authorization header if the key should be in the query string
-          // 'Authorization': `Bearer ${apiKey}`
-        },
-        // The body is not necessary if all parameters are in the query string
-        // body: JSON.stringify({ ... })
-      });
-  
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Fetch URL:', fetchUrl); // Log the URL to debug it
-        console.error('Error Text:', errorText);
-        throw new Error('Failed to fetch weather data from Windy');
-      }
-  
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error('Error:', error.message);
-      throw error;
-    }
+const [weatherData, setWeatherData] = useState({});
+const fetchWindyData = async (lat, lon) => {
+  const url = 'https://api.windy.com/api/point-forecast/v2';
+  const data = {
+    lat: lat,
+    lon: lon,
+    model: "gfs",
+    parameters: ["wind", "dewpoint", "rh", "pressure"],
+    levels: ["surface", "800h", "300h"],
+    key: "UDPVe8gC6B1J8JTwGeB91qEVGlBUWNZW"
   };
-  
-  
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    const jsonData = await response.json();
+    console.log('Success:', jsonData);
+    setWeatherData(jsonData); // Update state with fetched data
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
 
   const detailsPanelRef = useRef(null);
 
@@ -531,7 +521,7 @@ const TabsDemo = ({
     setSelectedEvent(event);
     setShowDetails(true);
     if (event.lat && event.lon) {
-      fetchWindyData(event.lat, event.lon).catch(console.error);
+      await fetchWindyData(event.lat, event.lon);
     }
 
     if (event && event.properties && event.properties.affectedZones) {
@@ -806,12 +796,11 @@ const TabsDemo = ({
                 <div className="modal" onClick={(e) => e.stopPropagation()}>
                   <div className="modal-header">
                     <h4 className="modal-title">User Profile</h4>
-                    <button
-                      onClick={handleinfoclose}
-                      className="close-modal-button"
-                    ></button>
+                    <button className="signout-button">
+                        <SignOut /> <FaSignOutAlt />
+                      </button>
                   </div>
-                  <div className="info-body">
+                  <div className="inf-body">
                     <div className="profile-content">
                       <FaUserCircle alt="User" className="profile-picture" />
                       <h3 className="profile-name">Nazar Hussain</h3>
@@ -836,9 +825,7 @@ const TabsDemo = ({
                       <p className="profile-detail">
                         <strong>Details:</strong>Premium User{" "}
                       </p>
-                      <button className="signout-button">
-                        <SignOut /> <FaSignOutAlt />
-                      </button>
+                     
                     </div>
                   </div>
                 </div>
@@ -1077,7 +1064,8 @@ const TabsDemo = ({
                                 ).toLocaleDateString()}
                               </p>
                             </div>
-                            <WeatherAccordion isOpen={isAccordionOpen} setIsOpen={setIsAccordionOpen} weatherData={weatherData} />
+                            <AccordionDemo isOpen={isAccordionOpen} setIsOpen={setIsAccordionOpen} weatherData={weatherData} />
+
                           </Tabs.Content>
 
                           <Tabs.Content value="cameras" className="TabsContent">
