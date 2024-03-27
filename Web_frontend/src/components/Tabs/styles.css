@@ -1008,3 +1008,6 @@ input:checked + .slider:before {
 .toggle-all-button:hover {
   background-color: #CE2C31;
 }
+#a{
+  color: white;
+}

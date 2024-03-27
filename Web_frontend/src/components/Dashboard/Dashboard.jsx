@@ -366,12 +366,16 @@ const updateMapWithEventGeometry = (geoJsonData) => {
           setShowDetails={setShowDetails}
           isSidebarOpen = {isSidebarOpen}
           setIsSidebarOpen={setIsSidebarOpen}
-          showFire={showFire} 
-          showEarthquake={showEarthquake} 
+          showFire={showFire}
+          setShowFire={setShowFire}
+          showEarthquake={showEarthquake}
+          setShowEarthquake={setShowEarthquake}
           showWeather={showWeather}
+          setShowWeather={setShowWeather}
           handleWeatherEventSelect={handleWeatherEventSelect}
           onWeatherEventSelect={handleWeatherEventSelect}
           onDrawPolygon={onDrawPolygon}
+          toggleWeatherAndToastVisibility={toggleWeatherAndToastVisibility}
           style={{ height: '100vh' }} 
           />
         </div>
