@@ -8,7 +8,7 @@ import './weatheraccordion.css';
 const AccordionDemo = ({ weatherData }) => {
   // Accessing nested weather data - adjust according to actual data structure
   const windSpeedSurface = weatherData['wind_u-surface']?.[0];
-  const temperatureSurface = weatherData['ts']?.[0];
+  const temperatureSurface = weatherData['temp-surface']?.[0];
   const dewpointSurface = weatherData['dewpoint-surface']?.[0];
   const rhSurface = weatherData['rh-surface']?.[0];
   const pressureSurface = weatherData['pressure-surface']?.[0];

@@ -291,7 +291,7 @@ const fetchWindyData = async (lat, lon) => {
     lat: lat,
     lon: lon,
     model: "gfs",
-    parameters: ["wind", "dewpoint", "rh", "pressure"],
+    parameters: ["wind", "dewpoint", "rh", "pressure","temp"],
     levels: ["surface", "800h", "300h"],
     key: "UDPVe8gC6B1J8JTwGeB91qEVGlBUWNZW"
   };
