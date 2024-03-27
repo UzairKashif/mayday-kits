@@ -1173,6 +1173,7 @@ const fetchWindyData = async (lat, lon) => {
                               "No specific instructions provided."}
                           </p>
                         </div>
+                        <AccordionDemo isOpen={isAccordionOpen} setIsOpen={setIsAccordionOpen} weatherData={weatherData} />
                       </>
                     )}
 
@@ -1231,6 +1232,7 @@ const fetchWindyData = async (lat, lon) => {
                           <h4>Source</h4>
                           <p>{selectedEvent.properties.sources}</p>
                         </div>
+                        <AccordionDemo isOpen={isAccordionOpen} setIsOpen={setIsAccordionOpen} weatherData={weatherData} />
                       </>
                     )}
                   </div>
